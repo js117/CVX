@@ -29,7 +29,7 @@ cvx_begin
 cvx_end
 
 This program minimizes the norm of the difference of A*x and vector b subject to equality constraints C*x == d, 
-and that the infinity norm (i.e. max component value) of our vector variable x has to be <= 1. Running this code
+and that the infinity norm (i.e. max absolute component value) of our vector variable x has to be <= 1. Running this code
 in your MATLAB script will invoke the CVX engine and return an optimal value of the problem, and the optimal 
 solution vector x. The matrices A, C and vector b are problem data that can be declared outside the CVX scope. 
 For more, see http://web.cvxr.com/cvx/doc/ 
