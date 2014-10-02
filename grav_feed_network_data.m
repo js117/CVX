@@ -20,3 +20,31 @@ A=zeros(n,m);
 for j=1:size(edges,1)
     A(edges(j,1),j)=-1;A(edges(j,2),j)=1;
 end
+
+%cols of C are C(:,i)
+RminSquared = Rmin.*Rmin;
+RmaxSquared = Rmax.*Rmax;
+
+D1 = alpha*diag(-A'*h)*diag(1./L);
+
+% let the cols of matrices s,f represent the vectors for each consumption
+% scenario.
+cvx_begin
+    variable z(m);
+    variable s(k,N);
+    variable f(m,N);
+    minimize (L'*z);
+    subject to
+        RminSquared <= z <= RmaxSquared;
+        for i=1:N
+            A*f(:,i) == [-s(:,i); C(:,i)];
+            f(:,i) <= D1*z;
+            f(:,i) >= 0;
+            0 <= s(:,i) <= Smax;
+        end
+cvx_end
+
+R = sqrt(z);
+R
+
+%yep! 
