@@ -11,7 +11,7 @@ for i=1:k
 end
 
 %test
-%figure; plot(y); %good
+figure; plot(y); %good
 
 
 
