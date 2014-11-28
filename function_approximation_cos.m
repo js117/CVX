@@ -3,7 +3,7 @@
 % Fit a function f: R --> R by polynomial features (e.g. a short Taylor
 % Series) on a given domain
 
-k = 1000; % #of discrete domain points
+k = 500; % #of discrete domain points
 
 t1_left = zeros(k,1); %to hold t data
 t2_left = zeros(k,1); %to hold t^2 data
@@ -77,9 +77,9 @@ end
 % Optimization Routine below
 
 %%%%%% LEFT
-X_left = [ones(k,1), t1_left, t2_left, t3_left, t4_left, t5_left, t6_left, t7_left, t8_left]';
+X_left = [ones(k,1), t1_left, t2_left, t3_left, t4_left, t5_left, t6_left]';
 Y_left = [y_left]';
-m = size(Y_left,1);
+m = size(Y_left,1); 
 n = size(X_left,1);
 cvx_begin
     variable W0_left(m,n)
@@ -88,7 +88,7 @@ cvx_end
 figure; plot(y_left); figure; plot(W0_left*X_left);
 
 %%%%%% RIGHT
-X_right = [ones(k,1), t1_right, t2_right, t3_right, t4_right, t5_right, t6_right, t7_right, t8_right]';
+X_right = [ones(k,1), t1_right, t2_right, t3_right, t4_right, t5_right, t6_right]';
 Y_right = [y_right]';
 m = size(Y_right,1);
 n = size(X_right,1);

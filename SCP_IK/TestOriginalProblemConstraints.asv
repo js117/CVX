@@ -1,0 +1,20 @@
+% Return the total slack in the original constraints, which are:
+% Xmin <= X <= Xmax
+% ForwardKinRH(X(:,T)) = target
+function y = TestOriginalProblemConstraints(Xmin, Xmax, T, start, target, X) % X is current point
+
+    inequalitySlack = 0; 
+    
+    for i=1:T
+       slack1 = X(:,i) - Xmax;
+       inequalitySlack = inequalitySlack + sum(slack1);
+       slack2 = -X(:,i) + Xmin;
+       inequalitySlack = inequalitySlack + sum(slack2);
+    end
+    
+    slack3 = sum(abs(ForwardKinRH(X(:,T)) - target));
+    slack4 = 
+    
+    y = inequalitySlack + equalitySlack; %scalarized, though we may break it up above if need be
+    
+end

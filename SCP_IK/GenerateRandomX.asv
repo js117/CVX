@@ -1,0 +1,7 @@
+function y = GenerateRandomX(Xmin, Xmax, T)
+    X = 2*(rand(size(Xmax,1),T)-0.5);
+    for i=1:T
+       X(:,i) = X(:,i).*(Xmax-Xmin)+Xmin; 
+    end
+    y = X;
+end
