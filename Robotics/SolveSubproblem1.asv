@@ -1,0 +1,6 @@
+% Solves exp(twist_hat*t1)*p = q, for t1
+% Required: r, a point on the twist axis
+function t1 = SolveSubproblem1(twist, p, q, r)
+    u = p - r;
+    v = q - r
+end

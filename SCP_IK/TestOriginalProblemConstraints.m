@@ -12,7 +12,7 @@ function y = TestOriginalProblemConstraints(Xmin, Xmax, T, start, target, X) % X
        inequalitySlack = inequalitySlack + sum(slack2);
     end
     
-    slack3 = sum(abs(ForwardKinRH(X(:,T)) - target));
+    slack3 = sum(abs(ForwardKinRH_TEST_SIMPLE(X(:,T)) - target));
     slack4 = sum(abs(X(:,1) - start));
     
     equalitySlack = slack3 + slack4;

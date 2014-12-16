@@ -1,0 +1,46 @@
+% Solves exp(twist_hat1*t1)*exp(twist_hat2*t2)*p = q, for t1, t2
+% Required: r, a point on the twist axis
+% Note: returns all possible solutions (two pairs at most)
+function [t11, t21, t12, t22] = SolveSubproblem2(twist1, twist2, p, q, r)
+    tol = 1e-5;
+    w1 = twist1(4:6);
+    w2 = twist2(4:6);
+    
+    u = p - r;
+    v = q - r;
+    
+    % find z, the axis from intersection of w1/w2 to their common point(s)
+    % of rotation
+    % z = alpha*w1 + beta*w2 + gamma*cross(w1, w2)
+    
+    alpha = ((w1'*w2)*w2'*u - w1'*v) / ((w1'*w2)^2 - 1);
+    
+    beta = ((w1'*w2)*w1'*v - w2'*u) / ((w1'*w2)^2 - 1);
+    
+    % solve for gamma param: 
+    temp = (u'*u - alpha*alpha - beta*beta - 2*alpha*beta*(w1'*w2)) / norm(cross(w1,w2))^2;
+    
+    if (temp < 0)
+       disp('No real solutions for subproblem2');
+       t11 = -10; t21 = -10; t12 = -10; t22 = -10;
+       return;
+    end
+    
+    
+    gamma = sqrt(temp);
+    
+    if (gamma < tol) % gamma ~ 0, so single solution
+        z = alpha*w1 + beta*w2;
+        c = z + r;
+        t21 = SolveSubproblem1(twist2, p, c, r);
+        t11 = SolveSubpro
+        
+    else
+        z1 = alpha*w1 + beta*w2 + gamma*cross(w1, w2);
+        z2 = alpha*w1 + beta*w2 - gamma*cross(w1, w2);
+    end
+    
+    
+    
+    
+end
