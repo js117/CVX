@@ -1,0 +1,18 @@
+% test
+
+N = 300;
+h = 0.005;
+test = zeros(N,1);
+dtest = zeros(N,1);
+ddtest = zeros(N,1);
+
+for i=1:N
+    j = i - N/2;
+   test(i) = j*j*j;
+end
+
+for i=2:N-1
+   dtest(i) = 1/h * (test(i+1) - test(i-1));
+   ddtest(i) = 1/(h*h) * (test(i+1) - 2*test(i) + test(i-1));
+end
+dtest(N) = 1/h *

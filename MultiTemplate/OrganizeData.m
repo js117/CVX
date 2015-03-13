@@ -1,19 +1,51 @@
 % Organize template data into appropriate data matrix for mixed-length
 % multi-template matching. 
 
-T1 = Matt_TEMPLATE;
-T2 = Jarred_TEMPLATE;
-T3 = Ethan_TEMPLATE;
-T4 = Aaron_TEMPLATE;
+% To try out different features, change the data in these matrices 
+% (and calculate the same features for user test data in TTest as well)
+% Don't forget to set "numAxes" = to the number of features!
 
-T = {T1, T2, T3, T4};
-TTest = {Matt_ALL, Jarred_ALL, Ethan_ALL, Aaron_ALL};
+T1 = Matt_TEMPLATE_Bicepcurl;
+T2 = Jarred_TEMPLATE_Bicepcurl;
+T3 = Ethan_TEMPLATE_Bicepcurl;
+T4 = Aaron_TEMPLATE_Bicepcurl;
+T5 = Aaron_TEMPLATE_Benchpress;
+T6 = Ethan_TEMPLATE_Benchpress;
+T7 = TEMPLATE_Shoulderpress1;
+T8 = TEMPLATE_Shoulderpress2;
+T9 = TEMPLATE_Shoulderpress3;
+T10 = TEMPLATE_Shoulderpress4;
+T11 = Aaron_TEMPLATE_Squats;
+T12 = Ethan_TEMPLATE_Squats;
+T13 = Jarred_TEMPLATE_Squats;
+
+T = {T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13};
+
+TTest = {Matt_ALL_Bicepcurl, Jarred_ALL_Bicepcurl, Ethan_ALL_Bicepcurl, Aaron_ALL_Bicepcurl, ...
+         Aaron_ALL_Benchpress, Ethan_ALL_Benchpress, ALL_Shoulderpress1, ALL_Shoulderpress2, ...
+         ALL_Shoulderpress3, ALL_Shoulderpress4, Aaron_ALL_Squats, Ethan_ALL_Squats, ...
+         Jarred_ALL_Squats};
 
 numAxes = 6;
-numTemplates = 4;
+numTemplates = size(T,2);
+
+% Modify the template scaling. 
+% Emperically we observe gyro having a max val of ~248 and acc having a max
+% val of ~1.83 - across all trial data. Not normalizing heavily biases the
+% algorithm to match crappy gyro noise in motions where gyro is less
+% prominent (e.g. bench press). 
+GYRO_MAX = 248;
+ACC_MAX = 1.83; % use empirical vals from template dataset
+for i=1:numTemplates
+    T{i}(:,1:3) = T{i}(:,1:3) / ACC_MAX;
+    T{i}(:,4:6) = T{i}(:,4:6) / GYRO_MAX;
+end
 
 % Step 1 - zero-pad rows to max length
-rowCounts = [size(T1,1),size(T2,1),size(T3,1),size(T4,1)];
+rowCounts = zeros(numTemplates,1)';
+for i=1:numTemplates
+   rowCounts(i) = size(T{i}, 1); 
+end
 maxRowCount = max(rowCounts);
 minRowCount = min(rowCounts);
 [MiLengths, indicies] = sort(rowCounts);
