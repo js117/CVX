@@ -1,7 +1,7 @@
-Convex Optimization is a beatufiul and powerful field of applied mathematics that I've been learning since 2012. 
+Convex Optimization is a powerful field of applied mathematics that can be used to solve many engineering analysis and design problems.
 The basic idea is this: we can efficiently optimize complicated nonlinear functions subject to inequality constraints 
 and affine equality constraints if the functions are *convex*, a mathematical property. 
-And we have a convergence theory giving accurate estimates on just how fast we can solve these problems. 
+There exists a convergence theory giving accurate estimates on roughly how fast we can solve these problems. 
 For more, see http://cvxr.com/ and http://web.stanford.edu/~boyd/cvxbook/
 
 CVX finds applications in many fields ranging from machine learning, to signal processing, to finance, statistics, 
@@ -13,20 +13,32 @@ of problem descriptions to be input to a general solver system.
 The CVX software allows you to specify problems of the following form:
 
 variable [declare variables' size/structure]
+
 minimize [objective function]
+
 subject to [inequality constraints]
+
            [affine equality constraints, i.e. Ax == b]
+		   
 		   
 The software then parses your problem and converts it to a form acceptable by a general-purpose solver. Here's an
 example program:
 
+
 cvx_begin
+
 	variable x(n);
+	
 	minimize( norm(A*x-b) );
+	
 	subject to
+	
 		C*x == d;
+		
 		norm(x,Inf) <= 1;
+		
 cvx_end
+
 
 This program minimizes the norm of the difference of A*x and vector b subject to equality constraints C*x == d, 
 and that the infinity norm (i.e. max absolute component value) of our vector variable x has to be <= 1. Running this code
@@ -53,7 +65,7 @@ problems include:
 - Network flow optimization
 - Portfolio optimization using a k-factor risk model
 
-In summary, what's great about convex optimization is:
+A quick summary of convex optimization as a software tool:
 
 1) Allows one to frame and analyze complicated problems easily, 
 2) Wide ranging applications encompassed by the generality,
