@@ -3,7 +3,7 @@
 % Where the eigenvalues of Pcvx > 0 and eigenvalues of Pccv < 0
 function [Pcvx, Pccv] = ConvexConcaveDecompose(P)
 
-    eps = 1e-5;
+    eps = 1e-4;
     n = size(P,1);
     [U,S,V] = svd(P);
     [E, D] = eigs(P);
@@ -22,7 +22,11 @@ function [Pcvx, Pccv] = ConvexConcaveDecompose(P)
             Pccv = Pccv + U*Di*V';
         end
     end
+    % Ensure decomposition has eigs > 0 and < 0 strictly so we can do
+    % Cholesky factorization
+    % (Note that we still have P == Pcvx + Pccv)
+    buffer = (min(abs(diag(D))) + eps)*eye(n,n);
+    Pcvx = Pcvx + buffer;
+    Pccv = Pccv - buffer;
     
-    
-
 end
