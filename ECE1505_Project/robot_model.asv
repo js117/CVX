@@ -1,5 +1,4 @@
-
-
+% Be sure to run startup script in Robotics/rvctools/ prior to running this
 deg = pi/180;
 
 % NAO constants (in mm)
@@ -25,20 +24,7 @@ NaoRH = SerialLink( [
     ], ...
     'base', transl(0, -ShoulderOffsetY-ElbowOffsetY, ShoulderOffsetZ), ...
     'tool', trotz(pi/2)*transl(-HandOffsetX-LowerArmLength, 0, 0)*trotz(-pi), ...
-    'plotopt', plotopts, ...
-    'name', 'right arm', 'manufacturer', 'Aldabaran');
-
-L1 = Revolute('d', 0, 'alpha', -pi/2, 'a', 0, 'modified');
-L2 = Revolute('d', 0, 'alpha', pi/2,  'a', 0, 'offset', pi/2, 'modified');
-NaoRH2 = SerialLink( [
-    L1
-    L2
-    Revolute('d', -ElbowOffsetY, 'alpha', pi/2, 'a', UpperArmLength, 'modified')
-    Revolute('d', 0, 'alpha', -pi/2,  'a', 0, 'modified')
-    ], ...
-    'base', transl(0, -ShoulderOffsetY, ShoulderOffsetZ), ...
-    'tool', trotx(-pi/2)*trotz(-pi/2)*transl(LowerArmLength + HandOffsetX, 0, -HandOffsetZ), ...
-    'plotopt', plotopts, ...
+    ...
     'name', 'right arm', 'manufacturer', 'Aldabaran');
 
 
@@ -50,6 +36,12 @@ q = [0, 0, 0, 0];
 
 % This joint space trajectory can now be animated
 clf
-NaoRH2.plot(q, 'workspace', 3*[-1 1 -1 1 -1 1]);
+setupobstacle;
+hold on
+axis(3*[-1 1 -1 1 -1 1])
+NaoRH.plot(q, 'workspace');
 %q2 = [1.2, -0.3, 0.4, 0.4];
 %NaoRH.plot(q2, 'workspace', 3*[-1 1 -1 1 -1 1]);
+
+
+plotobstacle(obs);

@@ -7,7 +7,7 @@ Xmin = [-2.0857, -1.3265, -2.0857, 0.0349]';
 % perturbations around it. 
 
 % 0. Choose a point
-T = 300;
+T = 200;
 thetas = GenerateRandomX(Xmin, Xmax, T);
 
 % 1. Get approximation parameters
@@ -18,12 +18,12 @@ thetas = GenerateRandomX(Xmin, Xmax, T);
 % Approximates p[x,y,z](t) about t=theta
 p_approx_2 = @(t, theta, f, g, H) (f + g'*(t - theta) + 0.5*(t - theta)'*H*(t - theta));
 
-p_approx_3 = @(t, theta, f, g, Hcvx, Hccv) (0.5*t'*Hcvx*t + ();
+p_approx_3 = @(t, theta, f, g, Hcvx, Hccv) (0.5*t'*Hcvx*t + (g-Hccv*theta)'*t + (f-g'*theta+0.5*theta'*Hcvx*theta));
 
 
 
-radius = 0.5; % so our deviation is (t-r) to (t+r)
-Jlim = 300; % how many points within the above deviation to test
+radius = 0.1; % so our deviation is (t-r) to (t+r)
+Jlim = 200; % how many points within the above deviation to test
 errors_x = zeros(Jlim*T,1); errors_y = zeros(Jlim*T,1); errors_z = zeros(Jlim*T,1);
 for i=1:T
    
@@ -43,9 +43,13 @@ for i=1:T
         y_ref = NaoRH_fwd_py(theta); % Tfkine(2,4); %
         z_ref = NaoRH_fwd_pz(theta); % Tfkine(3,4); %
         
-        x_test = p_approx_2(theta_test, theta, NaoRH_fwd_px(theta), g_px, Hcvx_px);
-        y_test = p_approx_2(theta_test, theta, NaoRH_fwd_py(theta), g_py, Hcvx_py);
-        z_test = p_approx_2(theta_test, theta, NaoRH_fwd_pz(theta), g_pz, Hcvx_pz);
+        %x_test = p_approx_2(theta_test, theta, NaoRH_fwd_px(theta), g_px, Hcvx_px);
+        %y_test = p_approx_2(theta_test, theta, NaoRH_fwd_py(theta), g_py, Hcvx_py);
+        %z_test = p_approx_2(theta_test, theta, NaoRH_fwd_pz(theta), g_pz, Hcvx_pz);
+        
+        x_test = p_approx_3(theta_test, theta, NaoRH_fwd_px(theta), g_px, Hcvx_px, Hccv_px);
+        y_test = p_approx_3(theta_test, theta, NaoRH_fwd_py(theta), g_py, Hcvx_py, Hccv_px);
+        z_test = p_approx_3(theta_test, theta, NaoRH_fwd_pz(theta), g_pz, Hcvx_pz, Hccv_px);
         
         errors_x((i-1)*Jlim + j) = abs(x_ref - x_test);
         errors_y((i-1)*Jlim + j) = abs(y_ref - y_test);

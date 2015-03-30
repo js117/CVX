@@ -1,4 +1,9 @@
+% Be sure to run startup script in Robotics/rvctools/ prior to running this
+% e.g. the following:
 
+cd ../../Robotics/rvctools/
+startup_rvc
+cd ../../CVX/ECE1505_Project/
 
 deg = pi/180;
 
@@ -25,7 +30,7 @@ NaoRH = SerialLink( [
     ], ...
     'base', transl(0, -ShoulderOffsetY-ElbowOffsetY, ShoulderOffsetZ), ...
     'tool', trotz(pi/2)*transl(-HandOffsetX-LowerArmLength, 0, 0)*trotz(-pi), ...
-    'plotopt', plotopts, ...
+    ...
     'name', 'right arm', 'manufacturer', 'Aldabaran');
 
 
@@ -37,6 +42,16 @@ q = [0, 0, 0, 0];
 
 % This joint space trajectory can now be animated
 clf
-NaoRH.plot(q, 'workspace', 3*[-1 1 -1 1 -1 1]);
+setupobstacle;
+hold on
+axis(3*[-1 1 -1 1 -1 1]);
+plotobstacle(obs);
+
+theta_init = [1, 0.1, -0.4, 0.6]';   % corresponds to (x,y,z) = (1.2475, -0.3431, -0.4801);
+theta_final = [-1, 0.3, -0.5, 0.7]'; % corresponds to (x,y,z) = (0.5927, 0.0514, 2.5731);
+
+NaoRH.plot(theta_init');
 %q2 = [1.2, -0.3, 0.4, 0.4];
 %NaoRH.plot(q2, 'workspace', 3*[-1 1 -1 1 -1 1]);
+view(-90, 0);
+

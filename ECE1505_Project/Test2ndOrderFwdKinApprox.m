@@ -7,7 +7,7 @@ Xmin = [-2.0857, -1.3265, -2.0857, 0.0349]';
 % perturbations around it. 
 
 % 0. Choose a point
-T = 300;
+T = 200;
 thetas = GenerateRandomX(Xmin, Xmax, T);
 
 % 1. Get approximation parameters
@@ -18,12 +18,12 @@ thetas = GenerateRandomX(Xmin, Xmax, T);
 % Approximates p[x,y,z](t) about t=theta
 p_approx_2 = @(t, theta, f, g, H) (f + g'*(t - theta) + 0.5*(t - theta)'*H*(t - theta));
 
-p_approx_3 = @(t, theta, f, g, Hcvx, Hccv) (0.5*t'*Hcvx*t + (g-Hcvx*theta)'*t + (f-g'*theta+0.5*theta'*Hcvx*theta));
+p_approx_3 = @(t, theta, f, g, Hcvx, Hccv) (0.5*t'*(Hcvx+Hccv)*t + (g-(Hcvx+Hccv)*theta)'*t + (f-g'*theta+0.5*theta'*(Hcvx+Hccv)*theta));
 
 
 
-radius = 0.15; % so our deviation is (t-r) to (t+r)
-Jlim = 300; % how many points within the above deviation to test
+radius = 0.1; % so our deviation is (t-r) to (t+r)
+Jlim = 200; % how many points within the above deviation to test
 errors_x = zeros(Jlim*T,1); errors_y = zeros(Jlim*T,1); errors_z = zeros(Jlim*T,1);
 for i=1:T
    
