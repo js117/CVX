@@ -4,8 +4,6 @@
 % (and some algebra)
 function [Bk0, dk0, bk1, dk1] = QuadraticToSOC(P, q, r)
     %A = chol(0.5*P);
-    [L,D] = ldl(0.5*P);
-    A = (L*D^0.5)'; % so that A'*A == 0.5*P
     b = q;
     c = r;
     Bk0 = [A; b'/2];

@@ -25,8 +25,8 @@ function [Pcvx, Pccv] = ConvexConcaveDecompose(P)
     % Ensure decomposition has eigs > 0 and < 0 strictly so we can do
     % Cholesky factorization
     % (Note that we still have P == Pcvx + Pccv)
-    buffer = (min(abs(diag(D))) + eps)*eye(n,n);
-    Pcvx = Pcvx + buffer;
-    Pccv = Pccv - buffer;
+    %buffer = (min(abs(diag(D))) + eps)*eye(n,n);
+    Pcvx = Pcvx;% + buffer;
+    Pccv = Pccv;% - buffer;
     
 end

@@ -22,7 +22,7 @@ p_approx_3 = @(t, theta, f, g, Hcvx, Hccv) (0.5*t'*(Hcvx+Hccv)*t + (g-(Hcvx+Hccv
 
 
 
-radius = 0.1; % so our deviation is (t-r) to (t+r)
+radius = 0.03; % so our deviation is (t-r) to (t+r)
 Jlim = 200; % how many points within the above deviation to test
 errors_x = zeros(Jlim*T,1); errors_y = zeros(Jlim*T,1); errors_z = zeros(Jlim*T,1);
 for i=1:T

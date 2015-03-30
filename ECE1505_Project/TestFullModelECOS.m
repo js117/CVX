@@ -5,17 +5,17 @@ theta_final = [-1, 0.3, -0.5, 0.7]'; % corresponds to (x,y,z) = (0.5927, 0.0514,
 
 %%%%%%%%%%%%%% PROBLEM PARAMETERS %%%%%%%%%%%%%%%%%
 n = 4;           % # joint variables
-T = 30;          % # time steps
+T = 15;          % # time steps
 ls = 3*T;        % # slack variables for position constraints (x,y,z) = 3 * T
 lt = n*T;        % # theta variables total = #joints x #timesteps
 lx = ls + 2*lt;  % # of variables for full problem
 
-gamma = 0.1;     % regularization parameter on L1 norm of thetas
+gamma = 0;     % regularization parameter on L1 norm of thetas
 
 t_lim_max = [2.0857, 0.3142, 2.0857, 1.5446]';    % joint ranges max lim
 t_lim_min = [-2.0857, -1.3265, -2.0857, 0.0349]'; % joint ranges min lim
 
-theta_radius = 0.1; % initial radius of deviation
+theta_radius = 0.03; % initial radius of deviation
 theta_linspace = getThetaLinspace(theta_init, theta_final, T); % size n x T
 theta_min = vec(theta_linspace - theta_radius);
 theta_max = vec(theta_linspace + theta_radius);
@@ -66,8 +66,8 @@ for i=1:n % draw it out, do trial and error with indexing...
     Aeq(i+n, ls+1 + lt - n + i - 1) = 1; % for t1(t=T), ..., tn(t=T)
 end
 
-% beq = [theta_init; theta_final];
-% 
+beq = [theta_init; theta_final];
+ 
 % cvx_begin
 %     variable x(lx)
 %     minimize (c_objective'*x)
@@ -98,40 +98,32 @@ plot_xyz_path(xyz_linspace);
 
 % Create selector theta(t) selector matrices to use with the 2nd order function approximations
 % In this loop, we will also create the 2nd order approximation matrices:
-t_theta_selectors = cell(T,1);
-t_s_y_selectors = cell(T,1);
-t_s_z_selectors = cell(T,1);
-H_cvx_py_cells = cell(T,1); % only get y and z approx params because those are the ones we constrain
-H_ccv_py_cells = cell(T,1);
-H_cvx_pz_cells = cell(T,1);
-H_ccv_pz_cells = cell(T,1);
-g_py_cells = cell(T,1);
-g_pz_cells = cell(T,1);
+t_theta_selectors = cell(T-2,1);
+t_s_y_selectors = cell(T-2,1);
+t_s_z_selectors = cell(T-2,1);
 % Below: to hold the SOC constraints (from quadratics)
 % Why 4: because we are doing (y,z) less-than and greater-than constraints
-Bk0_mat = cell(4*T,1); % each of size (mi_vec(i)-1) x n
-dk0_vec = cell(4*T,1); % (mi - 1) x 1
-Bk1_vec = cell(4*T,1); % each is 1 x n 
-dk1_scalar = cell(4*T,1); % each is 1 x 1
+numTimeSOCConstraints = 4;
+Bk0_mat = cell(numTimeSOCConstraints*(T-2),1); % each of size (mi_vec(i)-1) x n
+dk0_vec = cell(numTimeSOCConstraints*(T-2),1); % (mi - 1) x 1
+Bk1_vec = cell(numTimeSOCConstraints*(T-2),1); % each is 1 x n 
+dk1_scalar = cell(numTimeSOCConstraints*(T-2),1); % each is 1 x 1
 
-for i=1:T
+for i=1:T-2
     
    % Part I: t_selector matrices:
    t_theta_selectors{i} = zeros(n,lx); 
    t_s_y_selectors{i} = zeros(lx,1); t_s_z_selectors{i} = zeros(lx,1);
    for j=1:n
-       t_theta_selectors{i}(j, ls+1 + (i-1)*n + (j-1)) = 1; % for t1(t=i), ..., tn(t=i)
+       t_theta_selectors{i}(j, ls+1 + (i-1)*n + (j+1)) = 1; % for t1(t=i), ..., tn(t=i) %% was j-1 before loop change to 1:T-2
    end
    t_s_y_selectors{i}((i-1)*3 + 2) = 1; t_s_z_selectors{i}((i-1)*3 + 3) = 1;
    
    % Part II: 2nd-order approximation params (this part gets repeated after every optimization solve)
    phi = theta_linspace(:,i);
    [Hcvx_px, Hccv_px, g_px, Hcvx_py, Hccv_py, g_py, Hcvx_pz, Hccv_pz, g_pz ] = NaoRH_fwd_approx_params(phi);
-   %H_cvx_py_cells{i} = Hcvx_py; H_ccv_py_cells{i} = Hccv_py;
-   %H_cvx_pz_cells{i} = Hcvx_pz; H_ccv_pz_cells{i} = Hccv_pz;
-   %g_py_cells{i} = g_py; g_pz_cells{i} = g_pz;
    
-   % Part III: create the 4*T set of SOC constraints (repeated)
+   % Part III: create the numTimeSOCConstraints*(T-2) set of SOC constraints (repeated)
    % 
    % First we form (P,q,r) as in (1/2)*x'*P*x + q'*x + r <= 0
    % Then we convert to SOC form.
@@ -153,9 +145,90 @@ for i=1:T
    qzl = -t_s_z_selectors{i} - t_theta_selectors{i}'*(g_pz - Hccv_pz*phi);
    rzl = -NaoRH_fwd_pz(phi) + g_pz'*phi - phi'*Hccv_pz*phi + Lz(i);
    
+   idx = (i-1)*numTimeSOCConstraints;
+   [Bk0_mat{idx+1}, dk0_vec{idx+1}, Bk1_vec{idx+1}, dk1_scalar{idx+1}] = QuadraticToSOC(Pyg, qyg, ryg);
+   [Bk0_mat{idx+2}, dk0_vec{idx+2}, Bk1_vec{idx+2}, dk1_scalar{idx+2}] = QuadraticToSOC(Pyl, qyl, ryl);
+   [Bk0_mat{idx+3}, dk0_vec{idx+3}, Bk1_vec{idx+3}, dk1_scalar{idx+3}] = QuadraticToSOC(Pzg, qzg, rzg);
+   [Bk0_mat{idx+4}, dk0_vec{idx+4}, Bk1_vec{idx+4}, dk1_scalar{idx+4}] = QuadraticToSOC(Pzl, qzl, rzl);
+   
 end
 
+%%%%%%%%%%%%%%%%%%%%%%% THE MAIN EVENT %%%%%%%%%%%%%%%%%%%%%%%%%%%
+SCP_itrs = 12;
+p_star_series = zeros(SCP_itrs, 1);
+mi_vec = (lx+2)*ones(numTimeSOCConstraints*(T-2),1); %+1 for how we transform quadratic to SOC; +1 for SOC convention
 
+[G, h] = PrepareEcos(Bk0_mat, dk0_vec, Bk1_vec, dk1_scalar, mi_vec, size(mi_vec,1), lx);
+G = [Gineq; G];
+h = [hineq; h];
 
+dims.l = 4*lt + ls;
+dims.q = mi_vec;
 
+[x_star_ecos,y_star_ecos,info,s,z] = ecos(c_objective,sparse(G),h,dims,sparse(Aeq),beq);
+p_star_ecos = info.pcost; p_star_series(1) = p_star_ecos;
+p_star_prev = p_star_ecos;
 
+theta_new = get_t_from_x(x_star_ecos, ls, lt);
+theta_new_matrix = reshape(theta_new,[n,T]);
+% Plot how our trajectory is moving: 
+xyz_linspace = GetXYZlinspace(NaoRH, theta_new_matrix);
+plot_xyz_path(xyz_linspace);
+
+%%%%%%%%%%%%%%%%%%%%% Repeat until... %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Initial: try a set number of iterations
+for itrs=2:SCP_itrs
+    
+    % Recreate the problem using the solution from the previous iteration.
+    % Only recreate the parts we need to not waste computation.
+    % Part I: new theta limits:
+    theta_min = vec(ClampX(theta_new_matrix - theta_radius, t_lim_min, t_lim_max));
+    theta_max = vec(ClampX(theta_new_matrix + theta_radius, t_lim_min, t_lim_max));
+    hineq = [zt; zt; zs; theta_max; -theta_min];
+    
+    for i=1:T-2
+       % Part II: 2nd-order approximation params (this part gets repeated after every optimization solve)
+       phi = theta_new_matrix(:,i); % approximate about our previous solution (!!)
+       [Hcvx_px, Hccv_px, g_px, Hcvx_py, Hccv_py, g_py, Hcvx_pz, Hccv_pz, g_pz ] = NaoRH_fwd_approx_params(phi);
+       % Part III: create the 4*(T-2) set of SOC constraints (repeated)
+       % 
+       % First we form (P,q,r) as in (1/2)*x'*P*x + q'*x + r <= 0
+       % Then we convert to SOC form.
+       % 'Pyg' means 'P for y-greater-than' constraint, 
+       % 'qzl' means 'q for z-less-than' constraint, etc.
+       Pyg = t_theta_selectors{i}'*Hcvx_py*t_theta_selectors{i};
+       qyg = -t_s_y_selectors{i} + t_theta_selectors{i}'*(g_py - Hcvx_py*phi);
+       ryg = NaoRH_fwd_py(phi) - g_py'*phi + phi'*Hcvx_py*phi - Uy(i);
+       Pyl = -t_theta_selectors{i}'*Hccv_py*t_theta_selectors{i};
+       qyl = -t_s_y_selectors{i} - t_theta_selectors{i}'*(g_py - Hccv_py*phi);
+       ryl = -NaoRH_fwd_py(phi) + g_py'*phi - phi'*Hccv_py*phi + Ly(i);
+       Pzg = t_theta_selectors{i}'*Hcvx_pz*t_theta_selectors{i};
+       qzg = -t_s_z_selectors{i} + t_theta_selectors{i}'*(g_pz - Hcvx_pz*phi);
+       rzg = NaoRH_fwd_pz(phi) - g_pz'*phi + phi'*Hcvx_pz*phi - Uz(i);
+       Pzl = -t_theta_selectors{i}'*Hccv_pz*t_theta_selectors{i};
+       qzl = -t_s_z_selectors{i} - t_theta_selectors{i}'*(g_pz - Hccv_pz*phi);
+       rzl = -NaoRH_fwd_pz(phi) + g_pz'*phi - phi'*Hccv_pz*phi + Lz(i);
+       idx = (i-1)*numTimeSOCConstraints;
+       [Bk0_mat{idx+1}, dk0_vec{idx+1}, Bk1_vec{idx+1}, dk1_scalar{idx+1}] = QuadraticToSOC(Pyg, qyg, ryg);
+       [Bk0_mat{idx+2}, dk0_vec{idx+2}, Bk1_vec{idx+2}, dk1_scalar{idx+2}] = QuadraticToSOC(Pyl, qyl, ryl);
+       [Bk0_mat{idx+3}, dk0_vec{idx+3}, Bk1_vec{idx+3}, dk1_scalar{idx+3}] = QuadraticToSOC(Pzg, qzg, rzg);
+       [Bk0_mat{idx+4}, dk0_vec{idx+4}, Bk1_vec{idx+4}, dk1_scalar{idx+4}] = QuadraticToSOC(Pzl, qzl, rzl);
+    end
+    
+    % Part IV: ECOS
+    [G, h] = PrepareEcos(Bk0_mat, dk0_vec, Bk1_vec, dk1_scalar, mi_vec, size(mi_vec,1), lx);
+    G = [Gineq; G];
+    h = [hineq; h];
+    [x_star_ecos,y_star_ecos,info,s,z] = ecos(c_objective,sparse(G),h,dims,sparse(Aeq),beq);
+    p_star_ecos = info.pcost; p_star_series(itrs) = p_star_ecos;
+    p_star_prev = p_star_ecos;
+
+    theta_new = get_t_from_x(x_star_ecos, ls, lt);
+    theta_new_matrix = reshape(theta_new,[n,T]);
+    % Plot how our trajectory is moving: 
+    xyz_linspace = GetXYZlinspace(NaoRH, theta_new_matrix);
+    plot_xyz_path(xyz_linspace);
+    
+end
+
+figure; plot(p_star_series);
