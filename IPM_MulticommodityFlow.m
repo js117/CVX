@@ -32,7 +32,7 @@ B(3,9) = 1; B(3,10) = 1; B(3,12) = 1;
 % For checking correctness, we can solve the problem using CVX by changing
 % the objective to sum of square of x. Should yield same x* (?), and later
 % we can compare via sum(square(x_var)) from our IPM method to p_star_ref.
-cvx_begin
+cvx_begin quiet
     variable x(L)
     minimize sum(square(x)) % is monotonic as original objective over feasible domain
     subject to 
@@ -46,13 +46,16 @@ x_star_ref = x;
 % 2. Set up parameters for Interior Point Method
 numOuterItrs = 0;
 numInnerItrs = 0;
-x0 = 0.01*ones(L,1); % This point is strictly in the domain of barrier function
-t_ipm = 10;        % initial barrier param
+x0 = 0.1*ones(L,1); % This point is strictly in the domain of barrier function
+t_ipm = 1;        % initial barrier param
 eps_ipm = 1.49e-8; % standard with CVX
-mu_ipm = 10;       % barrier increase factor
+norm_tol = 3e-5; % in practice, need a check on the backtracking line search on norm since it can get
+                   % 'low enough' to be considered solved, but not low
+                   % enough for the algorithm condition to be true.
+mu_ipm = 8;       % barrier increase factor
 m_Ineqs = 2*L + 3; % 'm', i.e. the number of inequalities
 x_var = x0;        % initialize the variable
-v_var = 0.01*ones(size(Ap',2),1); % dual variable associated with Ap*x == s
+v_var = zeros(size(Ap',2),1); % dual variable associated with Ap*x == s
 
 % Set up vars for ISNM:
 A = Ap;
@@ -61,21 +64,19 @@ b = s;  % excuse the double use of 'b'; this is the problem equality b,
         % constraint, i.e. B*x <= bb
 residual_curr = [grad_f(t_ipm,x_var,c,B,bb) + A'*v_var; A*x_var - b];
 
-p_star_series = [];  % for part c) plot
-residue_series = []; % for part d) plot
+p_star_series = [objective(x_var,c)];  % for part c) plot
+residue_series = [norm(residual_curr)+m_Ineqs/t_ipm]; % for part d) plot
 
 % Parameters for the Infeasible Start Newton's Method:
-alpha = 0.1;
-beta = 0.8;
+alpha = 0.25;
+beta = 0.7;
 eps_isnm = 1.49e-8;
 
 % Helper functions: get the relevant gradients, Hessians -- see end of script
 
-while (m_Ineqs/t_ipm >= eps_ipm) % OUTER LOOP
- 
+while (m_Ineqs/t_ipm >= eps_ipm) % OUTER LOOP - Barrier Method
     % 1. Centering step: x_var <-- argmin{ t*f0(x) + phi(x) | A*x == b }
-    while (norm(residual_curr) >= eps_isnm)
-        norm(residual_curr)
+    while (1) % INNER LOOP - Infeasible Start Newton Method
         
         % Solve KKT system for x_nt, v_nt: 
         K = [hess_f(t_ipm,x_var,c,B,bb), A'; A, zeros(N-1)];
@@ -88,7 +89,11 @@ while (m_Ineqs/t_ipm >= eps_ipm) % OUTER LOOP
         while (norm(res_t_isnm) > (1 - alpha*t_isnm)*norm(residual_curr))
             t_isnm = beta*t_isnm;
             res_t_isnm = [grad_f(t_ipm,(x_var+t_isnm*x_nt),c,B,bb) + A'*(v_var+t_isnm*v_nt); A*(x_var+t_isnm*x_nt) - b];
-            res_t_isnm
+            %norm(res_t_isnm)
+            norm(residual_curr)
+            if (norm(res_t_isnm) < norm_tol)
+                break; % this can happen if we are optimal b/w outer loops (i.e. increasing t yields no change)
+            end
         end
 
         % Updates
@@ -97,16 +102,32 @@ while (m_Ineqs/t_ipm >= eps_ipm) % OUTER LOOP
         residual_curr = res_t_isnm;
         residue_series = [residue_series, norm(residual_curr)+m_Ineqs/t_ipm]; 
         numInnerItrs = numInnerItrs + 1;
+
+        if (norm(residual_curr) < eps_isnm || norm(residual_curr) < norm_tol)
+            disp('yo!');
+            break;
+        end
     end
     
     %%%%%%%%%%%%%%%%%%%%% DONE CENTERING STEP %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Update: x_var is already (and constantly) updated
     t_ipm = t_ipm*mu_ipm;    % Increase t
+    % Now update the residual for this new t: 
+    residual_curr = [grad_f(t_ipm,x_var,c,B,bb) + A'*v_var; A*x_var - b];
     numOuterItrs = numOuterItrs + 1
     p_star_series = [p_star_series, objective(x_var,c)]; % from centering step
 end
 
+% Finally, project onto feasible set in case of any numerical errors:
+for i=1:L
+    if (x_var(i) < 0)
+        x_var(i) = 0;
+    end
+    if (x_var(i) > c(i))
+        x_var(i) = c(i);
+    end
+end
 
 end
 
