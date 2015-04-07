@@ -5,12 +5,15 @@ theta_final = [-1, 0.3, -0.5, 0.7]'; % corresponds to (x,y,z) = (0.5927, 0.0514,
 
 %%%%%%%%%%%%%% PROBLEM PARAMETERS %%%%%%%%%%%%%%%%%
 n = 4;           % # joint variables
-T = 18;          % # time steps
+T = 15;          % # time steps
 ls = 3*T;        % # slack variables for position constraints (x,y,z) = 3 * T
 lt = n*T;        % # theta variables total = #joints x #timesteps
 lx = ls + 2*lt;  % # of variables for full problem
 
-gamma = 0.1;     % regularization parameter on L1 norm of thetas
+gamma = 10; % regularization on thetas
+delta = 10; % penalty factor on position infeasibilities
+mu = 1; % penalty multiplier for position infeasibilities
+SCP_itrs = 12;
 
 t_lim_max = [2.0857, 0.3142, 2.0857, 1.5446]';    % joint ranges max lim
 t_lim_min = [-2.0857, -1.3265, -2.0857, 0.0349]'; % joint ranges min lim
@@ -38,21 +41,24 @@ get_t_from_x = @(x, ls, lt) (x(ls+1:ls+lt));
 Zts = zeros(lt, ls);
 Zst = zeros(ls, lt); 
 Ztt = zeros(lt, lt);
-It = eye(lt);
+Zss = zeros(ls, ls);
+It = eye(lt); 
 Is = eye(ls);
+I_t = [zeros(n,n), zeros(n, lt-n); zeros(lt-n, n), eye(lt - n)];
 
 Gineq = ...
-[Zts, It, -It;
- Zts, -It, -It;
+[Zts, It, -It;  % + theta_linspace in h
+ Zts, -It, -It; % + theta_linspace in h
  -Is, Zst, Zst;
  Zts, It, Ztt;
  Zts, -It, Ztt];
 
 zt = zeros(lt, 1); zs = zeros(ls, 1);
 hineq = [zt; zt; zs; theta_max; -theta_min];
+hineq = [vec(theta_linspace); vec
 
 is = ones(ls, 1); it = ones(lt, 1);
-c_objective = [is; gamma*it; zt];
+c_objective = [delta*is; zt; gamma*it];
 
 % Equalities: 
 it1 = [ones(n,1); zeros(lt - n, 1)];
@@ -65,6 +71,11 @@ end
 for i=1:n % draw it out, do trial and error with indexing...
     Aeq(i+n, ls+1 + lt - n + i - 1) = 1; % for t1(t=T), ..., tn(t=T)
 end
+
+% L2normMat = ...
+%     [Zss, Zst, Zst;
+%      Zts, Ztt, Ztt;
+%      Zts, It, Ztt];
 
 beq = [theta_init; theta_final];
  
@@ -87,8 +98,8 @@ beq = [theta_init; theta_final];
 % Start by generating obstacle avoidance path:
 y_init = NaoRH_fwd_py(theta_init); z_init = NaoRH_fwd_pz(theta_init);
 % Below must be consistent with 'setupobstacle.m':
-% e.g. obs{3}.R = 1; obs{3}.c = [1;-0.1;1;];
-p_xyz = [1;-0.1;1;]; radius = 1;
+% e.g. obs{3}.R = 0.9; obs{3}.c = [1.3;-0.6;1;];
+p_xyz = [1.1;-0.6;1;]; radius = 0.8;
 % Generate the bounds for y and z: 
 [Uz, Lz, Uy, Ly] = ObstacleAvoidancePath(y_init, z_init, theta_linspace, p_xyz, radius);
 
@@ -98,26 +109,29 @@ plot_xyz_path(xyz_linspace);
 
 % Create selector theta(t) selector matrices to use with the 2nd order function approximations
 % In this loop, we will also create the 2nd order approximation matrices:
-t_theta_selectors = cell(T-2,1);
-t_s_y_selectors = cell(T-2,1);
-t_s_z_selectors = cell(T-2,1);
+t_theta_selectors = cell(T,1);
+t_s_y_selectors = cell(T,1);
+t_s_z_selectors = cell(T,1);
 % Below: to hold the SOC constraints (from quadratics)
 % Why 4: because we are doing (y,z) less-than and greater-than constraints
 numTimeSOCConstraints = 4;
-Bk0_mat = cell(numTimeSOCConstraints*(T-2),1); % each of size (mi_vec(i)-1) x n
-dk0_vec = cell(numTimeSOCConstraints*(T-2),1); % (mi - 1) x 1
-Bk1_vec = cell(numTimeSOCConstraints*(T-2),1); % each is 1 x n 
-dk1_scalar = cell(numTimeSOCConstraints*(T-2),1); % each is 1 x 1
+isQuadOn = 0; % set to 1 if using quadratic regularization
+Bk0_mat = cell(numTimeSOCConstraints*(T) + isQuadOn,1); % each of size (mi_vec(i)-1) x n
+dk0_vec = cell(numTimeSOCConstraints*(T) + isQuadOn,1); % (mi - 1) x 1
+Bk1_vec = cell(numTimeSOCConstraints*(T) + isQuadOn,1); % each is 1 x n 
+dk1_scalar = cell(numTimeSOCConstraints*(T) + isQuadOn,1); % each is 1 x 1
+%+1 in number of cones because of the L2 regularization
 
-for i=1:T-2
+for i=1:T
     
    % Part I: t_selector matrices:
    t_theta_selectors{i} = zeros(n,lx); 
    t_s_y_selectors{i} = zeros(lx,1); t_s_z_selectors{i} = zeros(lx,1);
    for j=1:n
-       t_theta_selectors{i}(j, ls+1 + (i-1)*n + (j+1)) = 1; % for t1(t=i), ..., tn(t=i) %% was j-1 before loop change to 1:T-2
+       t_theta_selectors{i}(j, ls+1 + (i-1)*n + (j-1)) = 1; % for t1(t=i), ..., tn(t=i) %% was j-1 before loop change to 1:T-2
    end
    t_s_y_selectors{i}((i-1)*3 + 2) = 1; t_s_z_selectors{i}((i-1)*3 + 3) = 1;
+   % The above are penalties on position infeasibilities
    
    % Part II: 2nd-order approximation params (this part gets repeated after every optimization solve)
    phi = theta_linspace(:,i);
@@ -152,11 +166,14 @@ for i=1:T-2
    [Bk0_mat{idx+4}, dk0_vec{idx+4}, Bk1_vec{idx+4}, dk1_scalar{idx+4}] = QuadraticToSOC(Pzl, qzl, rzl);
    
 end
+%[Bk0_mat{idx+5}, dk0_vec{idx+5}, Bk1_vec{idx+5}, dk1_scalar{idx+5}] = QuadraticToSOC(2*L2normMat, [zeros(ls+lt,1);gamma*ones(lt,1)], 0);
+% Add the L2 norm cone constraint (which we shouldn't need to re-add)
 
 %%%%%%%%%%%%%%%%%%%%%%% THE MAIN EVENT %%%%%%%%%%%%%%%%%%%%%%%%%%%
-SCP_itrs = 10;
-p_star_series = zeros(SCP_itrs+1, 1);
-mi_vec = (lx+2)*ones(numTimeSOCConstraints*(T-2),1); %+1 for how we transform quadratic to SOC; +1 for SOC convention
+
+p_star_series = zeros(SCP_itrs, 1);
+mi_vec = (lx+2)*ones(numTimeSOCConstraints*(T)+ isQuadOn,1); %+1 for how we transform quadratic to SOC; +1 for SOC convention
+%+1 in number of cones because of the L2 regularization
 
 [G, h] = PrepareEcos(Bk0_mat, dk0_vec, Bk1_vec, dk1_scalar, mi_vec, size(mi_vec,1), lx);
 G = [Gineq; G];
@@ -166,7 +183,7 @@ dims.l = 4*lt + ls;
 dims.q = mi_vec;
 
 [x_star_ecos,y_star_ecos,info,s,z] = ecos(c_objective,sparse(G),h,dims,sparse(Aeq),beq);
-p_star_ecos = info.pcost; p_star_series
+p_star_ecos = info.pcost; p_star_series(1) = p_star_ecos;
 p_star_prev = p_star_ecos;
 
 theta_new = get_t_from_x(x_star_ecos, ls, lt);
@@ -177,7 +194,7 @@ plot_xyz_path(xyz_linspace);
 
 %%%%%%%%%%%%%%%%%%%%% Repeat until... %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Initial: try a set number of iterations
-for itrs=1:10
+for itrs=2:SCP_itrs
     
     % Recreate the problem using the solution from the previous iteration.
     % Only recreate the parts we need to not waste computation.
@@ -185,12 +202,12 @@ for itrs=1:10
     theta_min = vec(ClampX(theta_new_matrix - theta_radius, t_lim_min, t_lim_max));
     theta_max = vec(ClampX(theta_new_matrix + theta_radius, t_lim_min, t_lim_max));
     hineq = [zt; zt; zs; theta_max; -theta_min];
-    
-    for i=1:T-2
+
+    for i=1:T
        % Part II: 2nd-order approximation params (this part gets repeated after every optimization solve)
        phi = theta_new_matrix(:,i); % approximate about our previous solution (!!)
        [Hcvx_px, Hccv_px, g_px, Hcvx_py, Hccv_py, g_py, Hcvx_pz, Hccv_pz, g_pz ] = NaoRH_fwd_approx_params(phi);
-       % Part III: create the 4*(T-2) set of SOC constraints (repeated)
+       % Part III: create the 4*(T) set of SOC constraints (repeated)
        % 
        % First we form (P,q,r) as in (1/2)*x'*P*x + q'*x + r <= 0
        % Then we convert to SOC form.
@@ -216,11 +233,14 @@ for itrs=1:10
     end
     
     % Part IV: ECOS
+    % Penalize infeasibilities further:
+    delta = delta*mu;
+    c_objective = [delta*is; zt; gamma*it];
     [G, h] = PrepareEcos(Bk0_mat, dk0_vec, Bk1_vec, dk1_scalar, mi_vec, size(mi_vec,1), lx);
     G = [Gineq; G];
     h = [hineq; h];
     [x_star_ecos,y_star_ecos,info,s,z] = ecos(c_objective,sparse(G),h,dims,sparse(Aeq),beq);
-    p_star_ecos = info.pcost;
+    p_star_ecos = info.pcost; p_star_series(itrs) = p_star_ecos;
     p_star_prev = p_star_ecos;
 
     theta_new = get_t_from_x(x_star_ecos, ls, lt);
@@ -231,3 +251,4 @@ for itrs=1:10
     
 end
 
+figure; plot(p_star_series);

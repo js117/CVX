@@ -18,11 +18,11 @@ thetas = GenerateRandomX(Xmin, Xmax, T);
 % Approximates p[x,y,z](t) about t=theta
 p_approx_2 = @(t, theta, f, g, H) (f + g'*(t - theta) + 0.5*(t - theta)'*H*(t - theta));
 
-p_approx_3 = @(t, theta, f, g, Hcvx, Hccv) (0.5*t'*(Hcvx+Hccv)*t + (g-(Hcvx+Hccv)*theta)'*t + (f-g'*theta+0.5*theta'*(Hcvx+Hccv)*theta));
+p_approx_3 = @(t, theta, f, g, Hcvx, Hccv) (0.5*t'*(Hccv)*t + (g-(Hccv)*theta)'*t + (f-g'*theta+0.5*theta'*(Hccv)*theta));
 
 
 
-radius = 0.03; % so our deviation is (t-r) to (t+r)
+radius = 0.2; % so our deviation is (t-r) to (t+r)
 Jlim = 200; % how many points within the above deviation to test
 errors_x = zeros(Jlim*T,1); errors_y = zeros(Jlim*T,1); errors_z = zeros(Jlim*T,1);
 for i=1:T
@@ -56,10 +56,8 @@ for i=1:T
         errors_z((i-1)*Jlim + j) = abs(z_ref - z_test);
     end
 end
+errors = (errors_x + errors_y + errors_z)/3;
 
-figure; hist(errors_x)
-mean(errors_x)
-figure; hist(errors_y)
-mean(errors_y)
-figure; hist(errors_z)
-mean(errors_z)
+figure; hist(errors);
+
+mean(errors)

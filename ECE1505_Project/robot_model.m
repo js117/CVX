@@ -53,5 +53,5 @@ theta_final = [-1, 0.3, -0.5, 0.7]'; % corresponds to (x,y,z) = (0.5927, 0.0514,
 NaoRH.plot(theta_init');
 %q2 = [1.2, -0.3, 0.4, 0.4];
 %NaoRH.plot(q2, 'workspace', 3*[-1 1 -1 1 -1 1]);
-view(-90, 0);
+view(60, 30);
 

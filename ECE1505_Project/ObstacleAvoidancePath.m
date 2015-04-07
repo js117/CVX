@@ -21,6 +21,9 @@ function [Uz, Lz, Uy, Ly] = ObstacleAvoidancePath(y_init, z_init, theta_linspace
     Z_MIN = -3;
 
     T = size(theta_linspace,2);
+
+    safetyFactor = 1.2;
+    radius = radius*safetyFactor;
     
     % We start with the end-effector either completely above or 
     % completely below the obstacle. In either case, Y unconstrained:

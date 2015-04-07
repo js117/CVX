@@ -10,8 +10,8 @@ obs{2}.rho0 = 1/4;
 obs{2}.h = 0;
 obs{2}.type = 'cyl';
 % % Obstacle 3: Sphere %% THIS IS THE ACTUAL OBSTACLE WE'RE USING
-obs{3}.R = 1;
-obs{3}.c = [1;-0.1;1;];
+obs{3}.R = 0.8;
+obs{3}.c = [1.1;-0.6;1;];
 obs{3}.rho0 = 0;
 obs{3}.type = 'sph';
 % % Obstacle 4: Sphere
