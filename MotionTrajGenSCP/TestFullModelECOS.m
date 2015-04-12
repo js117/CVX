@@ -10,15 +10,14 @@ ls = 3*T;        % # slack variables for position constraints (x,y,z) = 3 * T
 lt = n*T;        % # theta variables total = #joints x #timesteps
 lx = ls + 2*lt;  % # of variables for full problem
 
-gamma = 10; % regularization on thetas
-delta = 10; % penalty factor on position infeasibilities
-mu = 1; % penalty multiplier for position infeasibilities
-SCP_itrs = 30;
+gamma = 1.1; % regularization on thetas
+delta = 1.5; % penalty factor on position infeasibilities
+SCP_itrs = 12;
 
 t_lim_max = [2.0857, 0.3142, 2.0857, 1.5446]';    % joint ranges max lim
 t_lim_min = [-2.0857, -1.3265, -2.0857, 0.0349]'; % joint ranges min lim
 
-theta_radius = 0.02; % initial radius of deviation
+theta_radius = 0.075; % initial radius of deviation
 theta_linspace = getThetaLinspace(theta_init, theta_final, T); % size n x T
 theta_min = vec(theta_linspace - theta_radius);
 theta_max = vec(theta_linspace + theta_radius);
@@ -72,10 +71,10 @@ for i=1:n % draw it out, do trial and error with indexing...
     Aeq(i+n, ls+1 + lt - n + i - 1) = 1; % for t1(t=T), ..., tn(t=T)
 end
 
-% L2normMat = ...
-%     [Zss, Zst, Zst;
-%      Zts, Ztt, Ztt;
-%      Zts, It, Ztt];
+ L2normMat = ...
+     [Zss, Zst, Zst;
+      Zts, Ztt, Ztt;
+      Zts, It, Ztt];
 
 beq = [theta_init; theta_final];
  
@@ -105,7 +104,7 @@ p_xyz = [1.1;-0.6;1;]; radius = 0.8;
 
 % Generate the approximation matrices based on the current theta: (starts with theta_linspace)
 xyz_linspace = GetXYZlinspace(NaoRH, theta_linspace);
-plot_xyz_path(xyz_linspace);
+plot_xyz_path(xyz_linspace, 0);
 
 % Create selector theta(t) selector matrices to use with the 2nd order function approximations
 % In this loop, we will also create the 2nd order approximation matrices:
@@ -115,7 +114,7 @@ t_s_z_selectors = cell(T,1);
 % Below: to hold the SOC constraints (from quadratics)
 % Why 4: because we are doing (y,z) less-than and greater-than constraints
 numTimeSOCConstraints = 4;
-isQuadOn = 0; % set to 1 if using quadratic regularization
+isQuadOn = 0; % set to 1 if using quadratic regularization %TODO - get this working
 Bk0_mat = cell(numTimeSOCConstraints*(T) + isQuadOn,1); % each of size (mi_vec(i)-1) x n
 dk0_vec = cell(numTimeSOCConstraints*(T) + isQuadOn,1); % (mi - 1) x 1
 Bk1_vec = cell(numTimeSOCConstraints*(T) + isQuadOn,1); % each is 1 x n 
@@ -166,6 +165,7 @@ for i=1:T
    [Bk0_mat{idx+4}, dk0_vec{idx+4}, Bk1_vec{idx+4}, dk1_scalar{idx+4}] = QuadraticToSOC(Pzl, qzl, rzl);
    
 end
+% TODO - get 2 norm working
 %[Bk0_mat{idx+5}, dk0_vec{idx+5}, Bk1_vec{idx+5}, dk1_scalar{idx+5}] = QuadraticToSOC(2*L2normMat, [zeros(ls+lt,1);gamma*ones(lt,1)], 0);
 % Add the L2 norm cone constraint (which we shouldn't need to re-add)
 
@@ -183,14 +183,14 @@ dims.l = 4*lt + ls;
 dims.q = mi_vec;
 
 [x_star_ecos,y_star_ecos,info,s,z] = ecos(c_objective,sparse(G),h,dims,sparse(Aeq),beq);
-p_star_ecos = info.pcost; p_star_series(1) = p_star_ecos;
+p_star_ecos = info.pcost; p_star_series(1) = ComputeTrueObjective(delta, c_objective, x_star_ecos, Uy, Uz, Ly, Lz, ls, lt, lx, n, T); %p_star_ecos;
 p_star_prev = p_star_ecos;
 
 theta_new = get_t_from_x(x_star_ecos, ls, lt);
 theta_new_matrix = reshape(theta_new,[n,T]);
 % Plot how our trajectory is moving: 
 xyz_linspace = GetXYZlinspace(NaoRH, theta_new_matrix);
-plot_xyz_path(xyz_linspace);
+plot_xyz_path(xyz_linspace, 0);
 
 %%%%%%%%%%%%%%%%%%%%% Repeat until... %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Initial: try a set number of iterations
@@ -241,15 +241,15 @@ for itrs=2:SCP_itrs
     G = [Gineq; G];
     h = [hineq; h];
     [x_star_ecos,y_star_ecos,info,s,z] = ecos(c_objective,sparse(G),h,dims,sparse(Aeq),beq);
-    p_star_ecos = info.pcost; p_star_series(itrs) = p_star_ecos;
+    p_star_ecos = info.pcost; p_star_series(itrs) = ComputeTrueObjective(delta, c_objective, x_star_ecos, Uy, Uz, Ly, Lz, ls, lt, lx, n, T); %p_star_ecos;
     p_star_prev = p_star_ecos;
 
     theta_new = get_t_from_x(x_star_ecos, ls, lt);
     theta_new_matrix = reshape(theta_new,[n,T]);
     % Plot how our trajectory is moving: 
     xyz_linspace = GetXYZlinspace(NaoRH, theta_new_matrix);
-    plot_xyz_path(xyz_linspace);
+    plot_xyz_path(xyz_linspace, 0);
     
 end
-
+%plot_xyz_path(xyz_linspace, 1);
 figure; plot(p_star_series);

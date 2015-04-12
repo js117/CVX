@@ -1,4 +1,4 @@
-function [x_var, v_var, p_star_series, residue_series] = IPM_MulticommodityFlow
+function [x_var, v_var, p_star_series, residue_series, x_star_ref] = IPM_MulticommodityFlow
 % Interior Point Method -- "Multicommodity Flow" ECE1505 Pset 4 Q2
 
 % Problem description: 

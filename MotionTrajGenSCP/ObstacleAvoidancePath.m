@@ -27,7 +27,7 @@ function [Uz, Lz, Uy, Ly] = ObstacleAvoidancePath(y_init, z_init, theta_linspace
     
     % We start with the end-effector either completely above or 
     % completely below the obstacle. In either case, Y unconstrained:
-    Uy_phase1 = Y_MAX;
+    Uy_phase1 = y_init;
     Ly_phase1 = Y_MIN;
     % Now constrain Z depending on start position:
     if (z_init > (p_xyz(3) + radius)) % starting above obst.
@@ -80,12 +80,12 @@ function [Uz, Lz, Uy, Ly] = ObstacleAvoidancePath(y_init, z_init, theta_linspace
     for i=1:round(T/3)
         Uz(i) = Uz_phase1;
         Lz(i) = Lz_phase1;
-        Uy(i) = Uy_phase1;
+        Uy(i) = Uy_phase1; % + round(T/3)*(i/round(T/3))*(Uy_phase1-Uy_phase2); % force moving 'right' (-ve) in y
         Ly(i) = Ly_phase1;
     end
     for i=round(T/3)+1:round(2*T/3)
         Uz(i) = Uz_phase2;
-        Lz(i) = Lz_phase2;
+        Lz(i) = Lz_phase2; % + (round(2*T/3)-(round(T/3)+1))*((i-(round(T/3)+1))/(round(2*T/3)-(round(T/3)+1)))*(Lz_phase3-Uz_phase1); % force moving up in z
         Uy(i) = Uy_phase2;
         Ly(i) = Ly_phase2;
     end
@@ -93,7 +93,7 @@ function [Uz, Lz, Uy, Ly] = ObstacleAvoidancePath(y_init, z_init, theta_linspace
         Uz(i) = Uz_phase3;
         Lz(i) = Lz_phase3;
         Uy(i) = Uy_phase3;
-        Ly(i) = Ly_phase3;
+        Ly(i) = Ly_phase3; % + (T-(round(2*T/3)+1))*(i-(round(2*T/3)+1))/(T-(round(2*T/3)+1))*(Ly_phase3 - Uy_phase2); % force moving 'left' (+ve) in y
     end
 
 end

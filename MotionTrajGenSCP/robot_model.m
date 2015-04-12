@@ -3,7 +3,7 @@
 
 cd ../../Robotics/rvctools/
 startup_rvc
-cd ../../CVX/ECE1505_Project/
+cd ../../CVX/MotionTrajGenSCP/
 
 deg = pi/180;
 
