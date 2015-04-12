@@ -5,8 +5,8 @@ Motion Trajectory Generation for Robotic Manipulators via Sequential Convex Opti
 Abstract: 
 
 To interact in a dynamic environment alongside humans, it is essential that robots not just 
-be able to move as commanded, but also constrain their motions with respect to other entities
- - to react. An example of such a situation is obstacle avoidance: given a target manipulator 
+be able to move as commanded, but also constrain their motions with respect to other entities;
+to react. An example of such a situation is obstacle avoidance: given a target manipulator 
 position and a sensed obstacle, find a new path for the end effector which reaches the desired 
 target while avoiding the obstacle. Specifying the robot dynamics and kinematics in the 3D 
 workspace leads to functions involving trigonometric polynomials, causing non-convex constraints. 
