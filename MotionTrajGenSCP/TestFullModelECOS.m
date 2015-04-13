@@ -234,8 +234,7 @@ for itrs=2:SCP_itrs
     end
     
     % Part IV: ECOS
-    % Penalize infeasibilities further:
-    delta = delta*mu;
+    
     c_objective = [delta*is; zt; gamma*it];
     [G, h] = PrepareEcos(Bk0_mat, dk0_vec, Bk1_vec, dk1_scalar, mi_vec, size(mi_vec,1), lx);
     G = [Gineq; G];
