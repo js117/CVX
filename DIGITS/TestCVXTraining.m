@@ -4,7 +4,7 @@
 numImages = size(images,2);
 n1 = size(images,1); % e.g. 784, input size
 n2 = 30;           % size of next layer
-n3 = 150;           % size of next layer
+n3 = 50;           % size of next layer
 n4 = 10;                 % final layer, i.e. digit classifier
 
 W1 = (rand(n2,n1+1) - 0.5)/n1; % the +1 are for bias values
@@ -41,9 +41,10 @@ target = zeros(10,1); target(labels(1)+1) = 1;
 % cvx_end
 
 % Create and train on a batch:
-batchSize = 200;
+batchSize = 150;
 randomIdxs = round(numImages*rand(batchSize,1));
 
+%%%%%%%%%%%%%%%%%%%%%%% Training W3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 x = zeros(n1,batchSize);
 h1 = zeros(n2,batchSize);
 h2 = zeros(n3,batchSize);
@@ -66,24 +67,62 @@ cvx_begin
        target = zeros(10,1); target(labels(idx)+1) = 1;
        cost = cost + norm(y(:,i) - target, Inf); 
     end
-    minimize cost + gamma*norm(W3,1)
+    minimize cost
     subject to
                 for i=1:batchSize
                     y(:,i) == W3*[h2(:,i);1]
                     sum(y(:,i)) == 1
                     y(:,i) >= 0
                 end
+                
 cvx_end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Update rule: should we step all the way? Here is an example interpolation
-scores = zeros(batchSize,1);
-for i=1:batchSize
-   alpha = i/batchSize;
-   alpha
-   W3test = W3old + alpha*(W3 - W3old);
-end
+%scores = zeros(batchSize,1);
+%for i=1:batchSize
+%   alpha = i/batchSize;
+%   alpha = 0.3;
+%   W3test = W3old + alpha*(W3 - W3old);
+%end
 
-disp('Post-train test score:')
+alpha = 0.05;
+W3 = W3old + alpha*(W3 - W3old);
+
+disp('Post-train test score (trained W3):')
 score = testOnBatch(W3,W2,W1,images_test,labels_test,numTests,1:numTests)
 
 figure;plot(scores);
+
+%%%%%%%%%%%%%%%%%%%%%%% Training W2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+batchSize = 80;
+randomIdxs = round(numImages*rand(batchSize,1));
+
+cvx_begin
+
+    variable W2(n3,n2+1)
+    variable y(n4,batchSize)
+    variable h2(n3,batchSize)
+    cost = 0;
+    for i=1:batchSize
+       idx = randomIdxs(i);
+       x(:,i) = images(:,idx);
+       h1(:,i) = W1*[x(:,i);1];
+       %h2(:,i) = W2*[h1(:,i);1];
+       target = zeros(10,1); target(labels(idx)+1) = 1;
+       cost = cost + norm(y(:,i) - target, Inf); 
+    end
+    minimize cost
+    subject to
+                for i=1:batchSize
+                    y(:,i) == W3*[h2(:,i);1]
+                    h2(:,i) == W2*[h1(:,i);1];
+                    sum(y(:,i)) == 1
+                    y(:,i) >= 0
+                end
+                
+cvx_end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+disp('Post-train test score (trained W2):')
+score = testOnBatch(W3,W2,W1,images_test,labels_test,numTests,1:numTests)

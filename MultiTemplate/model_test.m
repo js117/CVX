@@ -6,6 +6,7 @@ numTests = size(TTest,2);
 gamma = 0.1; 
 n = numTemplates; 
 B = zeros(maxRowCount,numAxes);
+B = [B; zeros(30,numAxes)]; %for Java offset debugging
 for i=1:numTests
     B = [B; TTest{i}];
 end
@@ -15,23 +16,27 @@ B(:,1:3) = B(:,1:3) / ACC_MAX;
 B(:,4:6) = B(:,4:6) / GYRO_MAX;
  
 numSamples = size(B,1);
+fakeLim = 1000; % for testing
 BBuffer = zeros(maxRowCount, numAxes); 
 Xs = zeros(numSamples, n); % store solution vectors over time
+%Qs = zeros(numSamples, n); % store q vectors over time (debugging)
+Qs = zeros(fakeLim,n); % for testing other vectors 
 optVals = zeros(numSamples, 1);
 % store the actual norm residual that we will threshold
 
 % simulate iterating over time:
-skip = 4; % recommend setting this to around 4; will go faster, results roughly the same
+skip = 3; % recommend setting this to around 4; will go faster, results roughly the same
 % (which suggests our problem has good temporal continuity 
-for t=1:skip:numSamples-maxRowCount
+for t=1:skip:fakeLim %(numSamples-maxRowCount)
   % fill up buffer: 
   BBuffer = B(t:t+maxRowCount-1, :); % slide forward in time
   % will need ti implement this via a queue in application code
 
   % caculate q:
-  q = computeqvector(numAxes, numSubBlocks, gamma, alphaWeights, BBuffer, MiLengths, MjkMatrices);
+  
+  q = computeqvector(numAxes, numTemplates, numSubBlocks, gamma, alphaWeights, BBuffer, MiLengths, MkLengths, MjkMatrices);
 
-  % Optimize:
+  %Optimize:
   cvx_begin quiet
      cvx_precision low
      variable x(n)
@@ -43,6 +48,7 @@ for t=1:skip:numSamples-maxRowCount
   cvx_end
 
   Xs(t,:) = x; 
+  Qs(t,:) = q;
   
   optVals(t) = cvx_optval;
 

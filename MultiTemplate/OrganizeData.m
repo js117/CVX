@@ -51,11 +51,26 @@ minRowCount = min(rowCounts);
 [MiLengths, indicies] = sort(rowCounts);
 MiLengths = [0, MiLengths]; % will be of length n+1 now
 
+MkLengths = [];
+for i=2:numTemplates+1
+   diff = MiLengths(i)-MiLengths(i-1);
+   if (diff > 0)
+    MkLengths = [MkLengths; diff];
+   end
+end
+
+j = 1;
+while (j < numTemplates)
+    %size(T{indicies(j)})
+    j = j + 1;
+end
+
+MARKER = -987;
 % Add the zeros as extra rows:
 for i=1:numTemplates
     rowCount = size(T{i},1);
     for j=rowCount+1:maxRowCount
-        T{i}(j,:) = zeros(numAxes,1);
+        T{i}(j,:) = MARKER*ones(numAxes,1);
     end
 end
 
@@ -72,7 +87,7 @@ for i=1:numAxes
 end
 
 n = numTemplates;
-numSubBlocks = n; % Assuming all templates of different length. 
+numSubBlocks = size(MkLengths,1); % Assuming all templates of different length. 
                   % Could be less but WLOG we can expect all different
                   % lengths (with negligible added overhead too)
 
@@ -82,9 +97,19 @@ numSubBlocks = n; % Assuming all templates of different length.
 MjkMatrices = cell(numAxes, numSubBlocks);
 alphaWeights = zeros(numAxes, n); % compute these guys too
 for i=1:numAxes
-    for j=1:numSubBlocks
+    for j=1:numTemplates
         
         MjkMatrices{i,j} = MMatrices{i}(MiLengths(j)+1:MiLengths(j+1), :);
+        
+        for ii=1:size(MjkMatrices{i,j},1)
+            jj = 1;
+            while (MjkMatrices{i,j}(ii,jj) == MARKER)
+               jj = jj + 1; 
+            end
+            
+            MjkMatrices{i,j}(ii,1:jj-1) = mean(MjkMatrices{i,j}(ii,jj:end));
+            
+        end
         
         alphaWeights(i,j) = (1/numAxes) * (MiLengths(j+1) - MiLengths(j))/maxRowCount; 
         % as we see, we can do things like weight gyroY stream
@@ -99,7 +124,7 @@ end
 
 P = zeros(n,n);
 for j=1:numAxes
-    for k=1:numSubBlocks
+    for k=1:numTemplates
         P = P + alphaWeights(j,k)*MjkMatrices{j,k}'*MjkMatrices{j,k};
     end
 end
