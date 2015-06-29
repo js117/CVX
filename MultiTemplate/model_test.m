@@ -25,9 +25,9 @@ optVals = zeros(numSamples, 1);
 % store the actual norm residual that we will threshold
 
 % simulate iterating over time:
-skip = 3; % recommend setting this to around 4; will go faster, results roughly the same
+skip = 4; % recommend setting this to around 4; will go faster, results roughly the same
 % (which suggests our problem has good temporal continuity 
-for t=1:skip:fakeLim %(numSamples-maxRowCount)
+for t=1:skip:(numSamples-maxRowCount)
   % fill up buffer: 
   BBuffer = B(t:t+maxRowCount-1, :); % slide forward in time
   % will need ti implement this via a queue in application code

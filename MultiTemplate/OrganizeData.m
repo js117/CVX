@@ -5,21 +5,28 @@
 % (and calculate the same features for user test data in TTest as well)
 % Don't forget to set "numAxes" = to the number of features!
 
-T1 = Matt_TEMPLATE_Bicepcurl;
-T2 = Jarred_TEMPLATE_Bicepcurl;
-T3 = Ethan_TEMPLATE_Bicepcurl;
-T4 = Aaron_TEMPLATE_Bicepcurl;
-T5 = Aaron_TEMPLATE_Benchpress;
-T6 = Ethan_TEMPLATE_Benchpress;
-T7 = TEMPLATE_Shoulderpress1;
-T8 = TEMPLATE_Shoulderpress2;
-T9 = TEMPLATE_Shoulderpress3;
-T10 = TEMPLATE_Shoulderpress4;
-T11 = Aaron_TEMPLATE_Squats;
-T12 = Ethan_TEMPLATE_Squats;
-T13 = Jarred_TEMPLATE_Squats;
+T1 = HanningFilter(Matt_TEMPLATE_Bicepcurl);
+T2 = HanningFilter(Jarred_TEMPLATE_Bicepcurl);
+% T3 = HanningFilter(Ethan_TEMPLATE_Bicepcurl);
+% T4 = HanningFilter(Aaron_TEMPLATE_Bicepcurl);
+% T5 = HanningFilter(Aaron_TEMPLATE_Benchpress);
+% T6 = HanningFilter(Ethan_TEMPLATE_Benchpress);
+% T7 = HanningFilter(TEMPLATE_Shoulderpress1);
+% T8 = HanningFilter(TEMPLATE_Shoulderpress2);
+% T9 = HanningFilter(TEMPLATE_Shoulderpress3);
+% T10 = HanningFilter(TEMPLATE_Shoulderpress4);
+% T11 = HanningFilter(Aaron_TEMPLATE_Squats);
+% T12 = HanningFilter(Ethan_TEMPLATE_Squats);
+% T13 = HanningFilter(Jarred_TEMPLATE_Squats);
+% T_NEW_TEMPLATES: already filtered
+T3 = T_NEW_TEMPLATE_BENCH;
+T4 = T_NEW_TEMPLATE_BENCH_2;
+T5 = T_NEW_TEMPLATE_SHOULDER_PRESS;
+T6 = T_NEW_TEMPLATE_SHOULDER_PRESS_2;
+T7 = T_NEW_TEMPLATE_SQUAT;
+T8 = T_NEW_TEMPLATE_SQUAT_2;
 
-T = {T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13};
+T = {T1, T2, T3, T4, T5, T6, T7, T8};
 
 TTest = {Matt_ALL_Bicepcurl, Jarred_ALL_Bicepcurl, Ethan_ALL_Bicepcurl, Aaron_ALL_Bicepcurl, ...
          Aaron_ALL_Benchpress, Ethan_ALL_Benchpress, ALL_Shoulderpress1, ALL_Shoulderpress2, ...

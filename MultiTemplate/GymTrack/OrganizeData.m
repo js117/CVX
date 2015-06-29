@@ -5,18 +5,22 @@
 % (and calculate the same features for user test data in TTest as well)
 % Don't forget to set "numAxes" = to the number of features!
 
-T1 = HanningFilter(KiwiLEFTmodelJD1);
-T2 = HanningFilter(KiwiLEFTmodelJD2);
-T3 = HanningFilter(KiwiLEFTmodelJD3);
-T4 = HanningFilter(KiwiLEFTmodelJD4);
-T5 = HanningFilter(KiwiRIGHTmodelJD1);
-T6 = HanningFilter(KiwiRIGHTmodelJD2);
-T7 = HanningFilter(KiwiRIGHTmodelJD3);
-T8 = HanningFilter(KiwiRIGHTmodelJD4);
+T1 = T_uprightrow_1; T2 = T_uprightrow_2; T3 = T_uprightrow_3;
+T4 = T_squat_1; T5 = T_squat_2; T6 = T_squat_3;
+T7 = T_skullcrusher_1; T8 = T_skullcrusher_2; T9 = T_skullcrusher_3;
+T10 = T_shoulderpress_1; T11 = T_shoulderpress_2; T12 = T_shoulderpress_3;
+T13 = T_pullover_1; T14 = T_pullover_2; T15 = T_pullover_3;
+T16 = T_deadlift_1; T17 = T_deadlift_2; T18 = T_deadlift_3;
+T19 = T_bicepcurl_1; T20 = T_bicepcurl_2; T21 = T_bicepcurl_3;
+T22 = T_bentoverrow_1; T23 = T_bentoverrow_2; T24 = T_bentoverrow_3;
+T25 = T_benchpress_1; T26 = T_benchpress_2; T27 = T_benchpress_3;
+T28 = T_halfsquat_1; T29 = T_halfsquat_2; T30 = T_halfsquat_3;
 
-T = {T1, T2, T3, T4, T5, T6, T7, T8};
+T = {T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, ...
+     T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, ...
+     T21, T22, T23, T24, T25, T26, T27, T28, T29, T30};
 
-TTest = {HanningFilter(DaveTest)};
+%TTest = {HanningFilter(DaveTest)};
 
 numAxes = 6;
 numTemplates = size(T,2);
@@ -26,8 +30,8 @@ numTemplates = size(T,2);
 % val of ~1.83 - across all trial data. Not normalizing heavily biases the
 % algorithm to match crappy gyro noise in motions where gyro is less
 % prominent (e.g. bench press). 
-GYRO_MAX = 1000;
-ACC_MAX = 8; % use empirical vals from template dataset
+GYRO_MAX = 250;
+ACC_MAX = 2; % use empirical vals from template dataset
 for i=1:numTemplates
     T{i}(:,1:3) = T{i}(:,1:3) / ACC_MAX;
     T{i}(:,4:6) = T{i}(:,4:6) / GYRO_MAX;
@@ -62,7 +66,7 @@ MARKER = 0.000000001;
 for i=1:numTemplates
     rowCount = size(T{i},1);
     for j=rowCount+1:maxRowCount
-        T{i}(j,:) = MARKER*ones(numAxes,1);
+        T{i}(j,:) = T{i}(j-rowCount,:); % try repeating
     end
 end
 
@@ -87,7 +91,7 @@ numSubBlocks = size(MkLengths,1); % Assuming all templates of different length.
 % templates we don't wish to compare with previous shorter length templates
 % but which we still want to match against a longer stream of user data.
 MjkMatrices = cell(numAxes, numSubBlocks);
-alphaWeights = zeros(numAxes, n); % compute these guys too
+alphaweights = zeros(numAxes, n); % compute these guys too
 for i=1:numAxes
     for j=1:numTemplates
         
@@ -101,15 +105,15 @@ for i=1:numAxes
             end
             
             MjkMatrices{i,j}(ii,1:jj-1) = mean(MjkMatrices{i,j}(ii,jj:end));
-            mean(MjkMatrices{i,j}(ii,jj:end))
+            %mean(MjkMatrices{i,j}(ii,jj:end))
             
         end
         
-        alphaWeights(i,j) = (1/numAxes) * (MiLengths(j+1) - MiLengths(j))/maxRowCount; 
+        alphaweights(i,j) = (1/numAxes) * (MiLengths(j+1) - MiLengths(j))/maxRowCount; 
         % as we see, we can do things like weight gyroY stream
         % higher/lower, weight the shorter blocks (end of longer templates)
         % in a decaying fashion, etc. 
-        % sum(sum(alphaWeights)) should be 1
+        % sum(sum(alphaweights)) should be 1
     end
 end
 
@@ -119,7 +123,7 @@ end
 P = zeros(n,n);
 for j=1:numAxes
     for k=1:numTemplates
-        P = P + alphaWeights(j,k)*MjkMatrices{j,k}'*MjkMatrices{j,k};
+        P = P + alphaweights(j,k)*MjkMatrices{j,k}'*MjkMatrices{j,k};
     end
 end
 P = 2*P;
