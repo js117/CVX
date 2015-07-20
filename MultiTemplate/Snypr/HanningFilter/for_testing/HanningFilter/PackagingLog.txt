@@ -1,0 +1,19 @@
+ant:
+<ant>
+  <mkdir dir="C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\for_redistribution" />
+  <mkdir dir="C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\for_testing" />
+  <mkdir dir="C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\for_redistribution_files_only" />
+</ant>
+mcc -v -W 'java:HanningFilter,Class1' -T link:lib -d C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\for_testing class{Class1:C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter.m} 
+Compiler version: 6.0 (R2015a)
+Dependency analysis by REQUIREMENTS.
+[Warning: Adding path "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr"
+to Compiler path instance.] 
+Parsing file "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 0 temporary MEX authorization files.
+Generating file "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\for_testing\readme.txt".
+The system cannot find the path specified.
+Error: An error occurred while shelling out to javac (error code = 1).
+Unable to build executable.
+Executing command: ""C:\Program Files\java\jre7\bin;\bin\javac" -verbose -classpath "C:\Program Files\MATLAB\R2015a\toolbox\javabuilder\jar\javabuilder.jar" -d "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\for_testing\classes" "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\for_testing\HanningFilter\Class1.java" "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\for_testing\HanningFilter\HanningFilterMCRFactory.java" "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\for_testing\HanningFilter\Class1Remote.java" "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\for_testing\HanningFilter\package-info.java""

@@ -1,0 +1,8 @@
+LIBRARY HanningFilter
+EXPORTS
+HanningFilterInitialize
+HanningFilterInitializeWithHandlers
+HanningFilterTerminate
+HanningFilterPrintStackTrace
+mlxHanningFilter
+

@@ -1,0 +1,137 @@
+ant:
+<ant>
+  <mkdir dir="C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_redistribution" />
+  <mkdir dir="C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing" />
+  <mkdir dir="C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_redistribution_files_only" />
+</ant>
+mcc -v -W 'java:HanningFilter,Class1' -T link:lib -d C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing class{Class1:C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter.m} 
+Compiler version: 6.0 (R2015a)
+Dependency analysis by REQUIREMENTS.
+[Warning: Adding path "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr"
+to Compiler path instance.] 
+Parsing file "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 0 temporary MEX authorization files.
+Generating file "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\readme.txt".
+[parsing started C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\Class1.java]
+[parsing completed 30ms]
+[parsing started C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\HanningFilterMCRFactory.java]
+[parsing completed 10ms]
+[parsing started C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\Class1Remote.java]
+[parsing completed 0ms]
+[parsing started C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\package-info.java]
+[parsing completed 0ms]
+[search path for source files: C:\Program Files\MATLAB\R2015a\toolbox\javabuilder\jar\javabuilder.jar]
+[search path for class files: C:\Program Files\java\jdk1.6.0_45\jre\lib\resources.jar,C:\Program Files\java\jdk1.6.0_45\jre\lib\rt.jar,C:\Program Files\java\jdk1.6.0_45\jre\lib\sunrsasign.jar,C:\Program Files\java\jdk1.6.0_45\jre\lib\jsse.jar,C:\Program Files\java\jdk1.6.0_45\jre\lib\jce.jar,C:\Program Files\java\jdk1.6.0_45\jre\lib\charsets.jar,C:\Program Files\java\jdk1.6.0_45\jre\lib\modules\jdk.boot.jar,C:\Program Files\java\jdk1.6.0_45\jre\classes,C:\Program Files\java\jdk1.6.0_45\jre\lib\ext\dnsns.jar,C:\Program Files\java\jdk1.6.0_45\jre\lib\ext\localedata.jar,C:\Program Files\java\jdk1.6.0_45\jre\lib\ext\sunjce_provider.jar,C:\Program Files\java\jdk1.6.0_45\jre\lib\ext\sunmscapi.jar,C:\Program Files\MATLAB\R2015a\toolbox\javabuilder\jar\javabuilder.jar]
+[loading com\mathworks\toolbox\javabuilder\internal\MWComponentInstance.class(com\mathworks\toolbox\javabuilder\internal:MWComponentInstance.class)]
+warning: com\mathworks\toolbox\javabuilder\internal\MWComponentInstance.class(com\mathworks\toolbox\javabuilder\internal:MWComponentInstance.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+[loading com\mathworks\toolbox\javabuilder\Disposable.class(com\mathworks\toolbox\javabuilder:Disposable.class)]
+warning: com\mathworks\toolbox\javabuilder\Disposable.class(com\mathworks\toolbox\javabuilder:Disposable.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+[loading java\lang\Object.class(java\lang:Object.class)]
+[loading java\util\Set.class(java\util:Set.class)]
+[loading com\mathworks\toolbox\javabuilder\internal\MWFunctionSignature.class(com\mathworks\toolbox\javabuilder\internal:MWFunctionSignature.class)]
+warning: com\mathworks\toolbox\javabuilder\internal\MWFunctionSignature.class(com\mathworks\toolbox\javabuilder\internal:MWFunctionSignature.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+[loading com\mathworks\toolbox\javabuilder\internal\MWMCR.class(com\mathworks\toolbox\javabuilder\internal:MWMCR.class)]
+warning: com\mathworks\toolbox\javabuilder\internal\MWMCR.class(com\mathworks\toolbox\javabuilder\internal:MWMCR.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+[loading com\mathworks\toolbox\javabuilder\MWException.class(com\mathworks\toolbox\javabuilder:MWException.class)]
+warning: com\mathworks\toolbox\javabuilder\MWException.class(com\mathworks\toolbox\javabuilder:MWException.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+[loading java\lang\String.class(java\lang:String.class)]
+[loading com\mathworks\toolbox\javabuilder\MWComponentOptions.class(com\mathworks\toolbox\javabuilder:MWComponentOptions.class)]
+warning: com\mathworks\toolbox\javabuilder\MWComponentOptions.class(com\mathworks\toolbox\javabuilder:MWComponentOptions.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+[loading java\util\List.class(java\util:List.class)]
+[loading com\mathworks\toolbox\javabuilder\pooling\Poolable.class(com\mathworks\toolbox\javabuilder\pooling:Poolable.class)]
+warning: com\mathworks\toolbox\javabuilder\pooling\Poolable.class(com\mathworks\toolbox\javabuilder\pooling:Poolable.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+[loading java\rmi\Remote.class(java\rmi:Remote.class)]
+[loading java\rmi\RemoteException.class(java\rmi:RemoteException.class)]
+[checking HanningFilter.Class1]
+[loading java\lang\Throwable.class(java\lang:Throwable.class)]
+[loading java\util\HashSet.class(java\util:HashSet.class)]
+[loading java\util\Collection.class(java\util:Collection.class)]
+[loading java\util\AbstractSet.class(java\util:AbstractSet.class)]
+[loading java\util\AbstractCollection.class(java\util:AbstractCollection.class)]
+[loading java\lang\Iterable.class(java\lang:Iterable.class)]
+[loading java\lang\Exception.class(java\lang:Exception.class)]
+[loading java\lang\Class.class(java\lang:Class.class)]
+[loading com\mathworks\toolbox\javabuilder\MWCtfExtractLocation.class(com\mathworks\toolbox\javabuilder:MWCtfExtractLocation.class)]
+warning: com\mathworks\toolbox\javabuilder\MWCtfExtractLocation.class(com\mathworks\toolbox\javabuilder:MWCtfExtractLocation.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+[loading java\io\File.class(java\io:File.class)]
+[loading com\mathworks\toolbox\javabuilder\MWCtfDirectorySource.class(com\mathworks\toolbox\javabuilder:MWCtfDirectorySource.class)]
+warning: com\mathworks\toolbox\javabuilder\MWCtfDirectorySource.class(com\mathworks\toolbox\javabuilder:MWCtfDirectorySource.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+[loading com\mathworks\toolbox\javabuilder\MWCtfSource.class(com\mathworks\toolbox\javabuilder:MWCtfSource.class)]
+warning: com\mathworks\toolbox\javabuilder\MWCtfSource.class(com\mathworks\toolbox\javabuilder:MWCtfSource.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+[loading java\util\Arrays.class(java\util:Arrays.class)]
+[loading java\lang\Error.class(java\lang:Error.class)]
+[loading java\lang\RuntimeException.class(java\lang:RuntimeException.class)]
+[loading java\util\Iterator.class(java\util:Iterator.class)]
+[wrote C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\classes\HanningFilter\Class1.class]
+[checking HanningFilter.HanningFilterMCRFactory]
+[loading com\mathworks\toolbox\javabuilder\MWCtfClassLoaderSource.class(com\mathworks\toolbox\javabuilder:MWCtfClassLoaderSource.class)]
+warning: com\mathworks\toolbox\javabuilder\MWCtfClassLoaderSource.class(com\mathworks\toolbox\javabuilder:MWCtfClassLoaderSource.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+[wrote C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\classes\HanningFilter\HanningFilterMCRFactory.class]
+[checking HanningFilter.Class1Remote]
+[loading java\io\IOException.class(java\io:IOException.class)]
+[wrote C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\classes\HanningFilter\Class1Remote.class]
+[total 752ms]
+11 warnings
+Executing command: ""C:\Program Files\java\jdk1.6.0_45\bin\javac" -verbose -classpath "C:\Program Files\MATLAB\R2015a\toolbox\javabuilder\jar\javabuilder.jar" -d "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\classes" "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\Class1.java" "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\HanningFilterMCRFactory.java" "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\Class1Remote.java" "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter\package-info.java""Executing command: ""C:\Program Files\java\jdk1.6.0_45\bin\jar" -vcf "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\HanningFilter.jar" -C "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\classes" ."added manifest
+adding: HanningFilter/(in = 0) (out= 0)(stored 0%)
+adding: HanningFilter/Class1.class(in = 3899) (out= 1630)(deflated 58%)
+adding: HanningFilter/Class1Remote.class(in = 332) (out= 229)(deflated 31%)
+adding: HanningFilter/HanningFilter.ctf(in = 248038) (out= 246331)(deflated 0%)
+adding: HanningFilter/HanningFilterMCRFactory.class(in = 1830) (out= 772)(deflated 57%)
+Executing command: ""C:\Program Files\java\jdk1.6.0_45\bin\javadoc" -d "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html" -sourcepath "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing" -classpath "C:\Program Files\MATLAB\R2015a\toolbox\javabuilder\jar\javabuilder.jar" HanningFilter"Creating destination directory: "C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\"
+Loading source files for package HanningFilter...
+Constructing Javadoc information...
+warning: com\mathworks\toolbox\javabuilder\internal\MWComponentInstance.class(com\mathworks\toolbox\javabuilder\internal:MWComponentInstance.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+warning: com\mathworks\toolbox\javabuilder\Disposable.class(com\mathworks\toolbox\javabuilder:Disposable.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+warning: com\mathworks\toolbox\javabuilder\internal\MWFunctionSignature.class(com\mathworks\toolbox\javabuilder\internal:MWFunctionSignature.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+warning: com\mathworks\toolbox\javabuilder\internal\MWMCR.class(com\mathworks\toolbox\javabuilder\internal:MWMCR.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+warning: com\mathworks\toolbox\javabuilder\MWException.class(com\mathworks\toolbox\javabuilder:MWException.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+warning: com\mathworks\toolbox\javabuilder\MWComponentOptions.class(com\mathworks\toolbox\javabuilder:MWComponentOptions.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+warning: com\mathworks\toolbox\javabuilder\pooling\Poolable.class(com\mathworks\toolbox\javabuilder\pooling:Poolable.class): major version 51 is newer than 50, the highest major version supported by this compiler.
+It is recommended that the compiler be upgraded.
+Standard Doclet version 1.6.0_45
+Building tree for all the packages and classes...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\HanningFilter/\Class1.html...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\HanningFilter/\Class1Remote.html...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\HanningFilter/\HanningFilterMCRFactory.html...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\HanningFilter/\package-frame.html...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\HanningFilter/\package-summary.html...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\HanningFilter/\package-tree.html...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\constant-values.html...
+Building index for all the packages and classes...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\overview-tree.html...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\index-all.html...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\deprecated-list.html...
+Building index for all classes...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\allclasses-frame.html...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\allclasses-noframe.html...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\index.html...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\help-doc.html...
+Generating C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_testing\doc\html\stylesheet.css...
+7 warnings
+DEMO Compiler license. 
+  The generated application will expire 30 days from today, 
+  on Fri Aug 07 13:03:50 2015.
+Packaging...
+Creating the bundle...
+Web based installer created at C:\Users\JamesS\Documents\MATLAB\CVX\MultiTemplate\Snypr\HanningFilter\for_redistribution\MyAppInstaller_web.exe.
+Packaging complete.
+Elapsed packaging time was: 2 minutes and 42 seconds.
