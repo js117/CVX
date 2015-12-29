@@ -1,0 +1,18 @@
+
+%
+% Just an easy way to get those default variables out.
+
+global M Mp g l w slope dim invalidResults
+
+% xi = [ S NS P Sdot NSdot Pdot ];
+
+% Pointfeet
+    invalidResults = 0;
+    M = 0.16
+    Mp = 0.68
+    g = 9.81
+    l = 1
+    w = 0.645
+    slope = .01
+    xi = [0.2998      0.0060       -0.5954-.006    -0.3059       0.0660       0.0871]
+    dim = 6

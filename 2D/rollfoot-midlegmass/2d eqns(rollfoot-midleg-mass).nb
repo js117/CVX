@@ -1,0 +1,504 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     22759,        440]*)
+(*NotebookOutlinePosition[     23388,        462]*)
+(*  CellTagsIndexPosition[     23344,        458]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["2-D Passive Walker Equations", "Subtitle"],
+
+Cell["\<\
+Robert D Gregg
+University of California,Berkeley\
+\>", "Subsubtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Variables", "Subsection"],
+
+Cell[BoxData[
+    \(\(q1--\) > stance\ leg\ \(\(ang\)\(.\)\), \[IndentingNewLine]\(q2--\) > 
+      swing\ leg\ \(\(ang\)\(.\)\), \[IndentingNewLine]\(u1--\) > 
+      stance\ leg\ ang . velo . , \[IndentingNewLine]\(u2--\) > 
+      swing\ leg\ ang . velo . , \[IndentingNewLine]\(gamma\ --\) > \ 
+      the\ \(\(slope\)\(.\)\)\)], "DisplayFormula"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Equations of Motion", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{
+      RowBox[{"Solve", "[", 
+        RowBox[{
+          RowBox[{"{", 
+            RowBox[{
+              RowBox[{
+                
+                RowBox[{\(4\ g\ \((2\ M + Mp)\)\ R\ Sin[gamma]\), 
+                  "+", \(2\ g\ \((M + 2\ L\ M + 2\ L\ Mp - 
+                        2\ \((2\ M + Mp)\)\ R)\)\ Sin[gamma - q\_1]\), 
+                  "+", \(2\ R\ \((2\ Mp\ \((\(-L\) + R)\) + 
+                        M\ \((\(-1\) - 2\ L + 4\ R)\))\)\ Sin[
+                      q\_1]\ u\_1\%2\), 
+                  "+", \(2\ \((\(-1\) + 
+                        2\ L)\)\ M\ \((\((\(-L\) + R)\)\ Sin[q\_1 - q\_2] + 
+                        R\ Sin[q\_2])\)\ u\_2\%2\), "+", 
+                  
+                  RowBox[{\((4\ Mp\ \((L - R)\)\^2 + 
+                        M\ \((1 + 4\ L\^2 - 4\ R - 8\ L\ R + 8\ R\^2)\) + 
+                        2\ R\ \((M + 2\ L\ M + 2\ L\ Mp - 
+                              2\ \((2\ M + Mp)\)\ R)\)\ Cos[q\_1])\), " ", 
+                    SuperscriptBox[\(u\_1\), "\[Prime]",
+                      MultilineFunction->None]}], "+", 
+                  RowBox[{
+                  "2", " ", \((R\ \((2\ \((2\ M + Mp)\)\ R + \((M + 2\ L\ M + 
+                                    2\ L\ Mp - 2\ \((2\ M + Mp)\)\ R)\)\ Cos[
+                                  q\_1])\) - \((\(-1\) + 
+                              2\ L)\)\ M\ \((R + \((L - R)\)\ Cos[
+                                  q\_1])\)\ Cos[
+                            q\_2] + \((\(-1\) + 2\ L)\)\ M\ \((\(-L\) + 
+                              R)\)\ Sin[q\_1]\ Sin[q\_2])\), " ", 
+                    SuperscriptBox[\(u\_2\), "\[Prime]",
+                      MultilineFunction->None]}]}], "\[Equal]", "0"}], ",", 
+              RowBox[{
+                RowBox[{\((\(-1\) + 2\ L)\), " ", "M", " ", 
+                  RowBox[{"(", 
+                    RowBox[{\(\(-2\)\ g\ Sin[gamma - q\_2]\), "+", 
+                      RowBox[{"2", " ", \((L - R)\), " ", 
+                        RowBox[{"(", 
+                          RowBox[{\(Sin[q\_1 - q\_2]\ u\_1\%2\), "-", 
+                            RowBox[{\(Cos[q\_1 - q\_2]\), " ", 
+                              SuperscriptBox[\(u\_1\), "\[Prime]",
+                                MultilineFunction->None]}]}], ")"}]}], "+", 
+                      RowBox[{\((\(-1\) + 2\ L - 2\ R\ Cos[q\_2])\), " ", 
+                        SuperscriptBox[\(u\_2\), "\[Prime]",
+                          MultilineFunction->None]}]}], ")"}]}], "\[Equal]", 
+                "0"}]}], "}"}], ",", 
+          RowBox[{"{", 
+            RowBox[{
+              SuperscriptBox[\(u\_1\), "\[Prime]",
+                MultilineFunction->None], ",", 
+              SuperscriptBox[\(u\_2\), "\[Prime]",
+                MultilineFunction->None]}], "}"}]}], "]"}], " ", "//", 
+      "FullSimplify"}]], "Input"],
+
+Cell[BoxData[
+    RowBox[{"{", 
+      RowBox[{"{", 
+        RowBox[{
+          RowBox[{
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None], 
+            "\[Rule]", \(\((2\ \((g\ \((\((\(-1\) + 
+                                  2\ L)\)\ \((\((3\ M + 2\ Mp)\)\ R\ Sin[
+                                      gamma] + \((M\ \((1 + L - 3\ R)\) + 
+                                        2\ Mp\ \((L - R)\))\)\ Sin[
+                                      gamma - q\_1])\) - 
+                            2\ R\ \((2\ Mp\ \((\(-L\) + R)\) + 
+                                  M\ \((\(-1\) - 2\ L + 4\ R)\))\)\ Cos[
+                                gamma]\ Cos[q\_2]\ Sin[
+                                q\_1] - \((\(-1\) + 2\ L)\)\ M\ Cos[
+                                2\ q\_2]\ \((R\ Sin[gamma] + \((L - R)\)\ Sin[
+                                      gamma + q\_1])\) + 
+                            2\ R\ Cos[
+                                gamma]\ \((\(-2\)\ \((2\ M + 
+                                        Mp)\)\ R - \((M + 2\ L\ M + 
+                                        2\ L\ Mp - 
+                                        2\ \((2\ M + Mp)\)\ R)\)\ Cos[
+                                      q\_1])\)\ Sin[
+                                q\_2] + \((\(-1\) + 
+                                  2\ L)\)\ M\ \((R\ Cos[
+                                      gamma] + \((L - R)\)\ Cos[
+                                      gamma + q\_1])\)\ Sin[
+                                2\ q\_2])\) + \((\(-\((\(-1\) + 
+                                    2\ L)\)\)\ R\ \((M + L\ M + 2\ L\ Mp - 
+                                  3\ M\ R - 2\ Mp\ R + 2\ M\ R\ Cos[q\_2] + 
+                                  M\ \((\(-L\) + R)\)\ Cos[2\ q\_2])\)\ Sin[
+                                q\_1] + \((L - 
+                                  R)\)\ \((\(-R\)\ \((M + 2\ L\ M + 
+                                        2\ L\ Mp - 
+                                        2\ \((2\ M + Mp)\)\ R)\)\ Cos[
+                                      q\_2]\ Sin[
+                                      2\ q\_1] + \((\(-1\) + 
+                                        2\ L)\)\ M\ \((L - R)\)\ Cos[
+                                      2\ q\_2]\ Sin[2\ q\_1] + 
+                                  2\ R\ Cos[
+                                      q\_1]\ \((2\ \((2\ M + 
+                                        Mp)\)\ R + \((M + 2\ L\ M + 
+                                        2\ L\ Mp - 
+                                        2\ \((2\ M + Mp)\)\ R)\)\ Cos[
+                                        q\_1])\)\ Sin[
+                                      q\_2] - \((\(-1\) + 
+                                        2\ L)\)\ M\ \((R\ Cos[
+                                        q\_1] + \((L - R)\)\ Cos[
+                                        2\ q\_1])\)\ Sin[
+                                      2\ q\_2])\))\)\ u\_1\%2 + \((\(-1\) + 
+                            2\ L)\)\ M\ \((\(-1\) + 2\ L - 
+                            2\ R\ Cos[q\_2])\)\ \((\((\(-L\) + R)\)\ Sin[
+                                q\_1 - q\_2] + 
+                            R\ Sin[q\_2])\)\ u\_2\%2)\))\)/\((\((\(-1\) + 
+                        2\ L)\)\ \((\(-4\)\ Mp\ \((L - R)\)\^2 + 
+                        M\ \((\(-1\) - 2\ L\^2 + 4\ \((1 + L)\)\ R - 
+                              6\ R\^2)\) + 
+                        2\ R\ \((\(-M\)\ \((1 + L - 3\ R)\) + 
+                              2\ Mp\ \((\(-L\) + R)\))\)\ Cos[q\_1])\) - 
+                  2\ R\ \((\(-2\)\ Mp\ \((L - R)\)\^2 + 
+                        M\ \((\(-1\) + L - 2\ L\^2 + 
+                              2\ L\ R + \((3 - 4\ R)\)\ R)\) + 
+                        2\ \((\(-1\) + 2\ L)\)\ M\ R\ Cos[
+                            q\_1] + \((L - R)\)\ \((M + 2\ L\ M + 2\ L\ Mp - 
+                              2\ \((2\ M + Mp)\)\ R)\)\ Cos[2\ q\_1])\)\ Cos[
+                      q\_2] + 
+                  2\ \((\(-1\) + 2\ L)\)\ M\ \((L - 
+                        R)\)\ \((R\ Cos[q\_1] + \((L - R)\)\ Cos[
+                            2\ q\_1])\)\ Cos[2\ q\_2] - 
+                  4\ \((L - 
+                        R)\)\ R\ \((2\ \((2\ M + Mp)\)\ R + \((M + 2\ L\ M + 
+                              2\ L\ Mp - 2\ \((2\ M + Mp)\)\ R)\)\ Cos[
+                            q\_1])\)\ Sin[q\_1]\ Sin[q\_2] + 
+                  2\ \((\(-1\) + 2\ L)\)\ M\ \((L - R)\)\ \((R + 
+                        2\ \((L - R)\)\ Cos[q\_1])\)\ Sin[q\_1]\ Sin[
+                      2\ q\_2])\)\)}], ",", 
+          RowBox[{
+            SuperscriptBox[\(u\_2\), "\[Prime]",
+              MultilineFunction->None], 
+            "\[Rule]", \(\((2\ \((g\ \((\(-\((L - R)\)\)\ \((M + 2\ L\ M + 
+                                  2\ L\ Mp - 2\ \((2\ M + Mp)\)\ R)\)\ Cos[
+                                gamma + q\_2]\ Sin[
+                                2\ q\_1] - \((2\ Mp\ \((L - R)\)\^2 + 
+                                  M\ \((1 + L\ \((\(-1\) + 2\ L)\) - 3\ R - 
+                                        2\ L\ R + 4\ R\^2)\))\)\ Sin[
+                                gamma - q\_2] + 
+                            4\ \((2\ M + Mp)\)\ \((L - R)\)\ R\ Sin[
+                                gamma]\ Sin[q\_1]\ Sin[q\_2] + 
+                            2\ R\ Cos[
+                                q\_1]\ \((\((\(-1\) + 2\ L)\)\ M\ Cos[
+                                      q\_2]\ Sin[
+                                      gamma] + \((M + 2\ L\ M + 2\ L\ Mp - 
+                                        2\ \((2\ M + Mp)\)\ R)\)\ Cos[
+                                      gamma]\ Sin[q\_2])\) + \((L - 
+                                  R)\)\ \((M + 2\ L\ M + 2\ L\ Mp - 
+                                  2\ \((2\ M + Mp)\)\ R)\)\ Cos[2\ q\_1]\ Sin[
+                                gamma + q\_2])\) + \((L - 
+                            R)\)\ \((\((\((4\ Mp\ \((L - R)\)\^2 + 
+                                        M\ \((1 + 4\ L\^2 - 4\ R - 8\ L\ R + 
+                                        8\ R\^2)\))\)\ Cos[q\_2]\ Sin[
+                                      q\_1] - \((2\ R\ \((M + 2\ L\ M + 
+                                        2\ L\ Mp - 
+                                        2\ \((2\ M + 
+                                        Mp)\)\ R)\) + \((4\ Mp\ \((L - \
+R)\)\^2 + M\ \((1 + 4\ L\^2 - 4\ R - 8\ L\ R + 8\ R\^2)\))\)\ Cos[
+                                        q\_1])\)\ Sin[q\_2])\)\ u\_1\%2 + 
+                            2\ \((\(-1\) + 2\ L)\)\ M\ Cos[
+                                q\_1 - 
+                                  q\_2]\ \((\((\(-L\) + R)\)\ Sin[
+                                      q\_1 - q\_2] + 
+                                  R\ Sin[
+                                      q\_2])\)\ u\_2\%2)\))\))\)/\((\((\(-1\) \
++ 2\ L)\)\ \((\(-4\)\ Mp\ \((L - R)\)\^2 + 
+                        M\ \((\(-1\) - 2\ L\^2 + 4\ \((1 + L)\)\ R - 
+                              6\ R\^2)\) + 
+                        2\ R\ \((\(-M\)\ \((1 + L - 3\ R)\) + 
+                              2\ Mp\ \((\(-L\) + R)\))\)\ Cos[q\_1])\) - 
+                  2\ R\ \((\(-2\)\ Mp\ \((L - R)\)\^2 + 
+                        M\ \((\(-1\) + L - 2\ L\^2 + 
+                              2\ L\ R + \((3 - 4\ R)\)\ R)\) + 
+                        2\ \((\(-1\) + 2\ L)\)\ M\ R\ Cos[
+                            q\_1] + \((L - R)\)\ \((M + 2\ L\ M + 2\ L\ Mp - 
+                              2\ \((2\ M + Mp)\)\ R)\)\ Cos[2\ q\_1])\)\ Cos[
+                      q\_2] + 
+                  2\ \((\(-1\) + 2\ L)\)\ M\ \((L - 
+                        R)\)\ \((R\ Cos[q\_1] + \((L - R)\)\ Cos[
+                            2\ q\_1])\)\ Cos[2\ q\_2] - 
+                  4\ \((L - 
+                        R)\)\ R\ \((2\ \((2\ M + Mp)\)\ R + \((M + 2\ L\ M + 
+                              2\ L\ Mp - 2\ \((2\ M + Mp)\)\ R)\)\ Cos[
+                            q\_1])\)\ Sin[q\_1]\ Sin[q\_2] + 
+                  2\ \((\(-1\) + 2\ L)\)\ M\ \((L - R)\)\ \((R + 
+                        2\ \((L - R)\)\ Cos[q\_1])\)\ Sin[q\_1]\ Sin[
+                      2\ q\_2])\)\)}]}], "}"}], "}"}]], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Impact Equations", "Subsection"],
+
+Cell[BoxData[
+    \(The\ NEW\ guard\ \ \((along\ with\ previous\ directional\ constraint)\)\
+\ is\)], "Input"],
+
+Cell[BoxData[
+    \(R + L\ Cos[q\_1] - L\ Cos[q\_2] - R\ Cos[2\ q\_1 + q\_2]\  \[Equal] \ 
+      0\)], "Input",
+  FontSize->16],
+
+Cell[BoxData[
+    \(The\ NEW\ impact\ equations\ are\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Solve[{1\/4\ \((\((\((\(-1\) + 2\ L)\)\ M\ \((\(-1\) + 2\ R)\) + 
+                        2\ R\ \((M - 2\ L\ M - 4\ M\ R - 2\ Mp\ R)\)\ Cos[
+                            q\_1] + 
+                        2\ \((R\ \((2\ Mp\ \((\(-L\) + R)\) + 
+                                    M\ \((\(-1\) - 2\ L + 4\ R)\))\)\ Cos[
+                                  2\ q\_1] + \((2\ L\ \((M + 
+                                        L\ Mp)\) - \((M + 2\ L\ M + 
+                                        2\ L\ Mp)\)\ R)\)\ Cos[q\_1 - q\_2] + 
+                              R\ \((\((M + 2\ L\ M + 2\ L\ Mp)\)\ Cos[q\_2] + 
+                                    2\ \((2\ M + Mp)\)\ R\ Cos[
+                                        2\ q\_1 + q\_2] + \((M + 2\ L\ M + 
+                                        2\ L\ Mp - 
+                                        2\ \((2\ M + Mp)\)\ R)\)\ Cos[
+                                        3\ q\_1 + 
+                                        q\_2])\))\))\)\ u\_1 + \((\(-1\) + 
+                        2\ L)\)\ M\ \((\(-1\) + 2\ R\ Cos[q\_1 + q\_2] - 
+                        2\ R\ Cos[
+                            2\ \((q\_1 + 
+                                  q\_2)\)])\)\ u\_2)\)\[IndentingNewLine] \
+\[Equal] \ 1\/4\ \((\((M + 4\ L\^2\ M + 4\ L\^2\ Mp - 
+                        4\ \((M + 2\ L\ M + 2\ L\ Mp)\)\ R + 
+                        8\ \((2\ M + Mp)\)\ R\^2 + 
+                        4\ R\ \((M + 2\ L\ M + 2\ L\ Mp - 
+                              2\ \((2\ M + Mp)\)\ R)\)\ Cos[q\_2] - 
+                        2\ \((\(-1\) + 
+                              2\ L)\)\ M\ \((R + \((L - R)\)\ Cos[
+                                  q\_2])\)\ Cos[q\_1] + 
+                        2\ \((\(-1\) + 2\ L)\)\ M\ \((\(-L\) + R)\)\ Sin[
+                            q\_2]\ Sin[q\_1])\)\ up\_1 - \((\(-1\) + 
+                        2\ L)\)\ M\ \((1 - 2\ L + 
+                        2\ \((L - R)\)\ Cos[q\_1 - q\_2] + 
+                        2\ R\ Cos[
+                            q\_1])\)\ up\_2)\), \[IndentingNewLine]\
+\[IndentingNewLine]\(-\(1\/4\)\)\ \((\(-1\) + 2\ L)\)\ M\ \((1 - 2\ R + 
+                  2\ R\ Cos[
+                      q\_1])\)\ u\_1\[IndentingNewLine] == \(-\(1\/4\)\)\ \((\
+\(-1\) + 2\ L)\)\ M\ \((2\ \((\((L - R)\)\ Cos[q\_1 - q\_2] + 
+                        R\ Cos[q\_1])\)\ up\_1 + \((1 - 
+                        2\ L)\)\ up\_2)\)}, \[IndentingNewLine]\
+\[IndentingNewLine]{up\_1, up\_2}] // FullSimplify\)], "Input"],
+
+Cell[BoxData[
+    \({{up\_1 \[Rule] \((2\ \((M\ R\^2 + 
+                      R\ \((M + 2\ \((M + Mp)\)\ R)\)\ Cos[q\_1] + 
+                      R\ \((M + 2\ L\ M + 2\ L\ Mp - 3\ M\ R - 
+                            2\ Mp\ R)\)\ Cos[2\ q\_1] - 
+                      L\ M\ Cos[q\_1 - q\_2] - 
+                      2\ L\^2\ Mp\ Cos[q\_1 - q\_2] + 
+                      2\ L\ Mp\ R\ Cos[q\_1 - q\_2] + 
+                      2\ M\ R\^2\ Cos[q\_1 - q\_2] + 
+                      L\ M\ R\ Cos[2\ q\_1 - q\_2] - 
+                      M\ R\^2\ Cos[2\ q\_1 - q\_2] - M\ R\ Cos[q\_2] - 
+                      L\ M\ R\ Cos[q\_2] - 2\ L\ Mp\ R\ Cos[q\_2] - 
+                      M\ R\^2\ Cos[q\_2] - 4\ M\ R\^2\ Cos[2\ q\_1 + q\_2] - 
+                      2\ Mp\ R\^2\ Cos[2\ q\_1 + q\_2] + 
+                      R\ \((2\ Mp\ \((\(-L\) + R)\) + 
+                            M\ \((\(-1\) - 2\ L + 4\ R)\))\)\ Cos[
+                          3\ q\_1 + q\_2])\)\ u\_1 + \((\(-1\) + 
+                      2\ L)\)\ M\ \((1 - 2\ R\ Cos[q\_1 + q\_2] + 
+                      2\ R\ Cos[
+                          2\ \((q\_1 + q\_2)\)])\)\ u\_2)\)/\((M\ \((\(-1\) - 
+                      2\ L\^2 + 4\ L\ R + 4\ \((1 - 3\ R)\)\ R)\) - 
+                4\ Mp\ \((L\^2 - 2\ L\ R + 2\ R\^2)\) + 
+                4\ R\ \((\(-M\)\ \((1 + L - 3\ R)\) + 
+                      2\ Mp\ \((\(-L\) + R)\))\)\ Cos[q\_2] + 
+                2\ M\ Cos[
+                    2\ q\_1]\ \((R\^2 + 
+                      2\ \((L - R)\)\ R\ Cos[q\_2] + \((L - R)\)\^2\ Cos[
+                          2\ q\_2])\) + 
+                4\ M\ \((L - R)\)\ \((R + \((L - R)\)\ Cos[q\_2])\)\ Sin[
+                    2\ q\_1]\ Sin[q\_2])\), 
+        up\_2 \[Rule] \((\((\(-4\)\ \((\(-1\) + L)\)\ L\^2\ Mp + 
+                      4\ Mp\ \((L - R)\)\ R\ \((\(-2\) + 3\ R)\) + 
+                      M\ \((1 - 
+                            2\ R\ \((3 + L + 2\ L\^2 - 6\ L\ R + 
+                                  R\ \((\(-11\) + 12\ R)\))\))\) + 
+                      2\ \((R\ \((\((M - L\ M + 2\ L\^2\ M + 2\ L\^2\ Mp - 
+                                        2\ \((M + 2\ L\ M + 2\ L\ Mp)\)\ R + 
+                                        6\ \((2\ M + Mp)\)\ R\^2)\)\ Cos[
+                                      q\_1] + 
+                                  2\ \((2\ M + Mp)\)\ R\^2\ Cos[
+                                      2\ q\_1] + \((1 - 2\ L)\)\ M\ R\ Cos[
+                                      3\ q\_1] - \((L - R)\)\ \((M + 
+                                        2\ L\ M + 2\ L\ Mp - 
+                                        2\ \((2\ M + Mp)\)\ R)\)\ Cos[
+                                      4\ q\_1])\) + 
+                            R\ \((\(-2\)\ Mp\ \((L - R)\)\ \((\(-2\) + L + 
+                                        3\ R)\) + 
+                                  M\ \((2 + 2\ L - 11\ R - 2\ L\ R + 
+                                        12\ R\^2)\) + \((2\ L\^2\ \((M + 
+                                        Mp)\) + L\ \((M - 2\ M\ R)\) + 
+                                        R\ \((M - 
+                                        8\ \((2\ M + Mp)\)\ R)\))\)\ Cos[
+                                      q\_1] - 
+                                  2\ L\ \((M + 
+                                        L\ Mp - \((2\ M + Mp)\)\ R)\)\ Cos[
+                                      2\ q\_1] + \((L\ \((M + 2\ L\ M + 
+                                        2\ L\ Mp)\) - \((M + 6\ L\ M + 
+                                        4\ L\ Mp)\)\ R)\)\ Cos[3\ q\_1] + 
+                                  R\ \((2\ Mp\ \((\(-L\) + R)\) + 
+                                        M\ \((\(-1\) - 2\ L + 4\ R)\))\)\ Cos[
+                                      4\ q\_1])\)\ Cos[
+                                q\_2] - \((L - 
+                                  R)\)\ \((R\ \((2\ Mp\ \((L + R)\) + 
+                                        M\ \((1 + 2\ L + 4\ R)\))\)\ Cos[
+                                      q\_1] + 
+                                  2\ \((L\ \((M + L\ Mp)\) - \((2\ M + 
+                                        Mp)\)\ R\^2)\)\ Cos[2\ q\_1])\)\ Cos[
+                                2\ q\_2] - 
+                            2\ R\ \((\((2\ L\ \((M + 
+                                        L\ Mp)\) - \((\((3 + 10\ L)\)\ M + 
+                                        8\ L\ Mp)\)\ R + 
+                                        6\ \((2\ M + Mp)\)\ R\^2)\)\ Cos[
+                                      q\_1] - \((L\ \((M + 2\ L\ M + 
+                                        2\ L\ Mp)\) - \((M + 6\ L\ M + 
+                                        4\ L\ Mp)\)\ R + 
+                                        4\ \((2\ M + Mp)\)\ R\^2)\)\ Cos[
+                                      2\ q\_1] + 
+                                  R\ \((\(-2\)\ \((2\ M + Mp)\)\ R - \((M + 
+                                        2\ L\ M + 2\ L\ Mp - 
+                                        2\ \((2\ M + Mp)\)\ R)\)\ Cos[
+                                        3\ q\_1])\))\)\ Sin[q\_1]\ Sin[
+                                q\_2] + \((\(-L\) + 
+                                  R)\)\ \((R\ \((M + 2\ L\ M + 2\ L\ Mp - 
+                                        2\ \((2\ M + Mp)\)\ R)\) + 
+                                  4\ \((L - R)\)\ \((M + 
+                                        L\ Mp - \((2\ M + Mp)\)\ R)\)\ Cos[
+                                      q\_1])\)\ Sin[q\_1]\ Sin[
+                                2\ q\_2])\))\)\ u\_1 + 
+                2\ \((\(-1\) + 
+                      2\ L)\)\ M\ \((R\ Cos[q\_1] + \((L - R)\)\ Cos[
+                          q\_1 - q\_2])\)\ \((1 - 2\ R\ Cos[q\_1 + q\_2] + 
+                      2\ R\ Cos[
+                          2\ \((q\_1 + q\_2)\)])\)\ u\_2)\)/\((\((\(-1\) + 
+                    2\ L)\)\ \((M\ \((\(-1\) - 2\ L\^2 + 4\ L\ R + 
+                          4\ \((1 - 3\ R)\)\ R)\) - 
+                    4\ Mp\ \((L\^2 - 2\ L\ R + 2\ R\^2)\) + 
+                    4\ R\ \((\(-M\)\ \((1 + L - 3\ R)\) + 
+                          2\ Mp\ \((\(-L\) + R)\))\)\ Cos[q\_2] + 
+                    2\ M\ Cos[
+                        2\ q\_1]\ \((R\^2 + 
+                          2\ \((L - R)\)\ R\ Cos[q\_2] + \((L - R)\)\^2\ Cos[
+                              2\ q\_2])\) + 
+                    4\ M\ \((L - R)\)\ \((R + \((L - R)\)\ Cos[q\_2])\)\ Sin[
+                        2\ q\_1]\ Sin[q\_2])\))\)}}\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowSize->{644, 809},
+WindowMargins->{{Automatic, 0}, {20, Automatic}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 48, 0, 51, "Subtitle"],
+Cell[1827, 55, 79, 3, 50, "Subsubtitle"],
+
+Cell[CellGroupData[{
+Cell[1931, 62, 31, 0, 38, "Subsection"],
+Cell[1965, 64, 347, 5, 87, "DisplayFormula"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2349, 74, 41, 0, 38, "Subsection"],
+
+Cell[CellGroupData[{
+Cell[2415, 78, 2838, 54, 227, "Input"],
+Cell[5256, 134, 8122, 134, 739, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[13427, 274, 38, 0, 38, "Subsection"],
+Cell[13468, 276, 110, 2, 27, "Input"],
+Cell[13581, 280, 127, 3, 31, "Input"],
+Cell[13711, 285, 65, 1, 27, "Input"],
+
+Cell[CellGroupData[{
+Cell[13801, 290, 2491, 40, 432, "Input"],
+Cell[16295, 332, 6424, 103, 632, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

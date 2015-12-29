@@ -1,0 +1,1293 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     42595,       1073]*)
+(*NotebookOutlinePosition[     43281,       1097]*)
+(*  CellTagsIndexPosition[     43237,       1093]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell["Three-D Passive Walking Equations", "Title"],
+
+Cell["\<\
+Equations of motion for three segment system
+
+This notebook demonstrates how equations of motion are derived for the \
+passive walking model. The equations are then exported to Matlab or C for \
+further analysis.\
+\>", "Subsubtitle"],
+
+Cell["\<\
+Author of Package:
+Arthur D. Kuo
+Dept. Mechanical Engineering & Applied Mechanics
+University of Michigan
+e-mail: artkuo@umich.edu
+web: http://www-personal.engin.umich.edu/~artkuo
+
+Modeling:
+Robert D. Gregg
+Dept. Electrical Engineering & Computer Sciences
+University of California, Berkeley
+e-mail: rdgregg@eecs.berkeley.edu\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Initialization", "Subsection"],
+
+Cell[TextData[{
+  "The Dynamics Workbench is a ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " package developed by Art Kuo for the purpose of generating dynamical \
+equations of motion. It can be obtained from \
+http://www-personal.engin.umich.edu/~artkuo. It must be available to the ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " kernel if this notebook is to be run. However, "
+}], "Text"],
+
+Cell[BoxData[
+    \(Needs["\<DynamicsWorkbench`\>", \ "\<H:\DynamicsWorkbench.m\>"]\)], \
+"Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Equations of Motion", "Subsection"],
+
+Cell["\<\
+Degrees of freedom: roll: u[1], stance: u[2], swing: u[3]. For more \
+information, see \"Stabilization of lateral motion in passive dynamic \
+walking,\" by A. D. Kuo, International Journal of Robotics Research, vol. 18, \
+no. 9, September 1999, pp. 917-930.\
+\>", "Text"],
+
+Cell["\<\
+The following are Dynamics Workbench commands that define the model. There \
+are four bodies, the foot, stance leg (sta), pelvis (pelv), and swing leg \
+(swi). The foot has no mass and only provides a kinematic rolling constraint.\
+\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\(NewModel[];\)\), "\[IndentingNewLine]", 
+    \(AddBody[foot, ground, Hinge, RelativeTo \[Rule] ground, 
+      Axis \[Rule] ground[1], Mass \[Rule] 0, Inertia \[Rule] 0, 
+      InbToJnt \[Rule] 0, BodyToJnt \[Rule] 0]\)}], "Input"],
+
+Cell[BoxData[
+    \({{1}, {1}}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Define a new set of vectors that are splayed relative to the stance leg \
+reference frame.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(sta1[2] = Cos[qy] sta[2] - Sin[qy] sta[3]; \ 
+    sta1[3] = Cos[qy] sta[3] + Sin[qy] sta[2];\), "\[IndentingNewLine]", 
+    \(AddBody[sta, foot, Hinge, RelativeTo \[Rule] foot, 
+      Axis \[Rule] foot[3], Mass -> M, 
+      Inertia -> Il \((sta[1] ** sta[1] + sta1[3] ** sta1[3])\), 
+      InbToJnt \[Rule] 0, BodyToJnt -> \(-C\)\ sta1[2]]\)}], "Input"],
+
+Cell[BoxData[
+    \({{2}, {2}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(AddBody[pelv, sta, Fixed, Mass -> Mp, Inertia -> {Ip, Ip, 0}, 
+      InbToJnt -> \((L - C)\) sta1[2], BodyToJnt -> w/2\ pelv[3]]\)], "Input"],
+
+Cell[BoxData[
+    \({{}, {}}\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+The following commands cast the velocity and acceleration of the pelvis into \
+the unit vectors for the pelvis reference frame. This has no effect on the \
+equations, but is useful for simplifying the expressions at an early stage.\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(VelCOM[pelv] = CastV[VelCOM[pelv], pelv];\)\), "\n", 
+    \(\(AccCOM[pelv] = CastV[AccCOM[pelv], pelv];\)\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(swi1[2] = Cos[qy] swi[2] + Sin[qy] swi[3]; \ 
+    swi1[3] = Cos[qy] swi[3] - Sin[qy] swi[2]; 
+    AddBody[swi, pelv, Hinge, RelativeTo \[Rule] pelv, Axis \[Rule] pelv[3], 
+      Inertia -> Il \((swi[1] ** swi[1] + swi1[3] ** swi1[3])\), Mass -> M, 
+      InbToJnt -> \(-w\)/2\ pelv[3], 
+      BodyToJnt -> \((L - C)\) swi1[2]]\)], "Input"],
+
+Cell[BoxData[
+    \({{3}, {3}}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[{
+    \(\(VelCOM[swi] = CastV[VelCOM[swi], swi];\)\), "\n", 
+    \(\(AccCOM[swi] = CastV[AccCOM[swi], swi];\)\)}], "Input"],
+
+Cell["\<\
+The second foot is also massless and has no bearing on the equations. It is \
+used to calculate the height of the foot above ground.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(AddBody[foot2, \ swi, \ Hinge, \ Axis -> \(-swi[1]\), Mass -> 0, 
+      Inertia -> 0, InbToJnt -> \(-C\)\ swi1[2], BodyToJnt \[Rule] 0, \ 
+      Qdof \[Rule] 1, Udof \[Rule] 1]\)], "Input"],
+
+Cell[BoxData[
+    \({{1}, {1}}\)], "Output"]
+}, Open  ]],
+
+Cell["Apply gravitational forces", "Text"],
+
+Cell[BoxData[{
+    \(\(AppFrc[sta, Mass[sta]\ grav, 0];\)\), "\n", 
+    \(\(AppFrc[pelv, Mass[pelv]\ grav, \ 0];\)\), "\n", 
+    \(\(AppFrc[swi, Mass[swi]\ grav, 0];\)\)}], "Input"],
+
+Cell["Apply the torque due to the hip spring", "Text"],
+
+Cell[BoxData[{
+    \(\(AppTrq[sta, \ Kp\ q[3]\ sta[3]];\)\), "\n", 
+    \(\(AppTrq[swi, \ \(-Kp\)\ q[3]\ swi[3]];\)\)}], "Input"],
+
+Cell["\<\
+Define gravity
+The first choice is for a ground reference frame that is along the slope, \
+whereas the second choice keeps the ground frame regardless of slope.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(\( (*\(grav = 
+          g\ \((\(-Cos[gamma]\)\ ground[2] + 
+                Sin[gamma]\ ground[
+                    1])\);\)*) \)\(\[IndentingNewLine]\)\(grav = 
+        g\ \((\(-\ ground[2]\))\);\)\)\)], "Input",
+  AspectRatioFixed->True],
+
+Cell["The EOM[] command generates equations of motion", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(eom\  = \ EOM[]\  // \ Simplify\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{"{", 
+      RowBox[{
+        RowBox[{
+          
+          RowBox[{\(C\ g\ M\ Cos[qy]\ Cos[q\_2]\ Sin[q\_1]\), 
+            "+", \(g\ L\ Mp\ Cos[qy]\ Cos[q\_2]\ Sin[q\_1]\), 
+            "+", \(g\ M\ Cos[
+                qy]\ \((L\ Cos[q\_2] + \((C - L)\)\ Cos[q\_2 + q\_3])\)\ Sin[
+                q\_1]\), 
+            "+", \(Cos[qy]\^2\ u\_1\ \((\((\((Il + C\^2\ M + L\^2\ Mp)\)\ Sin[
+                            2\ q\_2] + 
+                        2\ M\ \((L\ Cos[q\_2] + \((C - L)\)\ Cos[
+                                  q\_2 + q\_3])\)\ \((L\ Sin[
+                                  q\_2] + \((C - L)\)\ Sin[q\_2 + q\_3])\) + 
+                        Il\ Sin[2\ \((q\_2 + q\_3)\)])\)\ u\_2 + 
+                  2\ \((\((C - L)\)\ L\ M\ Cos[
+                            q\_2] + \((Il + \((C - L)\)\^2\ M)\)\ Cos[
+                            q\_2 + q\_3])\)\ Sin[q\_2 + q\_3]\ u\_3)\)\), "+",
+             
+            
+            RowBox[{\((\(-Ip\) - Il\ Cos[q\_2]\^2 - C\^2\ M\ Cos[q\_2]\^2 - 
+                  L\^2\ Mp\ Cos[qy]\^2\ Cos[q\_2]\^2 - 
+                  Il\ Cos[q\_2 + q\_3]\^2 - 
+                  M\ Cos[qy]\^2\ \((L\ Cos[q\_2] + \((C - L)\)\ Cos[q\_2 + \
+q\_3])\)\^2 - 1\/2\ M\ \((2\ C - 3\ L + L\ Cos[2\ \((q\_2 + q\_3)\)])\)\ Sin[
+                      qy]\ \((\(-w\) + \((C - 2\ L)\)\ Sin[qy])\) - 
+                  M\ Cos[q\_2 + q\_3]\^2\ \((w - \((C - 2\ L)\)\ Sin[
+                            qy])\)\ \((w + L\ Sin[qy])\) - 
+                  1\/4\ Mp\ \((w + 2\ L\ Sin[qy])\)\^2 - 
+                  Il\ Sin[qy]\^2\ Sin[q\_2]\^2 - 
+                  C\^2\ M\ Sin[qy]\^2\ Sin[q\_2]\^2 - 
+                  Il\ Sin[qy]\^2\ Sin[q\_2 + q\_3]\^2 - 
+                  M\ w\ \((w - \((C - 2\ L)\)\ Sin[
+                            qy])\)\ Sin[q\_2 + q\_3]\^2)\), " ", 
+              SuperscriptBox[\(u\_1\), "\[Prime]",
+                MultilineFunction->None]}], "+", 
+            RowBox[{\(Cos[qy]\), " ", 
+              RowBox[{"(", 
+                
+                RowBox[{\(\((Cos[
+                            q\_2]\ \((\(L\ Mp\ w\)\/2 + \((Il + C\^2\ M + 
+                                    L\^2\ Mp)\)\ Sin[qy])\) + 
+                        Cos[q\_2 + q\_3]\ \((\(-Il\)\ Sin[qy] + 
+                              M\ \((C - L + 
+                                    L\ Cos[
+                                        q\_3])\)\ \((w - \((C - 2\ L)\)\ Sin[
+                                        qy])\))\) + 
+                        L\ M\ \((w - \((C - 2\ L)\)\ Sin[qy])\)\ Sin[
+                            q\_3]\ Sin[q\_2 + q\_3])\)\ u\_2\%2\), 
+                  "-", \(Cos[
+                      q\_2 + q\_3]\ \((\((\(-C\) + 
+                              L)\)\ M\ w + \((Il + \((C\^2 - 3\ C\ L + 
+                                    2\ L\^2)\)\ M)\)\ Sin[
+                            qy])\)\ u\_3\ \((2\ u\_2 + u\_3)\)\), "+", 
+                  RowBox[{\(1\/2\), 
+                    " ", \((\((L\ Mp\ w + 
+                              2\ \((Il + C\^2\ M + L\^2\ Mp)\)\ Sin[
+                                  qy])\)\ Sin[q\_2] - 
+                        2\ \((L\ M\ Cos[
+                                  q\_2 + 
+                                    q\_3]\ \((w - \((C - 2\ L)\)\ Sin[
+                                        qy])\)\ Sin[
+                                  q\_3] + \((\((\(-C\) + 
+                                        L)\)\ M\ w + \((Il + \((C\^2 - 
+                                        3\ C\ L + 2\ L\^2)\)\ M)\)\ Sin[qy] - 
+                                    L\ M\ Cos[
+                                        q\_3]\ \((w - \((C - 2\ L)\)\ Sin[
+                                        qy])\))\)\ Sin[q\_2 + q\_3])\))\), 
+                    " ", 
+                    SuperscriptBox[\(u\_2\), "\[Prime]",
+                      MultilineFunction->None]}], "-", 
+                  
+                  RowBox[{\((\((\(-C\) + 
+                              L)\)\ M\ w + \((Il + \((C\^2 - 3\ C\ L + 
+                                    2\ L\^2)\)\ M)\)\ Sin[qy])\), 
+                    " ", \(Sin[q\_2 + q\_3]\), " ", 
+                    SuperscriptBox[\(u\_3\), "\[Prime]",
+                      MultilineFunction->None]}]}], ")"}]}]}], 
+          "\[Equal]", \(1\/2\ g\ \((2\ M + Mp)\)\ Cos[
+              q\_1]\ \((w + 2\ L\ Sin[qy])\)\)}], ",", 
+        RowBox[{
+          RowBox[{\(1\/2\), " ", \(Cos[qy]\), " ", 
+            RowBox[{"(", 
+              
+              RowBox[{\(2\ C\ g\ M\ Cos[q\_1]\ Sin[q\_2]\), 
+                "+", \(2\ g\ L\ Mp\ Cos[q\_1]\ Sin[q\_2]\), 
+                "+", \(2\ g\ M\ Cos[
+                    q\_1]\ \((L\ Sin[q\_2] + \((C - L)\)\ Sin[
+                          q\_2 + q\_3])\)\), 
+                "-", \(Cos[
+                    qy]\ \((\((Il + C\^2\ M + L\^2\ \((M + Mp)\))\)\ Sin[
+                          2\ q\_2] + \((Il + \((C - L)\)\^2\ M)\)\ Sin[
+                          2\ \((q\_2 + q\_3)\)] + 
+                      2\ \((C - L)\)\ L\ M\ Sin[2\ q\_2 + q\_3])\)\ u\_1\%2\),
+                 "+", \(2\ \((C - L)\)\ L\ M\ Cos[qy]\ Sin[
+                    q\_3]\ u\_3\ \((2\ u\_2 + u\_3)\)\), "+", 
+                
+                RowBox[{\((\((L\ \((2\ M + Mp)\)\ w + 
+                            2\ \((Il + C\^2\ M - C\ L\ M + 
+                                  L\^2\ \((2\ M + Mp)\))\)\ Sin[qy] - 
+                            2\ Cos[
+                                q\_3]\ \((\((\(-C\) + 
+                                        L)\)\ M\ w + \((Il + \((C\^2 - 
+                                        3\ C\ L + 2\ L\^2)\)\ M)\)\ Sin[
+                                      qy])\))\)\ Sin[q\_2] - 
+                      2\ Cos[q\_2]\ \((\((\(-C\) + 
+                                  L)\)\ M\ w + \((Il + \((C\^2 - 3\ C\ L + 
+                                        2\ L\^2)\)\ M)\)\ Sin[qy])\)\ Sin[
+                          q\_3])\), " ", 
+                  SuperscriptBox[\(u\_1\), "\[Prime]",
+                    MultilineFunction->None]}], "-", 
+                RowBox[{
+                "2", " ", \(Cos[qy]\), 
+                  " ", \((2\ Il + 2\ C\^2\ M - 2\ C\ L\ M + 2\ L\^2\ M + 
+                      L\^2\ Mp + 2\ \((C - L)\)\ L\ M\ Cos[q\_3])\), " ", 
+                  SuperscriptBox[\(u\_2\), "\[Prime]",
+                    MultilineFunction->None]}], "-", 
+                RowBox[{
+                "2", " ", \(Cos[qy]\), 
+                  " ", \((Il + \((C - L)\)\^2\ M + \((C - L)\)\ L\ M\ Cos[
+                          q\_3])\), " ", 
+                  SuperscriptBox[\(u\_3\), "\[Prime]",
+                    MultilineFunction->None]}]}], ")"}]}], "\[Equal]", "0"}], 
+        ",", 
+        RowBox[{
+          RowBox[{\(Cos[qy]\), " ", 
+            RowBox[{"(", 
+              
+              RowBox[{\(g\ \((C - L)\)\ M\ Cos[q\_1]\ Sin[q\_2 + q\_3]\), 
+                "+", \(Cos[
+                    qy]\ \((\(-\((C - L)\)\)\ L\ M\ Cos[
+                          q\_2] - \((Il + \((C - L)\)\^2\ M)\)\ Cos[
+                          q\_2 + q\_3])\)\ Sin[q\_2 + q\_3]\ u\_1\%2\), 
+                "+", \(L\ \((\(-C\) + L)\)\ M\ Cos[qy]\ Sin[q\_3]\ u\_2\%2\), 
+                "-", 
+                
+                RowBox[{\((\((\(-C\) + 
+                            L)\)\ M\ w + \((Il + \((C\^2 - 3\ C\ L + 
+                                  2\ L\^2)\)\ M)\)\ Sin[qy])\), 
+                  " ", \(Sin[q\_2 + q\_3]\), " ", 
+                  SuperscriptBox[\(u\_1\), "\[Prime]",
+                    MultilineFunction->None]}], "-", 
+                
+                RowBox[{\(Cos[qy]\), 
+                  " ", \((Il + \((C - L)\)\^2\ M + \((C - L)\)\ L\ M\ Cos[
+                          q\_3])\), " ", 
+                  SuperscriptBox[\(u\_2\), "\[Prime]",
+                    MultilineFunction->None]}], "-", 
+                RowBox[{\((Il + \((C - L)\)\^2\ M)\), " ", \(Cos[qy]\), " ", 
+                  SuperscriptBox[\(u\_3\), "\[Prime]",
+                    MultilineFunction->None]}]}], ")"}]}], "\[Equal]", 
+          "0"}]}], "}"}]], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MassMatrix[eom]\  /. {C \[Rule] 0, qy \[Rule] 0, Kp \[Rule] 0, \ 
+          Il \[Rule] 0, Ip \[Rule] 0, w \[Rule] w}\  // 
+      FullSimplify\)], "Input"],
+
+Cell[BoxData[
+    \({{{1\/4\ \((2\ L\^2\ M + \((4\ M + Mp)\)\ w\^2 + 
+                2\ L\^2\ \((2\ \((M + Mp)\)\ Cos[q\_2]\^2 - 
+                      4\ M\ Cos[q\_2]\ Cos[q\_2 + q\_3] + 
+                      M\ Cos[2\ \((q\_2 + 
+                                q\_3)\)])\))\), \(-\(1\/2\)\)\ L\ \((2\ M + 
+                  Mp)\)\ w\ Sin[q\_2] + L\ M\ w\ Sin[q\_2 + q\_3], 
+          L\ M\ w\ Sin[
+              q\_2 + q\_3]}, {\(-\(1\/2\)\)\ L\ \((2\ M + Mp)\)\ w\ Sin[
+                q\_2] + L\ M\ w\ Sin[q\_2 + q\_3], 
+          L\^2\ \((2\ M + Mp - 2\ M\ Cos[q\_3])\), \(-L\^2\)\ M\ \((\(-1\) + 
+                Cos[q\_3])\)}, {L\ M\ w\ Sin[
+              q\_2 + q\_3], \(-L\^2\)\ M\ \((\(-1\) + Cos[q\_3])\), 
+          L\^2\ M}}, {\(-\(1\/2\)\)\ g\ \((2\ M + Mp)\)\ w\ Cos[q\_1] + 
+          g\ L\ \((\((M + Mp)\)\ Cos[q\_2] - M\ Cos[q\_2 + q\_3])\)\ Sin[
+              q\_1] + L\^2\ u\_1\ \((\((\((M + Mp)\)\ Sin[2\ q\_2] + 
+                      M\ \((Sin[2\ \((q\_2 + q\_3)\)] - 
+                            2\ Sin[2\ q\_2 + q\_3])\))\)\ u\_2 - 
+                4\ M\ Sin[q\_2 + q\_3\/2]\ Sin[q\_3\/2]\ Sin[
+                    q\_2 + q\_3]\ u\_3)\) + 
+          1\/2\ L\ w\ \((\((2\ M + Mp)\)\ Cos[q\_2]\ u\_2\%2 - 
+                2\ M\ Cos[q\_2]\ Cos[q\_3]\ \((u\_2 + u\_3)\)\^2 + 
+                2\ M\ Sin[q\_2]\ Sin[
+                    q\_3]\ \((u\_2 + u\_3)\)\^2)\), \(-\(1\/2\)\)\ L\ \((2\ g\
+\ Cos[q\_1]\ \((\(-\((M + Mp)\)\)\ Sin[q\_2] + M\ Sin[q\_2 + q\_3])\) + 
+              L\ \((\((M + Mp)\)\ Sin[2\ q\_2] + 
+                    M\ \((Sin[2\ \((q\_2 + q\_3)\)] - 
+                          2\ Sin[2\ q\_2 + q\_3])\))\)\ u\_1\%2 + 
+              2\ L\ M\ Sin[q\_3]\ u\_3\ \((2\ u\_2 + u\_3)\))\), 
+        L\ M\ \((\(-Sin[q\_2 + q\_3]\)\ \((g\ Cos[q\_1] + 
+                    L\ \((\(-Cos[q\_2]\) + Cos[q\_2 + q\_3])\)\ u\_1\%2)\) + 
+              L\ Sin[q\_3]\ u\_2\%2)\)}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Energy", "Subsection"],
+
+Cell["\<\
+Gravitational potential energy (there is also spring potential energy)\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(PE = \(-\((Mass[sta]\ grav . PosCOM[sta] + 
+              Mass[swi]\ grav . PosCOM[swi] + 
+              Mass[pelv]\ grav . PosCOM[pelv])\)\)\  // 
+        FullSimplify\)], "Input",
+  AspectRatioFixed->True],
+
+Cell[BoxData[
+    \(1\/2\ g\ \((2\ Cos[qy]\ Cos[
+              q\_1]\ \((\((\((C + L)\)\ M + L\ Mp)\)\ Cos[
+                    q\_2] + \((C - L)\)\ M\ Cos[q\_2 + q\_3])\) + \((2\ M + 
+                Mp)\)\ \((w + 2\ L\ Sin[qy])\)\ Sin[q\_1])\)\)], "Output"]
+}, Open  ]],
+
+Cell["Kinetic energy", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(KE = 
+      1\/2\ \((Mass[sta]\ VelCOM[sta] . VelCOM[sta] + 
+              Mass[swi]\ VelCOM[swi] . VelCOM[swi] + 
+              Mass[pelv]\ VelCOM[pelv] . VelCOM[pelv] + 
+              AngVel[sta] . Inertia[sta] . AngVel[sta] + 
+              AngVel[swi] . Inertia[swi] . AngVel[swi] + 
+              AngVel[pelv] . Inertia[pelv] . AngVel[pelv])\) // 
+        FullSimplify\)], "Input",
+  AspectRatioFixed->True],
+
+Cell[BoxData[
+    \(1\/2\ \((Ip\ u\_1\%2 + Il\ Cos[q\_2]\^2\ u\_1\%2 + 
+          Il\ Cos[q\_2 + q\_3]\^2\ u\_1\%2 + 
+          Il\ Sin[qy]\ Sin[
+              q\_2]\ u\_1\ \((Sin[qy]\ Sin[q\_2]\ u\_1 - Cos[qy]\ u\_2)\) + 
+          Il\ Cos[qy]\ u\_2\ \((\(-Sin[qy]\)\ Sin[q\_2]\ u\_1 + 
+                Cos[qy]\ u\_2)\) + 
+          M\ \((C\^2\ Cos[q\_2]\^2\ u\_1\%2 + \((C\ Sin[qy]\ Sin[q\_2]\ u\_1 \
+- C\ Cos[qy]\ u\_2)\)\^2)\) + 
+          Mp\ \((L\^2\ Cos[qy]\^2\ Cos[q\_2]\^2\ u\_1\%2 + 
+                1\/4\ Cos[q\_2]\^2\ \((w + 2\ L\ Sin[qy])\)\^2\ u\_1\%2 + \((\
+\(-\(1\/2\)\)\ \((w + 2\ L\ Sin[qy])\)\ Sin[q\_2]\ u\_1 + L\ Cos[qy]\ u\_2)\)\
+\^2)\) + Il\ Sin[qy]\ Sin[
+              q\_2 + q\_3]\ u\_1\ \((Sin[qy]\ Sin[q\_2 + q\_3]\ u\_1 + 
+                Cos[qy]\ \((u\_2 + u\_3)\))\) + 
+          Il\ Cos[qy]\ u\_2\ \((Sin[qy]\ Sin[q\_2 + q\_3]\ u\_1 + 
+                Cos[qy]\ \((u\_2 + u\_3)\))\) + 
+          Il\ Cos[qy]\ u\_3\ \((Sin[qy]\ Sin[q\_2 + q\_3]\ u\_1 + 
+                Cos[qy]\ \((u\_2 + u\_3)\))\) + 
+          M\ \((Cos[qy]\^2\ \((L\ Cos[q\_2] + \((C - L)\)\ Cos[q\_2 + \
+q\_3])\)\^2\ u\_1\%2 + \((Cos[q\_2 + q\_3]\ \((w - \((C - 2\ L)\)\ Sin[qy])\)\
+\ u\_1 + L\ Cos[qy]\ Sin[q\_3]\ u\_2)\)\^2 + \((\((w - \((C - 2\ L)\)\ \
+Sin[qy])\)\ Sin[q\_2 + q\_3]\ u\_1 + Cos[qy]\ \((\(-L\)\ Cos[q\_3]\ u\_2 + \
+\((\(-C\) + L)\)\ \((u\_2 + u\_3)\))\))\)\^2)\))\)\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Lagrangian\  = \ 
+      KE\  - \ PE /. {C \[Rule] 0, qy \[Rule] 0, Kp \[Rule] 0, \ 
+            Il \[Rule] 0, Ip \[Rule] 0, \ w \[Rule] w}\  // 
+        FullSimplify\)], "Input"],
+
+Cell[BoxData[
+    \(1\/2\ \((\(-g\)\ \((2\ L\ Cos[
+                    q\_1]\ \((\((M + Mp)\)\ Cos[q\_2] - 
+                      M\ Cos[q\_2 + q\_3])\) + \((2\ M + Mp)\)\ w\ Sin[
+                    q\_1])\) + 
+          Mp\ \((1\/4\ \((2\ L\^2 + w\^2 + 
+                      2\ L\^2\ Cos[2\ q\_2])\)\ u\_1\%2 - 
+                L\ w\ Sin[q\_2]\ u\_1\ u\_2 + L\^2\ u\_2\%2)\) + 
+          M\ \((L\^2\ \((Cos[q\_2] - Cos[q\_2 + q\_3])\)\^2\ u\_1\%2 + \((w\ \
+Cos[q\_2 + q\_3]\ u\_1 + L\ Sin[q\_3]\ u\_2)\)\^2 + \((w\ Sin[q\_2 + q\_3]\ u\
+\_1 + L\ \((\(-\((\(-1\) + Cos[q\_3])\)\)\ u\_2 + u\_3)\))\)\^2)\))\)\)], \
+"Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(sL1\  = \ FullSimplify[D[Lagrangian, q[1]]]\), "\[IndentingNewLine]", 
+    \(sL2\  = \ FullSimplify[D[Lagrangian, q[2]]]\), "\[IndentingNewLine]", 
+    \(sL3\  = \ FullSimplify[D[Lagrangian, q[3]]]\), "\[IndentingNewLine]", 
+    \(tL1\  = \ 
+      FullSimplify[D[D[Lagrangian, u[1]], t]]\), "\[IndentingNewLine]", 
+    \(tL2\  = \ 
+      FullSimplify[D[D[Lagrangian, u[2]], t]]\), "\[IndentingNewLine]", 
+    \(tL3\  = \ FullSimplify[D[D[Lagrangian, u[3]], t]]\)}], "Input"],
+
+Cell[BoxData[
+    \(\(-\(1\/2\)\)\ g\ \((\((2\ M + Mp)\)\ w\ Cos[q\_1] - 
+          2\ L\ \((\((M + Mp)\)\ Cos[q\_2] - M\ Cos[q\_2 + q\_3])\)\ Sin[
+              q\_1])\)\)], "Output"],
+
+Cell[BoxData[
+    \(\(-\(1\/2\)\)\ L\ \((2\ g\ Cos[
+              q\_1]\ \((\(-\((M + Mp)\)\)\ Sin[q\_2] + 
+                M\ Sin[q\_2 + q\_3])\) + 
+          u\_1\ \((L\ \((\((M + Mp)\)\ Sin[2\ q\_2] + 
+                      M\ \((Sin[2\ \((q\_2 + q\_3)\)] - 
+                            2\ Sin[2\ q\_2 + q\_3])\))\)\ u\_1 + 
+                w\ \((\((2\ M + Mp)\)\ Cos[q\_2] - 
+                      2\ M\ Cos[q\_2 + q\_3])\)\ u\_2 - 
+                2\ M\ w\ Cos[q\_2 + q\_3]\ u\_3)\))\)\)], "Output"],
+
+Cell[BoxData[
+    \(1\/2\ L\ M\ \((\(-2\)\ g\ Cos[q\_1]\ Sin[q\_2 + q\_3] + 
+          L\ \((2\ Cos[q\_2]\ Sin[q\_2 + q\_3] - 
+                Sin[2\ \((q\_2 + q\_3)\)])\)\ u\_1\%2 + 
+          2\ w\ Cos[q\_2 + q\_3]\ u\_1\ \((u\_2 + u\_3)\) + 
+          2\ L\ Sin[q\_3]\ u\_2\ \((u\_2 + u\_3)\))\)\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(1\/4\), " ", 
+      RowBox[{"(", 
+        RowBox[{
+          RowBox[{
+          "4", " ", "L", " ", "M", " ", "w", " ", \(Cos[q\_2 + q\_3]\), 
+            " ", \(u\_3\), " ", 
+            SuperscriptBox[\(q\_2\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{
+          "4", " ", "L", " ", "M", " ", "w", " ", \(Cos[q\_2 + q\_3]\), 
+            " ", \(u\_3\), " ", 
+            SuperscriptBox[\(q\_3\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{"2", " ", "L", " ", "w", " ", \(u\_2\), " ", 
+            RowBox[{"(", 
+              RowBox[{
+                
+                RowBox[{\((\(-\((2\ M + Mp)\)\)\ Cos[q\_2] + 
+                      2\ M\ Cos[q\_2 + q\_3])\), " ", 
+                  SuperscriptBox[\(q\_2\), "\[Prime]",
+                    MultilineFunction->None]}], "+", 
+                RowBox[{"2", " ", "M", " ", \(Cos[q\_2 + q\_3]\), " ", 
+                  SuperscriptBox[\(q\_3\), "\[Prime]",
+                    MultilineFunction->None]}]}], ")"}]}], "+", 
+          RowBox[{"4", " ", \(L\^2\), " ", \(u\_1\), " ", 
+            RowBox[{"(", 
+              RowBox[{
+                
+                RowBox[{\(-\((\((M + Mp)\)\ Sin[2\ q\_2] + 
+                        M\ \((Sin[2\ \((q\_2 + q\_3)\)] - 
+                              2\ Sin[2\ q\_2 + q\_3])\))\)\), " ", 
+                  SuperscriptBox[\(q\_2\), "\[Prime]",
+                    MultilineFunction->None]}], "+", 
+                RowBox[{
+                "M", " ", \((Sin[q\_3] - Sin[2\ \((q\_2 + q\_3)\)] + 
+                      Sin[2\ q\_2 + q\_3])\), " ", 
+                  SuperscriptBox[\(q\_3\), "\[Prime]",
+                    MultilineFunction->None]}]}], ")"}]}], "+", 
+          RowBox[{"4", " ", \(L\^2\), " ", "M", " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{"2", " ", \(L\^2\), " ", "Mp", " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{"4", " ", "M", " ", \(w\^2\), " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{"Mp", " ", \(w\^2\), " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{"2", " ", \(L\^2\), " ", "M", " ", \(Cos[2\ q\_2]\), " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{"2", " ", \(L\^2\), " ", "Mp", " ", \(Cos[2\ q\_2]\), " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}], "-", 
+          RowBox[{"4", " ", \(L\^2\), " ", "M", " ", \(Cos[q\_3]\), " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{
+          "2", " ", \(L\^2\), " ", "M", " ", \(Cos[2\ \((q\_2 + q\_3)\)]\), 
+            " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}], "-", 
+          RowBox[{
+          "4", " ", \(L\^2\), " ", "M", " ", \(Cos[2\ q\_2 + q\_3]\), " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}], "-", 
+          RowBox[{
+          "4", " ", "L", " ", "M", " ", "w", " ", \(Sin[q\_2]\), " ", 
+            SuperscriptBox[\(u\_2\), "\[Prime]",
+              MultilineFunction->None]}], "-", 
+          RowBox[{
+          "2", " ", "L", " ", "Mp", " ", "w", " ", \(Sin[q\_2]\), " ", 
+            SuperscriptBox[\(u\_2\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{
+          "4", " ", "L", " ", "M", " ", "w", " ", \(Sin[q\_2 + q\_3]\), " ", 
+            SuperscriptBox[\(u\_2\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{
+          "4", " ", "L", " ", "M", " ", "w", " ", \(Sin[q\_2 + q\_3]\), " ", 
+            SuperscriptBox[\(u\_3\), "\[Prime]",
+              MultilineFunction->None]}]}], ")"}]}]], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(1\/2\), " ", "L", " ", 
+      RowBox[{"(", 
+        RowBox[{
+          RowBox[{"w", " ", \(u\_1\), " ", 
+            RowBox[{"(", 
+              RowBox[{
+                
+                RowBox[{\((\(-\((2\ M + Mp)\)\)\ Cos[q\_2] + 
+                      2\ M\ Cos[q\_2 + q\_3])\), " ", 
+                  SuperscriptBox[\(q\_2\), "\[Prime]",
+                    MultilineFunction->None]}], "+", 
+                RowBox[{"2", " ", "M", " ", \(Cos[q\_2 + q\_3]\), " ", 
+                  SuperscriptBox[\(q\_3\), "\[Prime]",
+                    MultilineFunction->None]}]}], ")"}]}], "+", 
+          RowBox[{
+          "w", " ", \((\(-2\)\ M - Mp + 2\ M\ Cos[q\_3])\), 
+            " ", \(Sin[q\_2]\), " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{
+          "2", " ", "M", " ", "w", " ", \(Cos[q\_2]\), " ", \(Sin[q\_3]\), 
+            " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{"2", " ", "L", " ", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{
+                "M", " ", \(Sin[q\_3]\), " ", \((2\ u\_2 + u\_3)\), " ", 
+                  SuperscriptBox[\(q\_3\), "\[Prime]",
+                    MultilineFunction->None]}], "+", 
+                RowBox[{"2", " ", "M", " ", 
+                  SuperscriptBox[\(u\_2\), "\[Prime]",
+                    MultilineFunction->None]}], "+", 
+                RowBox[{"Mp", " ", 
+                  SuperscriptBox[\(u\_2\), "\[Prime]",
+                    MultilineFunction->None]}], "+", 
+                RowBox[{"M", " ", 
+                  SuperscriptBox[\(u\_3\), "\[Prime]",
+                    MultilineFunction->None]}], "-", 
+                RowBox[{"M", " ", \(Cos[q\_3]\), " ", 
+                  RowBox[{"(", 
+                    RowBox[{
+                      RowBox[{"2", " ", 
+                        SuperscriptBox[\(u\_2\), "\[Prime]",
+                          MultilineFunction->None]}], "+", 
+                      SuperscriptBox[\(u\_3\), "\[Prime]",
+                        MultilineFunction->None]}], ")"}]}]}], ")"}]}]}], 
+        ")"}]}]], "Output"],
+
+Cell[BoxData[
+    RowBox[{"L", " ", "M", " ", 
+      RowBox[{"(", 
+        RowBox[{
+          RowBox[{"w", " ", \(Cos[q\_2 + q\_3]\), " ", \(u\_1\), " ", 
+            RowBox[{"(", 
+              RowBox[{
+                SuperscriptBox[\(q\_2\), "\[Prime]",
+                  MultilineFunction->None], "+", 
+                SuperscriptBox[\(q\_3\), "\[Prime]",
+                  MultilineFunction->None]}], ")"}]}], "+", 
+          RowBox[{"w", " ", \(Sin[q\_2 + q\_3]\), " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{"L", " ", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{\(Sin[q\_3]\), " ", \(u\_2\), " ", 
+                  SuperscriptBox[\(q\_3\), "\[Prime]",
+                    MultilineFunction->None]}], "-", 
+                RowBox[{\((\(-1\) + Cos[q\_3])\), " ", 
+                  SuperscriptBox[\(u\_2\), "\[Prime]",
+                    MultilineFunction->None]}], "+", 
+                SuperscriptBox[\(u\_3\), "\[Prime]",
+                  MultilineFunction->None]}], ")"}]}]}], ")"}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(M[q1, q2, q3]\  = \ 
+      MatrixForm[{{1\/4\ \((2\ L\^2\ M + \((4\ M + Mp)\)\ w\^2 + 
+                  2\ L\^2\ \((2\ \((M + Mp)\)\ Cos[q\_2]\^2 - 
+                        4\ M\ Cos[q\_2]\ Cos[q\_2 + q\_3] + 
+                        M\ Cos[
+                            2\ \((q\_2 + 
+                                  q\_3)\)])\))\), \(-\(1\/2\)\)\ L\ \((2\ M + 
+                    Mp)\)\ w\ Sin[q\_2] + L\ M\ w\ Sin[q\_2 + q\_3], 
+            L\ M\ w\ Sin[
+                q\_2 + q\_3]}, {\(-\(1\/2\)\)\ L\ \((2\ M + Mp)\)\ w\ Sin[
+                  q\_2] + L\ M\ w\ Sin[q\_2 + q\_3], 
+            L\^2\ \((2\ M + Mp - 
+                  2\ M\ Cos[q\_3])\), \(-L\^2\)\ M\ \((\(-1\) + 
+                  Cos[q\_3])\)}, {L\ M\ w\ Sin[
+                q\_2 + q\_3], \(-L\^2\)\ M\ \((\(-1\) + Cos[q\_3])\), 
+            L\^2\ M}}]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(1\/4\ \((2\ L\^2\ M + \((4\ M + Mp)\)\ w\^2 + 
+                    2\ L\^2\ \((2\ \((M + Mp)\)\ Cos[q\_2]\^2 - 
+                          4\ M\ Cos[q\_2]\ Cos[q\_2 + q\_3] + 
+                          M\ Cos[
+                              2\ \((q\_2 + 
+                                    q\_3)\)])\))\)\), \(\(-\(1\/2\)\)\ L\ \
+\((2\ M + Mp)\)\ w\ Sin[q\_2] + 
+                L\ M\ w\ Sin[q\_2 + q\_3]\), \(L\ M\ w\ Sin[q\_2 + q\_3]\)},
+            {\(\(-\(1\/2\)\)\ L\ \((2\ M + Mp)\)\ w\ Sin[q\_2] + 
+                L\ M\ w\ Sin[q\_2 + q\_3]\), \(L\^2\ \((2\ M + Mp - 
+                    2\ M\ Cos[q\_3])\)\), \(\(-L\^2\)\ M\ \((\(-1\) + 
+                    Cos[q\_3])\)\)},
+            {\(L\ M\ w\ Sin[
+                  q\_2 + q\_3]\), \(\(-L\^2\)\ M\ \((\(-1\) + 
+                    Cos[q\_3])\)\), \(L\^2\ M\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell["If w=0, we get this Mass Matrix:", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Lagrangian2\  = \ 
+      KE\  - \ PE /. {C \[Rule] 0, qy \[Rule] 0, Kp \[Rule] 0, \ 
+            Il \[Rule] 0, Ip \[Rule] 0, \ w \[Rule] 0}\  // 
+        FullSimplify\)], "Input"],
+
+Cell[BoxData[
+    \(1\/2\ \((\(-2\)\ g\ Cos[
+              q\_1]\ \((L\ \((M + Mp)\)\ Cos[q\_2] - 
+                L\ M\ Cos[q\_2 + q\_3])\) + 
+          L\^2\ Mp\ \((Cos[q\_2]\^2\ u\_1\%2 + u\_2\%2)\) + 
+          L\^2\ M\ \((\((Cos[q\_2] - Cos[q\_2 + q\_3])\)\^2\ u\_1\%2 + 
+                Sin[q\_3]\^2\ u\_2\%2 + \((\(-\((\(-1\) + Cos[q\_3])\)\)\ \
+u\_2 + u\_3)\)\^2)\))\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(FullSimplify[D[Lagrangian2, q[1]]]\), "\[IndentingNewLine]", 
+    \(FullSimplify[D[Lagrangian2, q[2]]]\), "\[IndentingNewLine]", 
+    \(FullSimplify[D[Lagrangian2, q[3]]]\), "\[IndentingNewLine]", 
+    \(FullSimplify[D[D[Lagrangian2, u[1]], t]]\), "\[IndentingNewLine]", 
+    \(FullSimplify[D[D[Lagrangian2, u[2]], t]]\), "\[IndentingNewLine]", 
+    \(FullSimplify[D[D[Lagrangian2, u[3]], t]]\)}], "Input"],
+
+Cell[BoxData[
+    \(g\ \((L\ \((M + Mp)\)\ Cos[q\_2] - L\ M\ Cos[q\_2 + q\_3])\)\ Sin[
+        q\_1]\)], "Output"],
+
+Cell[BoxData[
+    \(1\/2\ L\ \((2\ g\ Cos[
+              q\_1]\ \((\((M + Mp)\)\ Sin[q\_2] - M\ Sin[q\_2 + q\_3])\) - 
+          L\ \((\((M + Mp)\)\ Sin[2\ q\_2] + 
+                M\ \((Sin[2\ \((q\_2 + q\_3)\)] - 
+                      2\ Sin[2\ q\_2 + q\_3])\))\)\ u\_1\%2)\)\)], "Output"],
+
+Cell[BoxData[
+    \(1\/2\ L\ M\ \((\(-2\)\ g\ Cos[q\_1]\ Sin[q\_2 + q\_3] + 
+          L\ \((2\ Cos[q\_2]\ Sin[q\_2 + q\_3] - 
+                Sin[2\ \((q\_2 + q\_3)\)])\)\ u\_1\%2 + 
+          2\ L\ Sin[q\_3]\ u\_2\ \((u\_2 + u\_3)\))\)\)], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(L\^2\), " ", 
+      RowBox[{"(", 
+        RowBox[{
+          RowBox[{\(-Mp\), " ", \(Sin[2\ q\_2]\), " ", \(u\_1\), " ", 
+            SuperscriptBox[\(q\_2\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{
+          "2", " ", "M", " ", \((Cos[q\_2] - Cos[q\_2 + q\_3])\), 
+            " ", \(u\_1\), " ", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{\((\(-Sin[q\_2]\) + Sin[q\_2 + q\_3])\), " ", 
+                  SuperscriptBox[\(q\_2\), "\[Prime]",
+                    MultilineFunction->None]}], "+", 
+                RowBox[{\(Sin[q\_2 + q\_3]\), " ", 
+                  SuperscriptBox[\(q\_3\), "\[Prime]",
+                    MultilineFunction->None]}]}], ")"}]}], "+", 
+          RowBox[{"Mp", " ", \(Cos[q\_2]\^2\), " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{"M", " ", \(\((Cos[q\_2] - Cos[q\_2 + q\_3])\)\^2\), " ", 
+            SuperscriptBox[\(u\_1\), "\[Prime]",
+              MultilineFunction->None]}]}], ")"}]}]], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(L\^2\), " ", 
+      RowBox[{"(", 
+        RowBox[{
+          RowBox[{"M", " ", \(Sin[q\_3]\), " ", \((2\ u\_2 + u\_3)\), " ", 
+            SuperscriptBox[\(q\_3\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{"2", " ", "M", " ", 
+            SuperscriptBox[\(u\_2\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{"Mp", " ", 
+            SuperscriptBox[\(u\_2\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          RowBox[{"M", " ", 
+            SuperscriptBox[\(u\_3\), "\[Prime]",
+              MultilineFunction->None]}], "-", 
+          RowBox[{"M", " ", \(Cos[q\_3]\), " ", 
+            RowBox[{"(", 
+              RowBox[{
+                RowBox[{"2", " ", 
+                  SuperscriptBox[\(u\_2\), "\[Prime]",
+                    MultilineFunction->None]}], "+", 
+                SuperscriptBox[\(u\_3\), "\[Prime]",
+                  MultilineFunction->None]}], ")"}]}]}], ")"}]}]], "Output"],
+
+Cell[BoxData[
+    RowBox[{\(L\^2\), " ", "M", " ", 
+      RowBox[{"(", 
+        RowBox[{
+          RowBox[{\(Sin[q\_3]\), " ", \(u\_2\), " ", 
+            SuperscriptBox[\(q\_3\), "\[Prime]",
+              MultilineFunction->None]}], "-", 
+          RowBox[{\((\(-1\) + Cos[q\_3])\), " ", 
+            SuperscriptBox[\(u\_2\), "\[Prime]",
+              MultilineFunction->None]}], "+", 
+          SuperscriptBox[\(u\_3\), "\[Prime]",
+            MultilineFunction->None]}], ")"}]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(MatrixForm[{{L\^2\ \((\((M + Mp)\)\ Cos[q\_2]\^2 - 
+                2\ M\ Cos[q\_2]\ Cos[q\_2 + q\_3] + 
+                M\ Cos[q\_2 + q\_3]\^2)\), 0, 0}, {0, 
+          L\^2\ \((2\ M + Mp - 2\ M\ Cos[q\_3])\), \(-L\^2\)\ M\ \((\(-1\) + 
+                Cos[q\_3])\)}, {0, \(-L\^2\)\ M\ \((\(-1\) + Cos[q\_3])\), 
+          L\^2\ M}}]\)], "Input"],
+
+Cell[BoxData[
+    TagBox[
+      RowBox[{"(", "\[NoBreak]", GridBox[{
+            {\(L\^2\ \((\((M + Mp)\)\ Cos[q\_2]\^2 - 
+                    2\ M\ Cos[q\_2]\ Cos[q\_2 + q\_3] + 
+                    M\ Cos[q\_2 + q\_3]\^2)\)\), "0", "0"},
+            {
+              "0", \(L\^2\ \((2\ M + Mp - 
+                    2\ M\ Cos[q\_3])\)\), \(\(-L\^2\)\ M\ \((\(-1\) + 
+                    Cos[q\_3])\)\)},
+            {"0", \(\(-L\^2\)\ M\ \((\(-1\) + Cos[q\_3])\)\), \(L\^2\ M\)}
+            }], "\[NoBreak]", ")"}],
+      Function[ BoxForm`e$, 
+        MatrixForm[ BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Contact Point", "Subsection"],
+
+Cell["\<\
+This is the contact point between the swing foot and ground, which assumes \
+that contact is down in foot reference frame from ankle. Foot reference frame \
+is not perfectly aligned with vertical because of two rotations.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Pnt3 = 
+      PosPnt[\(-C\)\ swi[2], swi] /. {C \[Rule] 0, qy \[Rule] 0, 
+            Kp \[Rule] 0, \ Il \[Rule] 0, Ip \[Rule] 0}\  // 
+        FullSimplify\)], "Input"],
+
+Cell[BoxData[
+    RowBox[{
+      TagBox[\(\(-L\)\ swi\+_\_2\),
+        HoldForm], "+", 
+      TagBox[\(L\ sta\+_\_2\),
+        HoldForm], "+", 
+      TagBox[\(\(-w\)\ pelv\+_\_3\),
+        HoldForm]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(height = 
+      Pnt3 . ground[2] /. {C \[Rule] 0, qy \[Rule] 0, Kp \[Rule] 0, \ 
+            Il \[Rule] 0, Ip \[Rule] 0}\  // FullSimplify\)], "Input"],
+
+Cell[BoxData[
+    \(L\ Cos[q\_1]\ \((Cos[q\_2] - Cos[q\_2 + q\_3])\) + 
+      w\ Sin[q\_1]\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Angular Momentum Calculations", "Subsection"],
+
+Cell["\<\
+Three equations are needed to find the stance, swing, and roll velocities \
+after impact. One component of angular momentum is conserved for three \
+different cases, providing the necessary equations.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Of whole machine about line of contact", "Subsubsection"],
+
+Cell["Angular momentum before contact is about Pnt3", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(amb = 
+      AngMom[{sta, pelv, swi}, Pnt3] . ground[3] /. {C \[Rule] 0, 
+            qy \[Rule] 0, Kp \[Rule] 0, \ Il \[Rule] 0, Ip \[Rule] 0}\  // 
+        FullSimplify\)], "Input"],
+
+Cell[BoxData[
+    \(1\/2\ L\ Mp\ \((\((\(-w\)\ Cos[q\_1] + 
+                2\ L\ Cos[q\_2]\ Sin[q\_1])\)\ Sin[
+              q\_2 + q\_3]\ u\_1 + \((2\ L\ Cos[q\_1]\ Cos[q\_3] - 
+                w\ Cos[q\_2]\ Sin[q\_1])\)\ u\_2)\)\)], "Output"]
+}, Open  ]],
+
+Cell["After contact, it's about the (new) stance leg contact point", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ama = 
+      AngMom[{sta, pelv, swi}, 0] . ground[3] /. {C \[Rule] 0, qy \[Rule] 0, 
+            Kp \[Rule] 0, \ Il \[Rule] 0, Ip \[Rule] 0}\  // 
+        FullSimplify\)], "Input",
+  AspectRatioFixed->True],
+
+Cell[BoxData[
+    \(1\/2\ L\ \((\((w\ Cos[
+                    q\_1]\ \((\(-\((2\ M + Mp)\)\)\ Sin[q\_2] + 
+                      2\ M\ Sin[q\_2 + q\_3])\) + 
+                L\ Sin[q\_1]\ \((\((M + Mp)\)\ Sin[2\ q\_2] + 
+                      M\ \((Sin[2\ \((q\_2 + q\_3)\)] - 
+                            2\ Sin[
+                                2\ q\_2 + q\_3])\))\))\)\ u\_1 + \((2\ L\ Cos[
+                    q\_1]\ \((2\ M + Mp - 2\ M\ Cos[q\_3])\) + 
+                w\ \((\((2\ M + Mp)\)\ Cos[q\_2] - 
+                      2\ M\ Cos[q\_2 + q\_3])\)\ Sin[q\_1])\)\ u\_2 - 
+          2\ M\ \((w\ Cos[q\_2 + q\_3]\ Sin[q\_1] - 
+                2\ L\ Cos[q\_1]\ Sin[q\_3\/2]\^2)\)\ u\_3)\)\)], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell["Of whole machine about foot-leg joint", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(amb2 = 
+      AngMom[{sta, pelv, swi}, PosPnt[\(-C\)\ swi1[2], \ swi]] . 
+            foot2[1] /. {C \[Rule] 0, qy \[Rule] 0, Kp \[Rule] 0, \ 
+            Il \[Rule] 0, Ip \[Rule] 0}\  // FullSimplify\)], "Input"],
+
+Cell[BoxData[
+    \(1\/4\ Mp\ \((\((4\ L\^2\ Cos[q\_2] - w\^2\ Cos[q\_2 + q\_3])\)\ u\_1 - 
+          2\ L\ w\ Sin[q\_3]\ u\_2)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ama2 = 
+      AngMom[{sta, pelv, swi}, PosPnt[\(-C\)\ sta1[2], \ sta]] . 
+            foot[1] /. {C \[Rule] 0, qy \[Rule] 0, Kp \[Rule] 0, \ 
+            Il \[Rule] 0, Ip \[Rule] 0}\  // FullSimplify\)], "Input"],
+
+Cell[BoxData[
+    \(1\/4\ \((\((2\ L\^2\ \((2\ M + Mp)\) + \((4\ M + Mp)\)\ w\^2 + 
+                2\ L\^2\ \((\((M + Mp)\)\ Cos[2\ q\_2] + 
+                      M\ \((\(-2\)\ Cos[q\_3] + Cos[2\ \((q\_2 + q\_3)\)] - 
+                            2\ Cos[2\ q\_2 + q\_3])\))\))\)\ u\_1 - 
+          2\ L\ w\ \((\((2\ M + Mp)\)\ Sin[q\_2] - 
+                2\ M\ Sin[q\_2 + q\_3])\)\ u\_2 + 
+          4\ L\ M\ w\ Sin[q\_2 + q\_3]\ u\_3)\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Of trailing leg", "Subsubsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(amb3 = 
+      AngMom[sta, PosPnt[\((L - C)\) sta1[2], sta]] . 
+            pelv[3]\  /. {C \[Rule] 0, qy \[Rule] 0, Kp \[Rule] 0, \ 
+            Il \[Rule] 0, Ip \[Rule] 0}\  // FullSimplify\)], "Input"],
+
+Cell[BoxData[
+    \(0\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ama3 = 
+      AngMom[swi, PosPnt[\((L - C)\) swi1[2], swi]] . 
+            pelv[3]\  /. {C \[Rule] 0, qy \[Rule] 0, Kp \[Rule] 0, \ 
+            Il \[Rule] 0, Ip \[Rule] 0}\  // FullSimplify\)], "Input"],
+
+Cell[BoxData[
+    \(L\ M\ \((w\ Sin[q\_2 + q\_3]\ u\_1 + 
+          L\ \((\(-\((\(-1\) + Cos[q\_3])\)\)\ u\_2 + u\_3)\))\)\)], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Export", "Subsection"],
+
+Cell["\<\
+The preceding equations are exported to Matlab or C (export code is not \
+included). In Matlab, the right-hand side of the ordinary differential \
+equations are found in fwalk3.m. In our analysis, we compile a Matlab \
+mex-file written in the C language to speed up the computations.\
+\>", "Text"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for Microsoft Windows",
+ScreenRectangle->{{0, 1680}, {0, 967}},
+Evaluator->"Local",
+CellGrouping->Manual,
+WindowSize->{1672, 933},
+WindowMargins->{{0, Automatic}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 50, 0, 95, "Title"],
+Cell[1807, 53, 243, 6, 70, "Subsubtitle"],
+Cell[2053, 61, 347, 13, 242, "Text"],
+
+Cell[CellGroupData[{
+Cell[2425, 78, 36, 0, 38, "Subsection"],
+Cell[2464, 80, 416, 10, 33, "Text"],
+Cell[2883, 92, 98, 2, 30, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3018, 99, 41, 0, 38, "Subsection"],
+Cell[3062, 101, 281, 5, 33, "Text"],
+Cell[3346, 108, 256, 5, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[3627, 117, 253, 4, 50, "Input"],
+Cell[3883, 123, 44, 1, 29, "Output"]
+}, Open  ]],
+Cell[3942, 127, 114, 3, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[4081, 134, 374, 6, 50, "Input"],
+Cell[4458, 142, 44, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4539, 148, 161, 2, 30, "Input"],
+Cell[4703, 152, 42, 1, 29, "Output"]
+}, Open  ]],
+Cell[4760, 156, 255, 4, 33, "Text"],
+Cell[5018, 162, 142, 2, 50, "Input"],
+
+Cell[CellGroupData[{
+Cell[5185, 168, 359, 6, 50, "Input"],
+Cell[5547, 176, 44, 1, 29, "Output"]
+}, Open  ]],
+Cell[5606, 180, 136, 2, 50, "Input"],
+Cell[5745, 184, 156, 3, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[5926, 191, 209, 3, 30, "Input"],
+Cell[6138, 196, 44, 1, 29, "Output"]
+}, Open  ]],
+Cell[6197, 200, 42, 0, 33, "Text"],
+Cell[6242, 202, 181, 3, 70, "Input"],
+Cell[6426, 207, 54, 0, 33, "Text"],
+Cell[6483, 209, 129, 2, 50, "Input"],
+Cell[6615, 213, 184, 4, 52, "Text"],
+Cell[6802, 219, 262, 6, 50, "Input"],
+Cell[7067, 227, 63, 0, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[7155, 231, 64, 1, 30, "Input"],
+Cell[7222, 234, 8013, 152, 338, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15284, 392, 174, 3, 30, "Input"],
+Cell[15461, 397, 1918, 31, 144, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[17416, 433, 28, 0, 38, "Subsection"],
+Cell[17447, 435, 94, 2, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[17566, 441, 227, 5, 30, "Input"],
+Cell[17796, 448, 259, 4, 42, "Output"]
+}, Open  ]],
+Cell[18070, 455, 30, 0, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[18125, 459, 432, 9, 84, "Input"],
+Cell[18560, 470, 1397, 23, 130, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[20006, 499, 198, 4, 30, "Input"],
+Cell[20207, 505, 624, 11, 76, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[20868, 521, 495, 8, 130, "Input"],
+Cell[21366, 531, 184, 3, 42, "Output"],
+Cell[21553, 536, 504, 9, 42, "Output"],
+Cell[22060, 547, 312, 5, 42, "Output"],
+Cell[22375, 554, 4056, 84, 62, "Output"],
+Cell[26434, 640, 2220, 49, 42, "Output"],
+Cell[28657, 691, 1115, 24, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[29809, 720, 862, 16, 76, "Input"],
+Cell[30674, 738, 1018, 20, 91, "Output"]
+}, Open  ]],
+Cell[31707, 761, 57, 0, 29, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[31789, 765, 199, 4, 30, "Input"],
+Cell[31991, 771, 390, 7, 42, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[32418, 783, 427, 6, 130, "Input"],
+Cell[32848, 791, 114, 2, 29, "Output"],
+Cell[32965, 795, 292, 5, 42, "Output"],
+Cell[33260, 802, 251, 4, 42, "Output"],
+Cell[33514, 808, 1106, 23, 29, "Output"],
+Cell[34623, 833, 1012, 23, 29, "Output"],
+Cell[35638, 858, 493, 11, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[36168, 874, 367, 6, 31, "Input"],
+Cell[36538, 882, 591, 13, 79, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[37166, 900, 35, 0, 38, "Subsection"],
+Cell[37204, 902, 245, 4, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[37474, 910, 189, 4, 30, "Input"],
+Cell[37666, 916, 212, 7, 32, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[37915, 928, 171, 3, 30, "Input"],
+Cell[38089, 933, 104, 2, 29, "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[38242, 941, 51, 0, 38, "Subsection"],
+Cell[38296, 943, 224, 4, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[38545, 951, 63, 0, 29, "Subsubsection"],
+Cell[38611, 953, 61, 0, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[38697, 957, 203, 4, 30, "Input"],
+Cell[38903, 963, 245, 4, 42, "Output"]
+}, Open  ]],
+Cell[39163, 970, 76, 0, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[39264, 974, 226, 5, 30, "Input"],
+Cell[39493, 981, 708, 12, 75, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[40228, 997, 62, 0, 29, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[40315, 1001, 233, 4, 30, "Input"],
+Cell[40551, 1007, 143, 2, 42, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[40731, 1014, 232, 4, 30, "Input"],
+Cell[40966, 1020, 452, 7, 42, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[41455, 1032, 40, 0, 29, "Subsubsection"],
+
+Cell[CellGroupData[{
+Cell[41520, 1036, 223, 4, 30, "Input"],
+Cell[41746, 1042, 35, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[41818, 1048, 223, 4, 30, "Input"],
+Cell[42044, 1054, 136, 2, 29, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[42241, 1063, 28, 0, 38, "Subsection"],
+Cell[42272, 1065, 307, 5, 33, "Text"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

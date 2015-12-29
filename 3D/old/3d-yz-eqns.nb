@@ -1,0 +1,1146 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     59867,       1076]*)
+(*NotebookOutlinePosition[     60511,       1098]*)
+(*  CellTagsIndexPosition[     60467,       1094]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Equations for a 3-D Point-foot, Midleg-mass, Hipped Walker", "Title"],
+
+Cell["\<\
+Modeling by Robert D. Gregg
+rdgregg@eecs.berkeley.edu
+Center for Hybrid and Embedded Software Systems
+Electrical Engineering and Computer Sciences
+University of California, Berkeley\
+\>", "Subsubtitle"],
+
+Cell[CellGroupData[{
+
+Cell["Variables", "Section"],
+
+Cell[BoxData[{
+    \(\(x5\ --\) > \ stance\ roll\ \ angle\), "\[IndentingNewLine]", 
+    \(\(x6\ --\) > \ stance\ pitch\ angle\), "\[IndentingNewLine]", 
+    \(\(x7\ --\) > \ swing\ pitch\ angle\)}], "Input"],
+
+Cell[CellGroupData[{
+
+Cell["Constants", "Subsection"],
+
+Cell[BoxData[{
+    \(\(w\ --\) > \ hip\ width\), "\[IndentingNewLine]", 
+    \(\(l\ --\) > \ leg\ length\), "\[IndentingNewLine]", 
+    \(\(Mp\ --\) > \ pelvis/hip\ mass\), "\[IndentingNewLine]", 
+    \(\(M\ --\) > \ midleg\ mass\)}], "Input"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Equations of Motion", "Section"],
+
+Cell[BoxData[
+    RowBox[{"{", 
+      RowBox[{"{", 
+        RowBox[{
+          RowBox[{
+            RowBox[{
+              SuperscriptBox["x5", "\[Prime]\[Prime]",
+                MultilineFunction->None], "[", "t", "]"}], "\[Rule]", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\(\(-4\)\ g\ w\ Cos[
+                      x5[t]]\ \((\((M\^2 + 4\ M\ Mp + 2\ Mp\^2)\)\ Cos[
+                            2\ x6[t]] + M\ \((M + Mp)\)\ Cos[2\ x7[t]] + 
+                        Mp\ \((3\ M + 2\ Mp + 
+                              M\ Cos[2\ \((x6[t] + x7[t])\)])\))\)\), 
+                  "+", \(4\ g\ l\ \((\(-3\)\ M - 4\ Mp + 
+                        2\ M\ Cos[2\ x7[t]])\)\ \((\((3\ M + 2\ Mp)\)\ Cos[
+                            x6[t]] - M\ Cos[x6[t] + x7[t]])\)\ Sin[x5[t]]\), 
+                  "+", 
+                  RowBox[{"l", " ", 
+                    RowBox[{"(", 
+                      RowBox[{
+                        RowBox[{
+                        "w", " ", \((\((M\^2 + 7\ M\ Mp + 4\ Mp\^2)\)\ Cos[
+                                  3\ x6[t]] + 
+                              Cos[x6[t]]\ \((\(-21\)\ M\^2 - 23\ M\ Mp - 
+                                    4\ Mp\^2 + 
+                                    M\ \((5\ M + 6\ Mp - 
+                                        2\ Mp\ Cos[2\ x6[t]])\)\ Cos[x7[t]] + 
+                                    2\ M\ \((9\ M + 
+                                        6\ Mp + \((M + 2\ Mp)\)\ Cos[
+                                        2\ x6[t]])\)\ Cos[2\ x7[t]] - 
+                                    M\ \((3\ M - 2\ Mp + 
+                                        2\ \((M + 3\ Mp)\)\ Cos[
+                                        2\ x6[t]])\)\ Cos[3\ x7[t]])\) - 
+                              4\ M\ \((M + 2\ Mp)\)\ Cos[x6[t]]\^2\ Sin[
+                                  x6[t]]\ Sin[2\ x7[t]] + 
+                              M\ Sin[
+                                  x6[t]]\ \((\((\(-13\)\ M - 8\ Mp + 
+                                        2\ Mp\ Cos[2\ x6[t]])\)\ Sin[
+                                        x7[t]] + \((5\ M + 4\ Mp + 
+                                        2\ \((M + 3\ Mp)\)\ Cos[
+                                        2\ x6[t]])\)\ Sin[3\ x7[t]])\))\), 
+                          " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["x5", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}], "+", 
+                        RowBox[{
+                        "2", " ", "l", 
+                          " ", \((\(-3\)\ M - 4\ Mp + 2\ M\ Cos[2\ x7[t]])\), 
+                          " ", 
+                          RowBox[{
+                            SuperscriptBox["x5", "\[Prime]",
+                              MultilineFunction->None], "[", "t", "]"}], " ", 
+                          
+                          RowBox[{"(", 
+                            RowBox[{
+                              
+                              RowBox[{\((\((5\ M + 4\ Mp)\)\ Sin[2\ x6[t]] + 
+                                    M\ \((Sin[2\ \((x6[t] + x7[t])\)] - 
+                                        4\ Sin[2\ x6[t] + x7[t]])\))\), " ", 
+                                RowBox[{
+                                  SuperscriptBox["x6", "\[Prime]",
+                                    MultilineFunction->None], "[", "t", 
+                                  "]"}]}], "+", 
+                              RowBox[{
+                              "M", " ", \((\(-2\)\ Sin[x7[t]] + 
+                                    Sin[2\ \((x6[t] + x7[t])\)] - 
+                                    2\ Sin[2\ x6[t] + x7[t]])\), " ", 
+                                RowBox[{
+                                  SuperscriptBox["x7", "\[Prime]",
+                                    MultilineFunction->None], "[", "t", 
+                                  "]"}]}]}], ")"}]}], "+", 
+                        RowBox[{"4", " ", "w", " ", 
+                          RowBox[{"(", 
+                            RowBox[{
+                              
+                              RowBox[{\((M\^2 + 7\ M\ Mp + 4\ Mp\^2)\), 
+                                " ", \(Cos[x6[t]]\), " ", 
+                                SuperscriptBox[
+                                  RowBox[{
+                                    SuperscriptBox["x6", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}], "2"]}], "+", 
+                              RowBox[{
+                              "M", " ", \((M + 2\ Mp)\), " ", \(Cos[x6[t]]\), 
+                                " ", \(Cos[2\ x7[t]]\), " ", 
+                                SuperscriptBox[
+                                  RowBox[{
+                                    SuperscriptBox["x6", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}], "2"]}], "-", 
+                              RowBox[{
+                              "M", " ", \((M + 2\ Mp)\), " ", \(Sin[x6[t]]\), 
+                                " ", \(Sin[2\ x7[t]]\), " ", 
+                                SuperscriptBox[
+                                  RowBox[{
+                                    SuperscriptBox["x6", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}], "2"]}], "-", 
+                              RowBox[{
+                              "M", " ", \((M + 4\ Mp)\), " ", \(Cos[x6[t]]\), 
+                                " ", \(Cos[x7[t]]\), " ", 
+                                SuperscriptBox[
+                                  RowBox[{"(", 
+                                    RowBox[{
+                                      RowBox[{
+                                        SuperscriptBox["x6", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], "+", 
+                                      RowBox[{
+                                        SuperscriptBox["x7", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}]}], ")"}], "2"]}], "+", 
+                              RowBox[{
+                              "M", " ", \((M + 2\ Mp)\), " ", \(Sin[x6[t]]\), 
+                                " ", \(Sin[x7[t]]\), " ", 
+                                SuperscriptBox[
+                                  RowBox[{"(", 
+                                    RowBox[{
+                                      RowBox[{
+                                        SuperscriptBox["x6", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], "+", 
+                                      RowBox[{
+                                        SuperscriptBox["x7", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}]}], ")"}], "2"]}]}], ")"}]}]}], 
+                      ")"}]}]}], ")"}], 
+              "/", \((\(-2\)\ l\^2\ \((3\ M + 2\ Mp)\)\ \((3\ M + 4\ Mp)\) - 
+                  2\ \((2\ M\^2 + 7\ M\ Mp + 2\ Mp\^2)\)\ w\^2 + 
+                  Cos[2\ x6[
+                          t]]\ \((\(-2\)\ l\^2\ \((7\ M\^2 + 16\ M\ Mp + 
+                              8\ Mp\^2)\) - 4\ Mp\ \((2\ M + Mp)\)\ w\^2 + 
+                        M\ \((l\^2\ \((7\ M + 4\ Mp)\) - 
+                              4\ \((M + 2\ Mp)\)\ w\^2)\)\ Cos[2\ x7[t]] + 
+                        l\^2\ M\^2\ Cos[4\ x7[t]])\) + 
+                  M\ \((4\ \((l\^2\ \((3\ M + 2\ Mp)\) - Mp\ w\^2)\)\ Cos[
+                            2\ x7[t]] + 
+                        8\ l\^2\ Cos[x6[t]]\^2\ \((2\ \((M + 2\ Mp)\)\ Cos[
+                                  x7[t]] - M\ Cos[3\ x7[t]])\) + 
+                        2\ \((2\ \((M + 2\ Mp)\)\ \((l\^2 + 2\ w\^2)\)\ Cos[
+                                  x7[t]] - 
+                              l\^2\ \((6\ M + 8\ Mp - 4\ M\ Cos[2\ x7[t]] + 
+                                    M\ Cos[3\ x7[t]])\))\)\ Sin[
+                            2\ x6[t]]\ Sin[x7[t]])\))\)}]}], ",", 
+          RowBox[{
+            RowBox[{
+              SuperscriptBox["x6", "\[Prime]\[Prime]",
+                MultilineFunction->None], "[", "t", "]"}], "\[Rule]", 
+            RowBox[{"-", 
+              RowBox[{
+                RowBox[{"(", 
+                  
+                  RowBox[{\(4\ g\ \((\(-Cos[
+                                x5[t]]\)\ \((\((l\^2\ \((3\ M + 
+                                        2\ Mp)\)\ \((5\ M + 4\ Mp)\) + 
+                                      8\ M\ \((M + Mp)\)\ w\^2 - 
+                                      2\ M\ \((l\^2\ \((6\ M + 4\ Mp)\) - 
+                                        2\ Mp\ w\^2 + \((l\^2\ \((3\ M + 
+                                        2\ Mp)\) - 
+                                        4\ \((M + Mp)\)\ w\^2)\)\ Cos[
+                                        2\ x6[t]])\)\ Cos[2\ x7[t]] + 
+                                      16\ l\^2\ M\ Cos[x6[t]]\^2\ \((\(-2\)\ \
+\((M + Mp)\)\ Cos[x7[t]] + M\ Cos[3\ x7[t]])\))\)\ Sin[x6[t]] - 
+                                l\^2\ \((\(-2\)\ \((M + Mp)\)\ \((5\ M + 
+                                        4\ Mp)\) + 
+                                      M\^2\ Cos[4\ x7[t]])\)\ Sin[3\ x6[t]] + 
+                                M\ \((4\ Cos[
+                                        x6[t]]\ \((\(-2\)\ \((l\^2\ \((4\ M + 
+                                        3\ Mp)\) + \((2\ M + 
+                                        Mp)\)\ w\^2)\)\ Cos[x7[t]] + 
+                                        Cos[2\ x6[
+                                        t]]\ \((\(-4\)\ l\^2\ \((M + 
+                                        Mp)\) + \((\(-l\^2\)\ \((3\ M + 
+                                        2\ Mp)\) + 4\ \((M + 
+                                        Mp)\)\ w\^2)\)\ Cos[x7[t]])\) + 
+                                        l\^2\ \((7\ M + 4\ Mp + 
+                                        2\ M\ Cos[2\ x7[t]])\))\)\ Sin[
+                                        x7[t]] - 
+                                      l\^2\ M\ Cos[
+                                        3\ x6[t]]\ \((\(-4\)\ Sin[3\ x7[t]] + 
+                                        Sin[4\ x7[t]])\))\))\) + 
+                          4\ l\ w\ Sin[
+                              x5[t]]\ \((\((M + Mp)\)\ \((3\ M + 
+                                      2\ Mp)\)\ Sin[2\ x6[t]] + 
+                                M\ \((\((2\ M + Mp)\)\ Sin[
+                                        x7[t]] - \((3\ M + 2\ Mp)\)\ Sin[
+                                        2\ x7[t]] - 
+                                      3\ M\ Sin[2\ \((x6[t] + x7[t])\)] - 
+                                      2\ Mp\ Sin[2\ \((x6[t] + x7[t])\)] - 
+                                      M\ Sin[2\ x6[t] + x7[t]] - 
+                                      Mp\ Sin[2\ x6[t] + x7[t]] + 
+                                      M\ Sin[2\ x6[t] + 3\ x7[t]])\))\))\)\), 
+                    "+", 
+                    RowBox[{"l", " ", 
+                      RowBox[{"(", 
+                        RowBox[{
+                          
+                          RowBox[{\((2\ \((l\^2\ \((25\ M\^2 + 36\ M\ Mp + 
+                                        16\ Mp\^2)\) + 
+                                      2\ \((10\ M\^2 + 15\ M\ Mp + 
+                                        4\ Mp\^2)\)\ w\^2 + 
+                                      M\ \((\(-\((l\^2\ \((19\ M + 
+                                        20\ Mp)\) + 
+                                        4\ \((2\ M + Mp)\)\ w\^2 + 
+                                        l\^2\ \((17\ M + 20\ Mp)\)\ Cos[
+                                        2\ x6[t]])\)\)\ Cos[
+                                        x7[t]] - \((8\ l\^2\ \((2\ M + 
+                                        Mp)\) + 4\ \((4\ M + 
+                                        Mp)\)\ w\^2 + \((l\^2\ \((3\ M + 
+                                        4\ Mp)\) - 4\ \((M + 
+                                        2\ Mp)\)\ w\^2)\)\ Cos[
+                                        2\ x6[t]])\)\ Cos[
+                                        2\ x7[t]] + \((l\^2\ \((15\ M + 
+                                        4\ Mp)\) + 8\ M\ w\^2 + 
+                                        4\ \((l\^2\ \((3\ M + Mp)\) + 
+                                        Mp\ w\^2)\)\ Cos[2\ x6[t]])\)\ Cos[
+                                        3\ x7[t]] - 
+                                        3\ l\^2\ M\ Cos[4\ x7[t]])\))\)\ Sin[
+                                    2\ x6[t]] + 
+                                l\^2\ \((\((3\ M + 4\ Mp)\)\ \((5\ M + 
+                                        4\ Mp)\) + 
+                                      M\^2\ \((\(-6\)\ Cos[4\ x7[t]] + 
+                                        Cos[5\ x7[t]])\))\)\ Sin[4\ x6[t]] + 
+                                2\ M\ \((l\^2\ \((31\ M + 16\ Mp)\) + 
+                                      2\ \((8\ M + 3\ Mp)\)\ w\^2 - 
+                                      16\ \((5\ M + 3\ Mp)\)\ \((l\^2 + 
+                                        w\^2)\)\ Cos[x6[t]]\^2\ Cos[x7[t]] + 
+                                      l\^2\ \((13\ M + 4\ Mp)\)\ Cos[
+                                        2\ x7[t]] + 
+                                      2\ Cos[
+                                        2\ x6[
+                                        t]]\ \((l\^2\ \((13\ M + 4\ Mp)\) - 
+                                        2\ Mp\ w\^2 + \((l\^2\ \((15\ M + 
+                                        4\ Mp)\) + 8\ M\ w\^2)\)\ Cos[
+                                        2\ x7[t]] - 
+                                        2\ Cos[x6[t]]\^2\ Cos[
+                                        x7[t]]\ \((l\^2\ \((3\ M + 4\ Mp)\) - 
+                                        4\ \((M + 2\ Mp)\)\ w\^2 + 
+                                        12\ l\^2\ M\ Cos[2\ x7[t]])\))\) + 
+                                      12\ l\^2\ M\ Cos[x6[t]]\^2\ Cos[
+                                        3\ x7[t]] + 
+                                      Cos[4\ x6[
+                                        t]]\ \((\(-2\)\ l\^2\ \((M + 
+                                        4\ Mp)\) + 
+                                        2\ Mp\ w\^2 + \((l\^2\ \((13\ M + 
+                                        4\ Mp)\) + 4\ Mp\ w\^2)\)\ Cos[
+                                        2\ x7[t]] + 
+                                        l\^2\ M\ Cos[4\ x7[t]])\))\)\ Sin[
+                                    x7[t]])\), " ", 
+                            SuperscriptBox[
+                              RowBox[{
+                                SuperscriptBox["x5", "\[Prime]",
+                                  MultilineFunction->None], "[", "t", "]"}], 
+                              "2"]}], "+", 
+                          RowBox[{
+                          "16", " ", "l", " ", "w", 
+                            " ", \((\((M + Mp)\)\ Sin[x6[t]] - 
+                                M\ Sin[x6[t] + 2\ x7[t]])\), " ", 
+                            RowBox[{
+                              SuperscriptBox["x5", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            " ", 
+                            RowBox[{"(", 
+                              RowBox[{
+                                
+                                RowBox[{\((\((5\ M + 4\ Mp)\)\ Sin[
+                                        2\ x6[t]] + 
+                                      M\ \((Sin[2\ \((x6[t] + x7[t])\)] - 
+                                        4\ Sin[2\ x6[t] + x7[t]])\))\), " ", 
+                                  RowBox[{
+                                    SuperscriptBox["x6", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}]}], "+", 
+                                RowBox[{
+                                "M", " ", \((\(-2\)\ Sin[x7[t]] + 
+                                      Sin[2\ \((x6[t] + x7[t])\)] - 
+                                      2\ Sin[2\ x6[t] + x7[t]])\), " ", 
+                                  RowBox[{
+                                    SuperscriptBox["x7", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}]}]}], ")"}]}], "+", 
+                          RowBox[{"4", " ", 
+                            RowBox[{"(", 
+                              RowBox[{
+                                
+                                RowBox[{\((\(-\((\(-5\)\ l\^2\ M\^2 + 
+                                        4\ Mp\ \((2\ M + Mp)\)\ w\^2 + 
+                                        M\ \((5\ l\^2\ M - 
+                                        4\ Mp\ w\^2)\)\ Cos[x7[t]] + 
+                                        l\^2\ M\^2\ \((4\ Cos[2\ x7[t]] - 
+                                        5\ Cos[3\ x7[t]] + 
+                                        Cos[4\ x7[t]])\))\)\)\ Sin[
+                                        2\ x6[t]] + 
+                                      2\ M\ \((4\ \((\(-2\)\ l\^2\ \((2\ M + 
+                                        Mp)\) + Mp\ w\^2)\)\ Cos[x7[t]] + 
+                                        2\ l\^2\ \((5\ M + 2\ Mp + 
+                                        2\ M\ Cos[2\ x7[t]])\) + 
+                                        Cos[2\ x6[t]]\ \((l\^2\ \((9\ M + 
+                                        4\ Mp)\) + 2\ Mp\ w\^2 - 
+                                        l\^2\ \((\((15\ M + 8\ Mp)\)\ Cos[
+                                        x7[t]] + M\ \((\(-5\)\ Cos[
+                                        2\ x7[t]] + 
+                                        Cos[3\ x7[t]])\))\))\))\)\ Sin[
+                                        x7[t]])\), " ", 
+                                  SuperscriptBox[
+                                    RowBox[{
+                                      SuperscriptBox["x6", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                      "]"}], "2"]}], "+", 
+                                RowBox[{
+                                "2", " ", "M", 
+                                  " ", \((4\ l\^2\ M\ Sin[2\ x6[t]] - 
+                                      l\^2\ \((5\ M + 4\ Mp)\)\ Sin[
+                                        2\ x6[t] - x7[t]] + 
+                                      4\ \((l\^2\ \((M + Mp)\) + 
+                                        Mp\ w\^2)\)\ Sin[2\ x6[t] + x7[t]] + 
+                                      4\ l\^2\ \((\((3\ M + 2\ Mp)\)\ Sin[
+                                        x7[t]] - 
+                                        2\ M\ Cos[x6[t]]\ Sin[
+                                        x6[t] + 2\ x7[t]])\) + 
+                                      l\^2\ M\ Sin[2\ x6[t] + 3\ x7[t]])\), 
+                                  " ", 
+                                  RowBox[{
+                                    SuperscriptBox["x6", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}], " ", 
+                                  RowBox[{
+                                    SuperscriptBox["x7", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}]}], "+", 
+                                RowBox[{
+                                "M", " ", \((4\ l\^2\ M\ Sin[2\ x6[t]] - 
+                                      l\^2\ \((5\ M + 4\ Mp)\)\ Sin[
+                                        2\ x6[t] - x7[t]] + 
+                                      4\ \((l\^2\ \((M + Mp)\) + 
+                                        Mp\ w\^2)\)\ Sin[2\ x6[t] + x7[t]] + 
+                                      4\ l\^2\ \((\((3\ M + 2\ Mp)\)\ Sin[
+                                        x7[t]] - 
+                                        2\ M\ Cos[x6[t]]\ Sin[
+                                        x6[t] + 2\ x7[t]])\) + 
+                                      l\^2\ M\ Sin[2\ x6[t] + 3\ x7[t]])\), 
+                                  " ", 
+                                  SuperscriptBox[
+                                    RowBox[{
+                                      SuperscriptBox["x7", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                      "]"}], "2"]}]}], ")"}]}]}], ")"}]}]}], 
+                  ")"}], "/", \((4\ l\ \((Cos[
+                            2\ x6[t]]\ \((2\ l\^2\ \((7\ M\^2 + 16\ M\ Mp + 
+                                    8\ Mp\^2)\) + 
+                              4\ Mp\ \((2\ M + Mp)\)\ w\^2 + 
+                              M\ \((\(-l\^2\)\ \((7\ M + 4\ Mp)\) + 
+                                    4\ \((M + 2\ Mp)\)\ w\^2)\)\ Cos[
+                                  2\ x7[t]] - l\^2\ M\^2\ Cos[4\ x7[t]])\) + 
+                        2\ \((l\^2\ \((3\ M + 2\ Mp)\)\ \((3\ M + 
+                                    4\ Mp)\) + \((2\ M\^2 + 7\ M\ Mp + 
+                                    2\ Mp\^2)\)\ w\^2 + 
+                              2\ M\ \((\(-l\^2\)\ \((3\ M + 2\ Mp)\) + 
+                                    Mp\ w\^2)\)\ Cos[2\ x7[t]] + 
+                              4\ l\^2\ M\ Cos[x6[t]]\^2\ \((\(-2\)\ \((M + 
+                                        2\ Mp)\)\ Cos[x7[t]] + 
+                                    M\ Cos[3\ x7[t]])\) + 
+                              M\ \((\(-2\)\ \((M + 2\ Mp)\)\ \((l\^2 + 
+                                        2\ w\^2)\)\ Cos[x7[t]] + 
+                                    l\^2\ \((6\ M + 8\ Mp - 
+                                        4\ M\ Cos[2\ x7[t]] + 
+                                        M\ Cos[3\ x7[t]])\))\)\ Sin[
+                                  2\ x6[t]]\ Sin[x7[t]])\))\))\)}]}]}], ",", 
+          RowBox[{
+            RowBox[{
+              SuperscriptBox["x7", "\[Prime]\[Prime]",
+                MultilineFunction->None], "[", "t", "]"}], "\[Rule]", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\(4\ g\ \((4\ l\ w\ Sin[
+                            x5[t]]\ \((\((5\ M\^2 + 6\ M\ Mp + 
+                                    2\ Mp\^2 + \((2\ M\^2 + 7\ M\ Mp + 
+                                        4\ Mp\^2)\)\ Cos[x7[t]] - 
+                                    M\ \((6\ M + 5\ Mp)\)\ Cos[2\ x7[t]] + 
+                                    M\^2\ Cos[3\ x7[t]])\)\ Sin[
+                                  2\ x6[t]] + \((17\ M\^2 + 23\ M\ Mp + 
+                                    8\ Mp\^2 - 
+                                    2\ M\ \((5\ M + 3\ Mp)\)\ Cos[x7[t]] + 
+                                    Cos[2\ x6[t]]\ \((15\ M\^2 + 21\ M\ Mp + 
+                                        8\ Mp\^2 - 
+                                        2\ M\ \((6\ M + 5\ Mp)\)\ Cos[
+                                        x7[t]] + 
+                                        2\ M\^2\ Cos[2\ x7[t]])\))\)\ Sin[
+                                  x7[t]])\) + 
+                        Cos[x5[
+                              t]]\ \((\((\(-l\^2\)\ \((3\ M + 
+                                        2\ Mp)\)\ \((9\ M + 4\ Mp)\) - 
+                                    8\ M\ \((M + 
+                                        Mp)\)\ w\^2 + \((l\^2\ M\ \((17\ M + 
+                                        14\ Mp)\) + 
+                                        4\ \((2\ M\^2 + 2\ M\ Mp + 
+                                        Mp\^2)\)\ w\^2)\)\ Cos[x7[t]] + 
+                                    M\ \((l\^2\ \((17\ M + 14\ Mp)\) + 
+                                        4\ M\ w\^2)\)\ Cos[2\ x7[t]] - 
+                                    l\^2\ M\ \((7\ M + 2\ Mp)\)\ Cos[
+                                        3\ x7[t]])\)\ Sin[
+                                  x6[t]] + \((2\ \((l\^2\ M\ \((8\ M + 
+                                        7\ Mp)\) + 
+                                        2\ \((M + Mp)\)\ \((2\ M + 
+                                        Mp)\)\ w\^2)\)\ Cos[x7[t]] + 
+                                    M\ \((l\^2\ \((11\ M + 10\ Mp)\) - 
+                                        4\ \((M + Mp)\)\ w\^2)\)\ Cos[
+                                        2\ x7[t]] - 
+                                    l\^2\ \((22\ M\^2 + 26\ M\ Mp + 
+                                        8\ Mp\^2 + 
+                                        2\ M\ \((3\ M + Mp)\)\ Cos[
+                                        3\ x7[t]] - 
+                                        M\^2\ Cos[4\ x7[t]])\))\)\ Sin[
+                                  3\ x6[t]] - 
+                              Cos[x6[
+                                    t]]\ \((l\^2\ \((85\ M\^2 + 104\ M\ Mp + 
+                                        32\ Mp\^2)\) + 
+                                    4\ \((4\ M\^2 + M\ Mp - 
+                                        2\ Mp\^2)\)\ w\^2 + 
+                                    4\ \((M + 
+                                        Mp)\)\ \((l\^2\ \((7\ M + 8\ Mp)\) - 
+                                        2\ \((2\ M + Mp)\)\ w\^2)\)\ Cos[
+                                        2\ x6[t]])\)\ Sin[x7[t]] + 
+                              2\ M\ Cos[
+                                  x6[t]]\ \((2\ l\^2\ \((10\ M + 7\ Mp)\) + 
+                                    2\ \((2\ M + 
+                                        Mp)\)\ w\^2 + \((l\^2\ \((11\ M + 
+                                        10\ Mp)\) - 
+                                        4\ \((M + Mp)\)\ w\^2)\)\ Cos[
+                                        2\ x6[t]])\)\ Sin[2\ x7[t]] - 
+                              l\^2\ M\ Cos[
+                                  x6[t]]\ \((M + 
+                                    4\ \((3\ M + Mp)\)\ Cos[2\ x6[t]])\)\ Sin[
+                                  3\ x7[t]] + 
+                              l\^2\ M\^2\ Cos[3\ x6[t]]\ Sin[
+                                  4\ x7[t]])\))\)\), "+", 
+                  RowBox[{"l", " ", 
+                    RowBox[{"(", 
+                      RowBox[{
+                        
+                        RowBox[{\((2\ \((2\ l\^2\ \((29\ M\^2 + 30\ M\ Mp + 
+                                        8\ Mp\^2)\) + 
+                                    2\ \((2\ M + Mp)\)\ \((9\ M + 
+                                        4\ Mp)\)\ w\^2 - 
+                                    2\ \((l\^2\ M\ \((15\ M + 8\ Mp)\) - 
+                                        4\ Mp\ \((2\ M + 
+                                        Mp)\)\ w\^2 + \((3\ l\^2\ M\ \((5\ M \
++ 4\ Mp)\) + 2\ \((2\ M + Mp)\)\ \((M + 2\ Mp)\)\ w\^2)\)\ Cos[
+                                        2\ x6[t]])\)\ Cos[x7[t]] - 
+                                    2\ \((l\^2\ \((3\ M + 2\ Mp)\)\ \((9\ M + 
+                                        4\ Mp)\) + \((20\ M\^2 + 17\ M\ Mp + 
+                                        2\ Mp\^2)\)\ w\^2 + 
+                                        2\ \((M + 
+                                        Mp)\)\ \((l\^2\ \((9\ M + 
+                                        4\ Mp)\) + \((\(-M\) + 
+                                        Mp)\)\ w\^2)\)\ Cos[2\ x6[t]])\)\ Cos[
+                                        2\ x7[t]] + 
+                                    M\ \((2\ l\^2\ \((15\ M + 8\ Mp)\) + 
+                                        8\ M\ w\^2 + \((l\^2\ \((29\ M + 
+                                        24\ Mp)\) + 4\ Mp\ w\^2)\)\ Cos[
+                                        2\ x6[t]])\)\ Cos[3\ x7[t]] - 
+                                    l\^2\ M\ \((4\ M + \((9\ M + 
+                                        4\ Mp)\)\ Cos[2\ x6[t]])\)\ Cos[
+                                        4\ x7[t]])\)\ Sin[2\ x6[t]] + 
+                              l\^2\ \((\((5\ M + 4\ Mp)\)\ \((9\ M + 
+                                        4\ Mp)\) + 
+                                    M\^2\ Cos[5\ x7[t]])\)\ Sin[4\ x6[t]] + 
+                              2\ \((2\ l\^2\ \((67\ M\^2 + 76\ M\ Mp + 
+                                        24\ Mp\^2)\) + 
+                                    20\ \((5\ M\^2 + 5\ M\ Mp + 
+                                        Mp\^2)\)\ w\^2 - 
+                                    2\ \((l\^2\ \((3\ M + 
+                                        2\ Mp)\)\ \((25\ M + 4\ Mp)\) + 
+                                        2\ \((17\ M\^2 + 8\ M\ Mp + 
+                                        Mp\^2)\)\ w\^2)\)\ Cos[x7[t]] + 
+                                    2\ l\^2\ M\ \((13\ M + 4\ Mp)\)\ Cos[
+                                        2\ x7[t]] + 
+                                    4\ Cos[
+                                        2\ x6[
+                                        t]]\ \((l\^2\ \((39\ M\^2 + 
+                                        48\ M\ Mp + 16\ Mp\^2)\) + 
+                                        4\ \((5\ M\^2 + 5\ M\ Mp + 
+                                        Mp\^2)\)\ w\^2 - \((l\^2\ \((49\ M\^2 \
++ 46\ M\ Mp + 8\ Mp\^2)\) + \((20\ M\^2 + 17\ M\ Mp + 
+                                        2\ Mp\^2)\)\ w\^2)\)\ Cos[x7[t]] + 
+                                        M\ \((\((l\^2\ \((15\ M + 8\ Mp)\) + 
+                                        4\ M\ w\^2)\)\ Cos[2\ x7[t]] - 
+                                        2\ l\^2\ M\ Cos[3\ x7[t]])\))\) + 
+                                    Cos[4\ x6[
+                                        t]]\ \((l\^2\ \((5\ M + 4\ Mp)\)\^2 - 
+                                        4\ \((M + Mp)\)\^2\ w\^2 - \((l\^2\ \
+\((5\ M + 4\ Mp)\)\ \((9\ M + 4\ Mp)\) + 4\ \((\(-M\^2\) + 
+                                        Mp\^2)\)\ w\^2)\)\ Cos[x7[t]] + 
+                                        M\ \((\((6\ l\^2\ \((5\ M + 
+                                        4\ Mp)\) + 4\ Mp\ w\^2)\)\ Cos[
+                                        2\ x7[t]] + 
+                                        l\^2\ \((\(-\((9\ M + 4\ Mp)\)\)\ Cos[
+                                        3\ x7[t]] + M\ Cos[
+                                        4\ x7[t]])\))\))\))\)\ Sin[x7[t]])\), 
+                          " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["x5", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}], "+", 
+                        RowBox[{
+                        "16", " ", "l", " ", "w", 
+                          " ", \((\((M + Mp + \((M + 2\ Mp)\)\ Cos[x7[t]] - 
+                                    M\ Cos[2\ x7[t]])\)\ Sin[x6[t]] + 
+                              Cos[x6[t]]\ \((5\ M + 4\ Mp - 
+                                    2\ M\ Cos[x7[t]])\)\ Sin[x7[t]])\), " ", 
+                          RowBox[{
+                            SuperscriptBox["x5", "\[Prime]",
+                              MultilineFunction->None], "[", "t", "]"}], " ", 
+                          
+                          RowBox[{"(", 
+                            RowBox[{
+                              
+                              RowBox[{\((\((5\ M + 4\ Mp)\)\ Sin[2\ x6[t]] + 
+                                    M\ \((Sin[2\ \((x6[t] + x7[t])\)] - 
+                                        4\ Sin[2\ x6[t] + x7[t]])\))\), " ", 
+                                RowBox[{
+                                  SuperscriptBox["x6", "\[Prime]",
+                                    MultilineFunction->None], "[", "t", 
+                                  "]"}]}], "+", 
+                              RowBox[{
+                              "M", " ", \((\(-2\)\ Sin[x7[t]] + 
+                                    Sin[2\ \((x6[t] + x7[t])\)] - 
+                                    2\ Sin[2\ x6[t] + x7[t]])\), " ", 
+                                RowBox[{
+                                  SuperscriptBox["x7", "\[Prime]",
+                                    MultilineFunction->None], "[", "t", 
+                                  "]"}]}]}], ")"}]}], "+", 
+                        RowBox[{"4", " ", 
+                          RowBox[{"(", 
+                            RowBox[{
+                              RowBox[{
+                              "2", " ", \((\(-\((\(-l\^2\)\ M\ \((13\ M + 
+                                        8\ Mp)\) + 
+                                        2\ Mp\ \((2\ M + 
+                                        Mp)\)\ w\^2 + \((l\^2\ M\ \((7\ M + 
+                                        2\ Mp)\) + 
+                                        4\ \((M + Mp)\)\^2\ w\^2)\)\ Cos[
+                                        x7[t]] + 
+                                        2\ M\ \((l\^2\ \((6\ M + 
+                                        4\ Mp)\) - \((M + 
+                                        2\ Mp)\)\ w\^2)\)\ Cos[2\ x7[t]] + 
+                                        l\^2\ M\ \((\(-\((7\ M + 
+                                        2\ Mp)\)\)\ Cos[3\ x7[t]] + 
+                                        M\ Cos[4\ x7[t]])\))\)\)\ Sin[
+                                        2\ x6[t]] + 
+                                    2\ \((l\^2\ \((22\ M\^2 + 24\ M\ Mp + 
+                                        8\ Mp\^2)\) + 
+                                        2\ \((M - Mp)\)\ \((M + Mp)\)\ w\^2 + 
+                                        4\ M\ \((\((\(-2\)\ l\^2\ \((3\ M + 
+                                        2\ Mp)\) + Mp\ w\^2)\)\ Cos[x7[t]] + 
+                                        l\^2\ M\ Cos[2\ x7[t]])\) + 
+                                        Cos[2\ x6[
+                                        t]]\ \((l\^2\ \((19\ M\^2 + 
+                                        22\ M\ Mp + 8\ Mp\^2)\) - 
+                                        2\ \((M + Mp)\)\^2\ w\^2 + 
+                                        M\ \((\(-l\^2\)\ \((23\ M + 
+                                        16\ Mp)\) + 2\ \((M + 
+                                        2\ Mp)\)\ w\^2)\)\ Cos[x7[t]] + 
+                                        l\^2\ M\ \((\((7\ M + 2\ Mp)\)\ Cos[
+                                        2\ x7[t]] - M\ Cos[
+                                        3\ x7[t]])\))\))\)\ Sin[x7[t]])\), 
+                                " ", 
+                                SuperscriptBox[
+                                  RowBox[{
+                                    SuperscriptBox["x6", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}], "2"]}], "+", 
+                              RowBox[{
+                              "2", " ", "M", 
+                                " ", \((\((\((\(-5\)\ l\^2\ M + 
+                                        4\ Mp\ w\^2)\)\ Cos[
+                                        x7[t]] + \((\(-4\)\ l\^2\ M + 
+                                        4\ \((M + 2\ Mp)\)\ w\^2)\)\ Cos[
+                                        2\ x7[t]] + 
+                                        l\^2\ M\ \((5 + 5\ Cos[3\ x7[t]] - 
+                                        Cos[4\ x7[t]])\))\)\ Sin[2\ x6[t]] + 
+                                    2\ \((4\ \((\(-2\)\ l\^2\ \((2\ M + 
+                                        Mp)\) + Mp\ w\^2)\)\ Cos[x7[t]] + 
+                                        2\ l\^2\ \((5\ M + 2\ Mp + 
+                                        2\ M\ Cos[2\ x7[t]])\) + 
+                                        Cos[2\ x6[
+                                        t]]\ \((l\^2\ \((9\ M + 4\ Mp)\) + 
+                                        2\ Mp\ w\^2 + \((\(-l\^2\)\ \((15\ M \
++ 8\ Mp)\) + 4\ \((M + 2\ Mp)\)\ w\^2)\)\ Cos[x7[t]] - 
+                                        l\^2\ M\ \((\(-5\)\ Cos[2\ x7[t]] + 
+                                        Cos[3\ x7[t]])\))\))\)\ Sin[x7[t]])\),
+                                 " ", 
+                                RowBox[{
+                                  SuperscriptBox["x6", "\[Prime]",
+                                    MultilineFunction->None], "[", "t", "]"}],
+                                 " ", 
+                                RowBox[{
+                                  SuperscriptBox["x7", "\[Prime]",
+                                    MultilineFunction->None], "[", "t", 
+                                  "]"}]}], "+", 
+                              RowBox[{
+                              "M", " ", \((\((\((\(-5\)\ l\^2\ M + 
+                                        4\ Mp\ w\^2)\)\ Cos[
+                                        x7[t]] + \((\(-4\)\ l\^2\ M + 
+                                        4\ \((M + 2\ Mp)\)\ w\^2)\)\ Cos[
+                                        2\ x7[t]] + 
+                                        l\^2\ M\ \((5 + 5\ Cos[3\ x7[t]] - 
+                                        Cos[4\ x7[t]])\))\)\ Sin[2\ x6[t]] + 
+                                    2\ \((4\ \((\(-2\)\ l\^2\ \((2\ M + 
+                                        Mp)\) + Mp\ w\^2)\)\ Cos[x7[t]] + 
+                                        2\ l\^2\ \((5\ M + 2\ Mp + 
+                                        2\ M\ Cos[2\ x7[t]])\) + 
+                                        Cos[2\ x6[
+                                        t]]\ \((l\^2\ \((9\ M + 4\ Mp)\) + 
+                                        2\ Mp\ w\^2 + \((\(-l\^2\)\ \((15\ M \
++ 8\ Mp)\) + 4\ \((M + 2\ Mp)\)\ w\^2)\)\ Cos[x7[t]] - 
+                                        l\^2\ M\ \((\(-5\)\ Cos[2\ x7[t]] + 
+                                        Cos[3\ x7[t]])\))\))\)\ Sin[x7[t]])\),
+                                 " ", 
+                                SuperscriptBox[
+                                  RowBox[{
+                                    SuperscriptBox["x7", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}], "2"]}]}], ")"}]}]}], ")"}]}]}], 
+                ")"}], "/", \((4\ l\ \((Cos[
+                          2\ x6[t]]\ \((2\ l\^2\ \((7\ M\^2 + 16\ M\ Mp + 
+                                  8\ Mp\^2)\) + 
+                            4\ Mp\ \((2\ M + Mp)\)\ w\^2 + 
+                            M\ \((\(-l\^2\)\ \((7\ M + 4\ Mp)\) + 
+                                  4\ \((M + 2\ Mp)\)\ w\^2)\)\ Cos[
+                                2\ x7[t]] - l\^2\ M\^2\ Cos[4\ x7[t]])\) + 
+                      2\ \((l\^2\ \((3\ M + 2\ Mp)\)\ \((3\ M + 
+                                  4\ Mp)\) + \((2\ M\^2 + 7\ M\ Mp + 
+                                  2\ Mp\^2)\)\ w\^2 + 
+                            2\ M\ \((\(-l\^2\)\ \((3\ M + 2\ Mp)\) + 
+                                  Mp\ w\^2)\)\ Cos[2\ x7[t]] + 
+                            4\ l\^2\ M\ Cos[x6[t]]\^2\ \((\(-2\)\ \((M + 
+                                        2\ Mp)\)\ Cos[x7[t]] + 
+                                  M\ Cos[3\ x7[t]])\) + 
+                            M\ \((\(-2\)\ \((M + 2\ Mp)\)\ \((l\^2 + 
+                                        2\ w\^2)\)\ Cos[x7[t]] + 
+                                  l\^2\ \((6\ M + 8\ Mp - 
+                                        4\ M\ Cos[2\ x7[t]] + 
+                                        M\ Cos[3\ x7[t]])\))\)\ Sin[
+                                2\ x6[t]]\ Sin[x7[t]])\))\))\)}]}]}], "}"}], 
+      "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Collision Guard", "Section"],
+
+Cell[BoxData[
+    \(\(-w\)\ Sin[x5[t]] + 
+        2\ l\ Cos[x5[t]]\ Sin[x6[t] + x7[t]\/2]\ Sin[x7[t]\/2] \[Equal] 
+      0\)], "Output"],
+
+Cell["along with NS velocity constraint", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Impact Equations", "Section"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(x5dotimpact\), "\[IndentingNewLine]", 
+    \(x6dotimpact\), "\[IndentingNewLine]", 
+    \(x7dotimpact\)}], "Input"],
+
+Cell[BoxData[
+    RowBox[{"-", 
+      RowBox[{
+        RowBox[{"(", 
+          RowBox[{
+            
+            RowBox[{\((Cos[
+                      2\ x6[t]]\ \((\((l\^2\ M\ \((M + 4\ Mp)\) + 
+                              4\ \((M + Mp)\)\^2\ w\^2)\)\ Cos[2\ x7[t]] - 
+                        M\ \((\(-2\)\ l\^2\ \((M + 2\ Mp)\) + 
+                              4\ \((M + Mp)\)\ w\^2 + 
+                              l\^2\ M\ Cos[4\ x7[t]])\))\) + 
+                  2\ \((l\^2\ M\ \((3\ M + 4\ Mp)\) - \((2\ M\^2 + M\ Mp - 
+                              2\ Mp\^2)\)\ w\^2 + 
+                        2\ M\^2\ \((\(-l\^2\) + w\^2)\)\ Cos[2\ x7[t]] + 
+                        4\ l\^2\ \((M + Mp)\)\ Cos[x6[t]]\^2\ Cos[
+                            x7[t]]\ \((\(-3\)\ M - 4\ Mp + 
+                              2\ M\ Cos[
+                                  2\ x7[
+                                      t]])\) + \((\(-2\)\ \((l\^2\ M\ \((M + 
+                                        2\ Mp)\) + 
+                                    2\ \((M + Mp)\)\^2\ w\^2)\)\ Cos[x7[t]] + 
+                              l\^2\ \((\(-2\)\ \((M + Mp)\)\ \((\(-3\)\ M - 
+                                        4\ Mp + 2\ M\ Cos[2\ x7[t]])\) + 
+                                    M\^2\ Cos[3\ x7[t]])\))\)\ Sin[
+                            2\ x6[t]]\ Sin[x7[t]])\))\), " ", 
+              RowBox[{
+                SuperscriptBox["x5", "\[Prime]",
+                  MultilineFunction->None], "[", "t", "]"}]}], "+", 
+            RowBox[{"4", " ", "l", " ", "w", " ", 
+              RowBox[{"(", 
+                RowBox[{
+                  
+                  RowBox[{\((2\ Mp\ \((5\ M + 
+                              4\ Mp + \((6\ M + 4\ Mp)\)\ Cos[x7[t]])\)\ Sin[
+                            x6[t]]\ Sin[x7[t]\/2]\^2 - \((2\ M + Mp)\)\ Cos[
+                            x6[t]]\ \((\(-M\) + 
+                              2\ \((M + 2\ Mp)\)\ Cos[x7[t]])\)\ Sin[
+                            x7[t]])\), " ", 
+                    RowBox[{
+                      SuperscriptBox["x6", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  RowBox[{
+                  "M", " ", \((2\ M\ Cos[x6[t]]\ Sin[x7[t]] + 
+                        Mp\ Sin[x6[t] + x7[t]])\), " ", 
+                    RowBox[{
+                      SuperscriptBox["x7", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], 
+                ")"}]}]}], ")"}], 
+        "/", \((Cos[
+                2\ x6[t]]\ \((\((l\^2\ \((13\ M\^2 + 32\ M\ Mp + 
+                              16\ Mp\^2)\) + 
+                        4\ Mp\ \((2\ M + Mp)\)\ w\^2)\)\ Cos[2\ x7[t]] + 
+                  M\ \((\(-2\)\ l\^2\ M + 4\ \((M + 2\ Mp)\)\ w\^2 - 
+                        l\^2\ \((5\ M + 4\ Mp)\)\ Cos[4\ x7[t]])\))\) + 
+            2\ \((l\^2\ \((3\ M + 2\ Mp)\)\ \((3\ M + 4\ Mp)\) + \((2\ M\^2 + 
+                        7\ M\ Mp + 2\ Mp\^2)\)\ w\^2 + 
+                  2\ M\ \((\(-l\^2\)\ \((3\ M + 2\ Mp)\) + Mp\ w\^2)\)\ Cos[
+                      2\ x7[t]] + 
+                  4\ l\^2\ M\ Cos[x6[t]]\^2\ \((\(-2\)\ \((M + 2\ Mp)\)\ Cos[
+                            x7[t]] + 
+                        M\ Cos[
+                            3\ x7[t]])\) + \((\(-2\)\ \((l\^2\ \((M + 
+                                    2\ Mp)\)\ \((5\ M + 4\ Mp)\) + 
+                              2\ Mp\ \((2\ M + Mp)\)\ w\^2)\)\ Cos[x7[t]] + 
+                        l\^2\ M\ \((6\ M + 8\ Mp - 
+                              4\ M\ Cos[2\ x7[t]] + \((5\ M + 4\ Mp)\)\ Cos[
+                                  3\ x7[t]])\))\)\ Sin[2\ x6[t]]\ Sin[
+                      x7[t]])\))\)}]}]], "Output"],
+
+Cell[BoxData[
+    RowBox[{"-", 
+      RowBox[{
+        RowBox[{"(", 
+          RowBox[{
+            RowBox[{
+            "w", " ", \((\((\(-l\^2\)\ \((17\ M\^2 + 20\ M\ Mp + 
+                              4\ Mp\^2)\) - 8\ Mp\ \((M + Mp)\)\ w\^2 - 
+                        2\ \((2\ l\^2\ \((M\^2 + 4\ M\ Mp + 2\ Mp\^2)\) + 
+                              2\ M\ \((4\ M + 
+                                    3\ Mp)\)\ w\^2 + \((l\^2\ \((7\ M\^2 + 
+                                        12\ M\ Mp + 4\ Mp\^2)\) + 
+                                    4\ \((M + Mp)\)\ \((2\ M + 
+                                        Mp)\)\ w\^2)\)\ Cos[2\ x6[t]])\)\ Cos[
+                            2\ x7[t]] + 
+                        16\ l\^2\ \((M + 
+                              Mp)\)\ Cos[x6[t]]\^2\ \((\((4\ M + 
+                                    3\ Mp)\)\ Cos[x7[t]] - \((M + Mp)\)\ Cos[
+                                  3\ x7[t]])\))\)\ Sin[x6[t]] - 
+                  l\^2\ \((4\ M\ \((M + Mp)\) + \((M + 2\ Mp)\)\ \((3\ M + 
+                              2\ Mp)\)\ Cos[4\ x7[t]])\)\ Sin[3\ x6[t]] + 
+                  8\ l\^2\ \((M + Mp)\)\ Cos[
+                      x6[t]]\ \((\(-5\)\ M - 
+                        4\ Mp + \((4\ M + 3\ Mp)\)\ Cos[2\ x6[t]])\)\ Sin[
+                      x7[t]] - 
+                  2\ Cos[x6[
+                        t]]\ \((\(-2\)\ \((3\ M + 2\ Mp)\)\ \((l\^2\ M + 
+                              Mp\ w\^2)\) + \((l\^2\ \((7\ M\^2 + 12\ M\ Mp + 
+                                    4\ Mp\^2)\) + 
+                              4\ \((M + Mp)\)\ \((2\ M + Mp)\)\ w\^2)\)\ Cos[
+                            2\ x6[t]])\)\ Sin[2\ x7[t]] - 
+                  4\ l\^2\ \((M + Mp)\)\^2\ \((Cos[x6[t]] + 
+                        Cos[3\ x6[t]])\)\ Sin[3\ x7[t]] - 
+                  l\^2\ \((M + 2\ Mp)\)\ \((3\ M + 2\ Mp)\)\ Cos[
+                      3\ x6[t]]\ Sin[4\ x7[t]])\), " ", 
+              RowBox[{
+                SuperscriptBox["x5", "\[Prime]",
+                  MultilineFunction->None], "[", "t", "]"}]}], "+", 
+            RowBox[{"l", " ", 
+              RowBox[{"(", 
+                RowBox[{
+                  
+                  RowBox[{\((2\ l\^2\ M\ \((M + 2\ Mp)\) - 
+                        2\ \((2\ M\^2 + 7\ M\ Mp + 4\ Mp\^2)\)\ w\^2 + 
+                        8\ M\ \((2\ l\^2\ \((M + Mp)\) + M\ w\^2)\)\ Cos[
+                            x7[t]] - 
+                        4\ \((l\^2\ \((7\ M\^2 + 10\ M\ Mp + 
+                                    4\ Mp\^2)\) + \((2\ M - Mp)\)\ \((M + 
+                                    Mp)\)\ w\^2)\)\ Cos[2\ x7[t]] + 
+                        8\ l\^2\ M\ \((M + Mp)\)\ Cos[3\ x7[t]] + 
+                        Cos[2\ x6[
+                                t]]\ \((\(-l\^2\)\ \((13\ M\^2 + 18\ M\ Mp + 
+                                    8\ Mp\^2)\) - 
+                              4\ \((M - Mp)\)\ \((M + Mp)\)\ w\^2 + 
+                              M\ \((l\^2\ \((11\ M + 12\ Mp)\) + 
+                                    4\ \((2\ M + Mp)\)\ w\^2)\)\ Cos[
+                                  x7[t]] - \((3\ l\^2\ M\^2 + 
+                                    4\ \((2\ M + Mp)\)\ \((M + 
+                                        2\ Mp)\)\ w\^2)\)\ Cos[2\ x7[t]] + 
+                              l\^2\ \((M\ \((13\ M + 12\ Mp)\)\ Cos[
+                                        3\ x7[t]] - 
+                                    2\ \((M + Mp)\)\ \((5\ M + 4\ Mp)\)\ Cos[
+                                        4\ x7[t]])\))\) + 
+                        2\ \((\(-l\^2\)\ M\ \((3\ M + 4\ Mp)\) - 
+                              2\ M\ \((2\ M + 
+                                    Mp)\)\ w\^2 + \((l\^2\ \((9\ M\^2 + 
+                                        14\ M\ Mp + 8\ Mp\^2)\) + 
+                                    4\ \((2\ M + Mp)\)\ \((M + 
+                                        2\ Mp)\)\ w\^2)\)\ Cos[x7[t]] + 
+                              l\^2\ \((\(-M\)\ \((13\ M + 12\ Mp)\)\ Cos[
+                                        2\ x7[t]] + 
+                                    2\ \((M + Mp)\)\ \((5\ M + 4\ Mp)\)\ Cos[
+                                        3\ x7[t]])\))\)\ Sin[2\ x6[t]]\ Sin[
+                            x7[t]])\), " ", 
+                    RowBox[{
+                      SuperscriptBox["x6", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  RowBox[{
+                  "M", " ", \((\(-4\)\ l\^2\ M - 4\ l\^2\ M\ Cos[2\ x6[t]] + 
+                        l\^2\ M\ Cos[2\ x6[t] - x7[t]] + 
+                        12\ l\^2\ M\ Cos[x7[t]] + 8\ l\^2\ Mp\ Cos[x7[t]] + 
+                        8\ M\ w\^2\ Cos[x7[t]] - 4\ l\^2\ M\ Cos[2\ x7[t]] - 
+                        4\ l\^2\ M\ Cos[2\ \((x6[t] + x7[t])\)] + 
+                        2\ \((l\^2\ \((3\ M + 2\ Mp)\) + 
+                              2\ \((2\ M + Mp)\)\ w\^2)\)\ Cos[
+                            2\ x6[t] + x7[t]] + 
+                        l\^2\ \((5\ M + 4\ Mp)\)\ Cos[2\ x6[t] + 3\ x7[t]])\),
+                     " ", 
+                    RowBox[{
+                      SuperscriptBox["x7", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], 
+                ")"}]}]}], ")"}], 
+        "/", \((l\ \((Cos[
+                    2\ x6[t]]\ \((\((l\^2\ \((13\ M\^2 + 32\ M\ Mp + 
+                                  16\ Mp\^2)\) + 
+                            4\ Mp\ \((2\ M + Mp)\)\ w\^2)\)\ Cos[2\ x7[t]] + 
+                      M\ \((\(-2\)\ l\^2\ M + 4\ \((M + 2\ Mp)\)\ w\^2 - 
+                            l\^2\ \((5\ M + 4\ Mp)\)\ Cos[4\ x7[t]])\))\) + 
+                2\ \((l\^2\ \((3\ M + 2\ Mp)\)\ \((3\ M + 
+                            4\ Mp)\) + \((2\ M\^2 + 7\ M\ Mp + 
+                            2\ Mp\^2)\)\ w\^2 + 
+                      2\ M\ \((\(-l\^2\)\ \((3\ M + 2\ Mp)\) + 
+                            Mp\ w\^2)\)\ Cos[2\ x7[t]] + 
+                      4\ l\^2\ M\ Cos[x6[t]]\^2\ \((\(-2\)\ \((M + 
+                                  2\ Mp)\)\ Cos[x7[t]] + 
+                            M\ Cos[
+                                3\ x7[
+                                    t]])\) + \((\(-2\)\ \((l\^2\ \((M + 
+                                        2\ Mp)\)\ \((5\ M + 4\ Mp)\) + 
+                                  2\ Mp\ \((2\ M + Mp)\)\ w\^2)\)\ Cos[
+                                x7[t]] + 
+                            l\^2\ M\ \((6\ M + 8\ Mp - 
+                                  4\ M\ Cos[
+                                      2\ x7[t]] + \((5\ M + 4\ Mp)\)\ Cos[
+                                      3\ x7[t]])\))\)\ Sin[2\ x6[t]]\ Sin[
+                          x7[t]])\))\))\)}]}]], "Output"],
+
+Cell[BoxData[
+    RowBox[{"-", 
+      RowBox[{
+        RowBox[{"(", 
+          RowBox[{
+            RowBox[{
+            "w", " ", \((\((l\^2\ \((21\ M\^2 + 24\ M\ Mp + 4\ Mp\^2)\) + 
+                        8\ Mp\ \((M + Mp)\)\ w\^2)\)\ Sin[x6[t]] + 
+                  8\ l\^2\ M\ \((M + Mp)\)\ Sin[3\ x6[t]] + 
+                  5\ l\^2\ M\^2\ Sin[x6[t] - 2\ x7[t]] + 
+                  4\ l\^2\ M\ Mp\ Sin[x6[t] - 2\ x7[t]] - 
+                  24\ l\^2\ M\^2\ Sin[x6[t] - x7[t]] - 
+                  36\ l\^2\ M\ Mp\ Sin[x6[t] - x7[t]] - 
+                  16\ l\^2\ Mp\^2\ Sin[x6[t] - x7[t]] + 
+                  4\ M\^2\ w\^2\ Sin[x6[t] - x7[t]] - 
+                  l\^2\ M\^2\ Sin[3\ x6[t] - x7[t]] + 
+                  l\^2\ M\^2\ Sin[x6[t] + x7[t]] - 
+                  8\ M\^2\ w\^2\ Sin[x6[t] + x7[t]] - 
+                  8\ M\ Mp\ w\^2\ Sin[x6[t] + x7[t]] - 
+                  17\ l\^2\ M\^2\ Sin[3\ x6[t] + x7[t]] - 
+                  28\ l\^2\ M\ Mp\ Sin[3\ x6[t] + x7[t]] - 
+                  12\ l\^2\ Mp\^2\ Sin[3\ x6[t] + x7[t]] - 
+                  4\ M\^2\ w\^2\ Sin[3\ x6[t] + x7[t]] - 
+                  4\ M\ Mp\ w\^2\ Sin[3\ x6[t] + x7[t]] - 
+                  8\ l\^2\ M\^2\ Sin[x6[t] + 2\ x7[t]] - 
+                  4\ l\^2\ M\ Mp\ Sin[x6[t] + 2\ x7[t]] + 
+                  8\ M\^2\ w\^2\ Sin[x6[t] + 2\ x7[t]] - 
+                  4\ Mp\^2\ w\^2\ Sin[x6[t] + 2\ x7[t]] + 
+                  7\ l\^2\ M\^2\ Sin[3\ x6[t] + 2\ x7[t]] + 
+                  8\ l\^2\ M\ Mp\ Sin[3\ x6[t] + 2\ x7[t]] + 
+                  8\ M\^2\ w\^2\ Sin[3\ x6[t] + 2\ x7[t]] + 
+                  12\ M\ Mp\ w\^2\ Sin[3\ x6[t] + 2\ x7[t]] + 
+                  4\ Mp\^2\ w\^2\ Sin[3\ x6[t] + 2\ x7[t]] + 
+                  5\ l\^2\ M\^2\ Sin[x6[t] + 3\ x7[t]] + 
+                  8\ l\^2\ M\ Mp\ Sin[x6[t] + 3\ x7[t]] + 
+                  4\ l\^2\ Mp\^2\ Sin[x6[t] + 3\ x7[t]] + 
+                  l\^2\ \((M + 2\ Mp)\)\ \((3\ M + 2\ Mp)\)\ Sin[
+                      3\ x6[t] + 4\ x7[t]])\), " ", 
+              RowBox[{
+                SuperscriptBox["x5", "\[Prime]",
+                  MultilineFunction->None], "[", "t", "]"}]}], "+", 
+            RowBox[{"l", " ", 
+              RowBox[{"(", 
+                RowBox[{
+                  RowBox[{
+                  "4", " ", \((2\ \((\(-\((M + 
+                                      Mp)\)\)\ \((2\ l\^2\ \((M + 2\ Mp)\) - 
+                                    3\ Mp\ w\^2 + \((8\ l\^2\ \((M + Mp)\) + 
+                                        2\ \((2\ M - Mp)\)\ w\^2)\)\ Cos[
+                                        x7[t]] - 
+                                    4\ l\^2\ M\ Cos[2\ x7[t]])\) - 
+                              Cos[2\ x6[
+                                      t]]\ \((\(-3\)\ l\^2\ M\ \((M + Mp)\) + 
+                                    Mp\ \((5\ M + 
+                                        3\ Mp)\)\ w\^2 + \((l\^2\ \((M + 
+                                        Mp)\)\ \((3\ M + 4\ Mp)\) + 
+                                        2\ \((2\ M + Mp)\)\ \((M + 
+                                        2\ Mp)\)\ w\^2)\)\ Cos[x7[t]] + 
+                                    l\^2\ \((M + 
+                                        Mp)\)\ \((\((M + 4\ Mp)\)\ Cos[
+                                        2\ x7[t]] + \((5\ M + 4\ Mp)\)\ Cos[
+                                        3\ x7[
+                                        t]])\))\))\)\ Sin[x7[t]\/2]\^2 + \
+\((\(-\((l\^2\ \((M + Mp)\)\ \((9\ M + 4\ Mp)\) + 
+                                      2\ \((2\ M + Mp)\)\ \((M + 
+                                        2\ Mp)\)\ w\^2)\)\)\ Cos[
+                                  x7[t]] + \((M + 
+                                    Mp)\)\ \((l\^2\ \((5\ M + 
+                                        4\ Mp)\) + \((2\ M + Mp)\)\ w\^2 + 
+                                    l\^2\ \((\((9\ M + 4\ Mp)\)\ Cos[
+                                        2\ x7[t]] - \((5\ M + 4\ Mp)\)\ Cos[
+                                        3\ x7[t]])\))\))\)\ Sin[
+                            2\ x6[t]]\ Sin[x7[t]])\), " ", 
+                    RowBox[{
+                      SuperscriptBox["x6", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  RowBox[{
+                  "M", " ", \((2\ l\^2\ \((5\ M + 2\ Mp)\) + 
+                        2\ \((2\ M + Mp)\)\ w\^2 + 
+                        M\ \((5\ l\^2 + 4\ w\^2)\)\ Cos[2\ x6[t]] - 
+                        l\^2\ M\ Cos[2\ x6[t] - x7[t]] - 
+                        16\ l\^2\ M\ Cos[x7[t]] - 8\ l\^2\ Mp\ Cos[x7[t]] - 
+                        8\ M\ w\^2\ Cos[x7[t]] + 4\ l\^2\ M\ Cos[2\ x7[t]] + 
+                        9\ l\^2\ M\ Cos[2\ \((x6[t] + x7[t])\)] + 
+                        4\ l\^2\ Mp\ Cos[2\ \((x6[t] + x7[t])\)] - 
+                        10\ l\^2\ M\ Cos[2\ x6[t] + x7[t]] - 
+                        4\ l\^2\ Mp\ Cos[2\ x6[t] + x7[t]] - 
+                        8\ M\ w\^2\ Cos[2\ x6[t] + x7[t]] - 
+                        4\ Mp\ w\^2\ Cos[2\ x6[t] + x7[t]] - 
+                        l\^2\ \((5\ M + 4\ Mp)\)\ Cos[2\ x6[t] + 3\ x7[t]])\),
+                     " ", 
+                    RowBox[{
+                      SuperscriptBox["x7", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], 
+                ")"}]}]}], ")"}], 
+        "/", \((l\ \((Cos[
+                    2\ x6[t]]\ \((\((l\^2\ \((13\ M\^2 + 32\ M\ Mp + 
+                                  16\ Mp\^2)\) + 
+                            4\ Mp\ \((2\ M + Mp)\)\ w\^2)\)\ Cos[2\ x7[t]] + 
+                      M\ \((\(-2\)\ l\^2\ M + 4\ \((M + 2\ Mp)\)\ w\^2 - 
+                            l\^2\ \((5\ M + 4\ Mp)\)\ Cos[4\ x7[t]])\))\) + 
+                2\ \((l\^2\ \((3\ M + 2\ Mp)\)\ \((3\ M + 
+                            4\ Mp)\) + \((2\ M\^2 + 7\ M\ Mp + 
+                            2\ Mp\^2)\)\ w\^2 + 
+                      2\ M\ \((\(-l\^2\)\ \((3\ M + 2\ Mp)\) + 
+                            Mp\ w\^2)\)\ Cos[2\ x7[t]] + 
+                      4\ l\^2\ M\ Cos[x6[t]]\^2\ \((\(-2\)\ \((M + 
+                                  2\ Mp)\)\ Cos[x7[t]] + 
+                            M\ Cos[
+                                3\ x7[
+                                    t]])\) + \((\(-2\)\ \((l\^2\ \((M + 
+                                        2\ Mp)\)\ \((5\ M + 4\ Mp)\) + 
+                                  2\ Mp\ \((2\ M + Mp)\)\ w\^2)\)\ Cos[
+                                x7[t]] + 
+                            l\^2\ M\ \((6\ M + 8\ Mp - 
+                                  4\ M\ Cos[
+                                      2\ x7[t]] + \((5\ M + 4\ Mp)\)\ Cos[
+                                      3\ x7[t]])\))\)\ Sin[2\ x6[t]]\ Sin[
+                          x7[t]])\))\))\)}]}]], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for Microsoft Windows",
+ScreenRectangle->{{0, 1024}, {0, 685}},
+WindowSize->{1016, 308},
+WindowMargins->{{0, Automatic}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 75, 0, 150, "Title"],
+Cell[1854, 55, 212, 6, 110, "Subsubtitle"],
+
+Cell[CellGroupData[{
+Cell[2091, 65, 28, 0, 73, "Section"],
+Cell[2122, 67, 208, 3, 70, "Input"],
+
+Cell[CellGroupData[{
+Cell[2355, 74, 31, 0, 38, "Subsection"],
+Cell[2389, 76, 243, 4, 90, "Input"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2681, 86, 38, 0, 73, "Section"],
+Cell[2722, 88, 39465, 652, 1533, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[42224, 745, 34, 0, 73, "Section"],
+Cell[42261, 747, 136, 3, 42, "Output"],
+Cell[42400, 752, 49, 0, 33, "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[42486, 757, 35, 0, 73, "Section"],
+
+Cell[CellGroupData[{
+Cell[42546, 761, 136, 3, 70, "Input"],
+Cell[42685, 766, 3691, 68, 244, "Output"],
+Cell[46379, 836, 6670, 115, 391, "Output"],
+Cell[53052, 953, 6775, 118, 480, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

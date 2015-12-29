@@ -1,0 +1,78 @@
+% 
+% dis
+% 2/6
+% mon
+% 
+% [I] 1D Finite Element in Matlab
+%
+% 1) Initialize variables, allocate memory.
+% 2) Generate mesh => store nodal positions
+% 3) Numerically integrate (generates most of the data)
+% Numerical integration will generate the element stiffness matrices and
+% the force vector. This includes the mapping to the master element with
+% shape functions.
+% 4) a) Build the full matrix => Gaussian elimination
+%    b) Vectorize the matrix => Conjugate gradient
+% 5) Enforce boundary conditions
+% 6) Solve the system with the conjugate gradients
+%
+% [II] Generating a mesh
+%
+% Domain is from 0 -> L
+% Break domain down into nodes separated by a distance h.
+% Specify the # of elements inside domain. This determines h.
+
+nnod = nelt+1; % # of nodes = # of elements + 1
+
+% Use equal-size elements to generate the 1D mesh
+globnod = zeros(nnod, 1); % col vector
+for i=2:nnod
+    globnod(i) = globnod(i-1) + L/nelt;
+end
+
+% This is a global perspective. Looking at the mesh locally, each element
+% contains the nodes that define its borders (element 4 contains nodes 4
+% and 5).
+
+% [III] Storing element stiffness matrices
+% size of the 3D array => nelt x 2 x 2
+% z-dimension stores the 2x2 stiffness matrix for each element
+% 
+% Basic idea: K is the stiffness, e means it stores element-by-element: Ke
+Ke = zeros(nelt, 2, 2);
+for i=1:nelt
+    % Insert gaussian quadrature stuff, includes another for loop that will
+    % cycle through the gauss points 
+    Ke(i, 1, 1) = Ke(i, 1, 1) + ( );
+    Ke(i, 1, 2) = Ke(i, 1, 2) + ( );
+    Ke(i, 2, 1) = Ke(i, 1, 2);
+    Ke(i, 2, 2) = Ke(i, 2, 2) + ( );
+    % Also generate force vector here
+end
+
+% [IV] Implications of the global stiffness matrix representation
+% What does it look like?
+
+% K_global = 
+% [K1_11   K1_12]
+% [K1_12   K1_22]+K2_11     K2_12]
+%         [K2_12            K2_22]+K3_11     K3_12]
+%                           [K3_12           K3_22]+K4_11     K4_12]
+%                                            [K4_12           K4_22] + ...       ...
+
+% Force vector has an analogous shape, but is a column vector.
+% R_global = 
+% [R1_1
+% R1_2 + R2_1
+% R2_2 + R3_1
+% R3_2 + R4_1
+% ...]
+
+% Initialize the first row of the global stiffness matrix
+% => you should notice a pattern.
+% Look at row i, with diagonal terms in positions (i, i-1), (i, i) and (i, i+1) 
+% [ K(i-1)_12 K(i-1)_22+K(i)_11 K(i)_12 ]
+
+% ** hint: if you know the size of the matrix, initialize the first and
+% last rows
+

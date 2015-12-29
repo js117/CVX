@@ -1,0 +1,61 @@
+
+
+function newcycle = reconstruct2(xcycle, p0);
+
+% global mu2 slope eqnhandle;
+% mu2 = mu;
+
+global M Mp g L R K alpha mu2 c mu slope eqnhandle dim wd invalidResults modeldir
+% l = L;
+% mu
+
+% Grab all 3D variables/angles/whatever.
+t = xcycle(:,1);
+s = xcycle(:,2);
+ns = xcycle(:,3);
+sdot = xcycle(:,4);
+nsdot = xcycle(:,5);
+p = xcycle(:,6);
+
+% Grab pdot, the guard function
+q = [s ns sdot nsdot p];
+qd = zeros(length(t), dim);
+for i=1:length(t)
+    qd(i,:) = feval(eqnhandle, q(i,:));
+    guard(i) = feval(eqnhandle, q(i,:), 'g');
+end
+pdot = qd(:,5);
+
+screenSize = get(0, 'ScreenSize');
+% figure('Position', [screenSize(3)/2 0                   screenSize(3)/2     screenSize(4)/2.5])
+
+figure(1)
+hold on
+    subplot(1,2,1)
+    plot(s, sdot, 'r')
+    hold on
+    plot(ns, nsdot, 'b')
+    title({'Sdot vs. S (red), NSdot vs. N (blue), Pdot vs. P (black)';['slope =',num2str(slope)]});
+    subplot(1,2,2)
+    plot(p, pdot, 'k')
+% figure('Position', [0               screenSize(4)/2     screenSize(3)/2     screenSize(4)/2.5])
+
+figure(2)
+hold on
+    plot(t, s, 'r', t, ns, 'b', t, p, 'k', t, guard, 'g')
+    titleString = sprintf('%s\nS (red), NS (blue), pitch (black), guard (green)', modeldir(length(wd)+1:end));
+    title(titleString);
+% figure('Position', [screenSize(3)/2 screenSize(4)/2     screenSize(3)/2     screenSize(4)/2.5])
+
+% figure(3)
+% hold on
+%     plot(t, s-ns, 'gx')
+%     title('S-NS');
+% figure('Position', [0               0                   screenSize(3)/2     screenSize(4)/2.5])
+
+figure(4)
+hold on
+    plot(t, sdot, 'r', t, nsdot, 'b', t, pdot, 'k')
+    title('Sdot (red), NSdot (blue), Pdot (black)');
+
+    

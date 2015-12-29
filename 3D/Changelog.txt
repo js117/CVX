@@ -1,0 +1,16 @@
+Changelog started 1-14-2006.
+
+1-14: Fixed the 'allow no contact' feature. (Thanks Bobby)
+
+1-14: Fixed some logic errors in assigning correct values in the dynamics section.
+
+1-14: changed eqns3.mc to use the Mex API to detect NaN or Inf. This way the code is more portable across platforms and compilers. It's so wonderful.
+
+1-14: eqns3.mc updated to set a flag whenever its input or output is NaN or Inf, step3 modified to return null values if this flag has the value of "1". "invalidResults" is set to "0" at the beginning of step3, but if after passing it through ode45 eqns3 sets this value to "1", then step3 returns null values.
+
+1-14: Logic error fixed in guard3. Previously tried to use Matlab direction checking w/ the holonomic trajectory condition, but setting direction equal to 1 or -1 causes Matlab to detect false impacts if the foot position is 0, but wasn't actually decreasing.
+
+1-14: guard3 had a typo in the holonomic trajectory equation.
+
+1-14: walk3 updated to remove if statement inside for loop. x and t arrays initialized to null values before the loop.
+

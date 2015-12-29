@@ -1,0 +1,288 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      6078,        173]*)
+(*NotebookOutlinePosition[      6721,        195]*)
+(*  CellTagsIndexPosition[      6677,        191]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[TextData[StyleBox["Pointfoot, midlegmass", "Title"]], "Text"],
+
+Cell[TextData[StyleBox["Passive Equations", "Section"]], "Text"],
+
+Cell[TextData[StyleBox["Plastic impact (Grizzle):", "Subsection"]], "Text"],
+
+Cell[BoxData[
+    \(\({q2dotimpact = \(2\ Mp\ q1dot\ Cos[q1 - q2]\^2\)\/\(M + 2\ Mp - M\ \
+Cos[2\ \((\(-q1\) + q2)\)]\), 
+        q1dotimpact = \(2\ Mp\ q1dot\ Cos[q1 - q2]\)\/\(M + 2\ Mp - M\ Cos[2\ \
+\((\(-q1\) + q2)\)]\)};\)\)], "Input"],
+
+Cell[TextData[StyleBox["Conserved angular momentum at impact (Goswami):", \
+"Subsection"]], "Text"],
+
+Cell[BoxData[
+    \(\({q1dotimpact = \(M\ q2dot - 2\ \((M + 2\ Mp)\)\ q1dot\ Cos[q1 - q2]\)\
+\/\(\(-3\)\ M - 4\ Mp + 2\ M\ Cos[2\ \((q1 - q2)\)]\), 
+        q2dotimpact = \((2\ M\ q2dot\ Cos[q1 - q2] + 
+                q1dot\ \((M - 
+                      4\ \((M + Mp)\)\ Cos[
+                          2\ \((q1 - q2)\)])\))\)/\((\(-3\)\ M - 4\ Mp + 
+                2\ M\ Cos[2\ \((q1 - q2)\)])\)};\)\)], "Input"],
+
+Cell[TextData[StyleBox["Dynamics:", "Subsection"]], "Text"],
+
+Cell[BoxData[
+    \(\({q1dotdot = \(-\(\((2\ \((2\ g\ \((M + Mp)\)\ Sin[q1] + 
+                      g\ M\ Sin[q1 - 2\ q2] + L\ M\ q2dot\^2\ Sin[q1 - q2] - 
+                      L\ M\ q1dot\^2\ Sin[
+                          2\ \((q1 - q2)\)])\))\)/\((L\ \((\(-3\)\ M - 
+                      4\ Mp + 2\ M\ Cos[2\ \((q1 - q2)\)])\))\)\)\), 
+        q2dotdot = \((2\ L\ \((5\ M + 4\ Mp)\)\ q1dot\^2\ Sin[q1 - q2] - 
+                2\ L\ M\ q2dot\^2\ Sin[2\ \((q1 - q2)\)] - 
+                2\ g\ \((3\ M + 2\ Mp)\)\ Sin[2\ q1 - q2] + 
+                4\ g\ \((M + Mp)\)\ Sin[q2])\)/\((L\ \((\(-3\)\ M - 4\ Mp + 
+                    2\ M\ Cos[2\ \((q1 - q2)\)])\))\)};\)\)], "Input"],
+
+Cell[TextData[StyleBox["Controlled", "Section"]], "Text"],
+
+Cell["Not implemented yet.", "Text"],
+
+Cell[TextData[StyleBox["Guard", "Section"]], "Text"],
+
+Cell[BoxData[
+    \(\(guard = q1\  + \ q2\  + \ 2*slope;\)\)], "Input"],
+
+Cell[TextData[StyleBox["Export to C", "Section"]], "Text"],
+
+Cell[BoxData[
+    \(\(Needs["\<Format`\>"];\)\)], "Input"],
+
+Cell[TextData[StyleBox["Passive", "Subsection"]], "Text"],
+
+Cell[TextData[StyleBox["Plastic impact:", "Subsubsection"]], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Splice["\<C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\passive\\plastic\\eqns2.\
+mc\>", \ PageWidth \[Rule] 100000000, \ 
+      FormatType \[Rule] OutputForm\ ]\)], "Input"],
+
+Cell[BoxData[
+    \("C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\passive\\plastic\\eqns2.\
+mc"\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[StyleBox["Conserved angular momentum impact:", \
+"Subsubsection"]], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Splice["\<C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\passive\\angcons\\eqns2.\
+mc\>", \ PageWidth \[Rule] 100000000, \ 
+      FormatType \[Rule] OutputForm\ ]\)], "Input"],
+
+Cell[BoxData[
+    \("C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\passive\\angcons\\eqns2.\
+mc"\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[StyleBox["Controlled", "Subsection"]], "Text"],
+
+Cell[TextData[StyleBox["Plastic impact:", "Subsubsection"]], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Splice["\<C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\controlled\\plastic\\\
+eqns2.mc\>", \ PageWidth \[Rule] 100000000, \ 
+      FormatType \[Rule] OutputForm\ ]\)], "Input"],
+
+Cell[BoxData[
+    \("C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\passive\\plastic\\eqns2.\
+mc"\)], "Output"]
+}, Open  ]],
+
+Cell[TextData[StyleBox["Conserved angular momentum impact:", \
+"Subsubsection"]], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Splice["\<C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\controlled\\angcons\\\
+eqns2.mc\>", \ PageWidth \[Rule] 100000000, \ 
+      FormatType \[Rule] OutputForm\ ]\)], "Input"],
+
+Cell[BoxData[
+    \("C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\passive\\angcons\\eqns2.\
+mc"\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 703}},
+WindowSize->{418, 679},
+WindowMargins->{{0, Automatic}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 66, 0, 124, "Text"],
+Cell[1823, 53, 64, 0, 40, "Text"],
+Cell[1890, 55, 75, 0, 34, "Text"],
+Cell[1968, 57, 240, 4, 84, "Input"],
+Cell[2211, 63, 99, 1, 54, "Text"],
+Cell[2313, 66, 415, 7, 148, "Input"],
+Cell[2731, 75, 59, 0, 34, "Text"],
+Cell[2793, 77, 684, 10, 236, "Input"],
+Cell[3480, 89, 57, 0, 40, "Text"],
+Cell[3540, 91, 36, 0, 33, "Text"],
+Cell[3579, 93, 52, 0, 40, "Text"],
+Cell[3634, 95, 71, 1, 30, "Input"],
+Cell[3708, 98, 58, 0, 40, "Text"],
+Cell[3769, 100, 58, 1, 30, "Input"],
+Cell[3830, 103, 57, 0, 34, "Text"],
+Cell[3890, 105, 68, 0, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[3983, 109, 246, 4, 150, "Input"],
+Cell[4232, 115, 162, 3, 67, "Output"]
+}, Open  ]],
+Cell[4409, 121, 89, 1, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[4523, 126, 246, 4, 150, "Input"],
+Cell[4772, 132, 162, 3, 67, "Output"]
+}, Open  ]],
+Cell[4949, 138, 60, 0, 34, "Text"],
+Cell[5012, 140, 68, 0, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[5105, 144, 249, 4, 150, "Input"],
+Cell[5357, 150, 162, 3, 67, "Output"]
+}, Open  ]],
+Cell[5534, 156, 89, 1, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[5648, 161, 249, 4, 150, "Input"],
+Cell[5900, 167, 162, 3, 67, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,1693 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     86138,       1633]*)
+(*NotebookOutlinePosition[     86857,       1658]*)
+(*  CellTagsIndexPosition[     86813,       1654]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell["Pointfoot, midlegmass, 3D", "Title"],
+
+Cell["\<\
+All equations are in terms of the static coordinates.
+Use this convention: q = {pitch about Y-axis, stance angle, nonstance angle, \
+pitch vel, stance vel, nonstance vel}.\
+\>", "Text"],
+
+Cell[BoxData[{\(Needs["\<Format`\>"];\), "\[IndentingNewLine]", \(Off[
+        General::spell, General::spell1];\), "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"{", 
+        RowBox[{\(\[Phi][t] := q[0]\), ",", \(\[Theta]s[t] := q[1]\), 
+          ",", \(\[Theta]ns[t] := q[2]\), ",", 
+          RowBox[{
+            RowBox[{
+              SuperscriptBox["\[Phi]", "\[Prime]",
+                MultilineFunction->None], "[", "t", "]"}], ":=", \(q[3]\)}], 
+          ",", 
+          RowBox[{
+            RowBox[{
+              SuperscriptBox["\[Theta]s", "\[Prime]",
+                MultilineFunction->None], "[", "t", "]"}], ":=", \(q[4]\)}], 
+          ",", 
+          RowBox[{
+            RowBox[{
+              SuperscriptBox["\[Theta]ns", "\[Prime]",
+                MultilineFunction->None], "[", "t", "]"}], ":=", \(q[5]\)}], 
+          ",", \(gamma := slope\)}], "}"}], ";"}]}], "Input",
+  AutoIndent->False],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    RowBox[{"CForm", "[", 
+      RowBox[{
+        RowBox[{
+        "l", " ", \((Cos[\[Phi][t]]\ Sin[\[Theta]ns[t]] - 
+              Cos[\[Theta]ns[t]]\ Tan[gamma])\), " ", 
+          RowBox[{
+            SuperscriptBox["\[Theta]ns", "\[Prime]",
+              MultilineFunction->None], "[", "t", "]"}]}], "+", 
+        RowBox[{
+        "l", " ", \((\(-Cos[\[Phi][t]]\)\ Sin[\[Theta]s[t]] + 
+              Cos[\[Theta]s[t]]\ Tan[gamma])\), " ", 
+          RowBox[{
+            SuperscriptBox["\[Theta]s", "\[Prime]",
+              MultilineFunction->None], "[", "t", "]"}]}], "-", 
+        RowBox[{
+        "l", " ", \((\(-Cos[\[Theta]ns[t]]\) + Cos[\[Theta]s[t]])\), 
+          " ", \(Sin[\[Phi][t]]\), " ", 
+          RowBox[{
+            SuperscriptBox["\[Phi]", "\[Prime]",
+              MultilineFunction->None], "[", "t", "]"}]}]}], "]"}]], "Input"],
+
+Cell["\<\
+-(l*(Cos(q(1)) - Cos(q(2)))*q(5)*
+      Sin(q(0))) + 
+   l*q(3)*(-(Cos(q(0))*Sin(q(1))) + 
+      Cos(q(1))*Tan(slope)) + 
+   l*q(4)*(Cos(q(0))*Sin(q(2)) - 
+      Cos(q(2))*Tan(slope))\
+\>", "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    StyleBox[\(Controlled, \ not\ hipped, \ 
+      for\ reconstruction\ \(\(validation\)\(:\)\)\),
+      "Section"]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{
+      RowBox[{"{", 
+        RowBox[{
+          RowBox[{"thetaNSdotdot", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\(\(-64\)\ c\^2\ \((Cos[\[Theta]ns[
+                              t]]\ \((\((3\ M + 4\ Mp)\)\ Sin[\[Theta]ns[
+                                    t]] + 
+                              2\ M\ Sin[\[Theta]ns[t] - 2\ \[Theta]s[t]])\) - 
+                        2\ \((5\ M + 
+                              4\ Mp)\)\ Cos[\[Theta]s[t]]\^2\ Sin[\[Theta]ns[
+                                t] - \[Theta]s[t]])\)\ \[Phi][t]\^2\), "+", 
+                  
+                  RowBox[{\(l\^3\), 
+                    " ", \(\((6\ M + 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] - 
+                            8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[
+                                  t]] + \((5\ M + 4\ Mp)\)\ Cos[
+                                2\ \[Theta]s[t]])\)\^2\), " ", 
+                    RowBox[{"(", 
+                      
+                      RowBox[{\(\(-4\)\ g\ \((M + Mp)\)\ Sin[
+                            Beta - \[Theta]ns[t]]\), 
+                        "+", \(2\ g\ \((3\ M + 2\ Mp)\)\ Sin[
+                            Beta + \[Theta]ns[t] - 2\ \[Theta]s[t]]\), "+", 
+                        RowBox[{"l", " ", 
+                          RowBox[{"(", 
+                            RowBox[{
+                              RowBox[{
+                              "2", " ", "M", 
+                                " ", \(Sin[
+                                  2\ \((\[Theta]ns[t] - \[Theta]s[t])\)]\), 
+                                " ", 
+                                SuperscriptBox[
+                                  RowBox[{
+                                    SuperscriptBox["\[Theta]ns", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}], "2"]}], "-", 
+                              RowBox[{
+                              "2", " ", \((5\ M + 4\ Mp)\), 
+                                " ", \(Sin[\[Theta]ns[t] - \[Theta]s[t]]\), 
+                                " ", 
+                                SuperscriptBox[
+                                  RowBox[{
+                                    SuperscriptBox["\[Theta]s", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}], "2"]}], "+", 
+                              
+                              RowBox[{\((\(-2\)\ \((5\ M + 
+                                        4\ Mp)\)\ Cos[\[Theta]s[t]]\^3\ Sin[\
+\[Theta]ns[t]] + 2\ Mp\ Sin[2\ \[Theta]ns[t]] + 
+                                    Cos[\[Theta]ns[
+                                        t]]\ \((3\ M\ Sin[\[Theta]ns[t]] + 
+                                        2\ M\ Sin[\[Theta]ns[t] - 
+                                        2\ \[Theta]s[t]] + 
+                                        2\ \((5\ M + 
+                                        4\ Mp)\)\ Cos[\[Theta]s[t]]\^2\ Sin[\
+\[Theta]s[t]])\))\), " ", 
+                                SuperscriptBox[
+                                  RowBox[{
+                                    SuperscriptBox["\[Phi]", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}], "2"]}]}], ")"}]}]}], ")"}]}]}], 
+                ")"}], "/", \((l\^4\ \((\(-5\)\ M - 4\ Mp + 
+                      4\ M\ Cos[\[Theta]ns[t] - \[Theta]s[t]]\^2)\)\ \((6\ M \
++ 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] - 8\ M\ Cos[\[Theta]ns[t]]\ \
+Cos[\[Theta]s[t]] + \((5\ M + 4\ Mp)\)\ Cos[2\ \[Theta]s[t]])\)\^2)\)}]}], 
+          ",", 
+          RowBox[{"thetaSdotdot", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\(\(-32\)\ c\^2\ \((4\ M\ Cos[\[Theta]ns[t]]\^2\ Sin[\
+\[Theta]ns[t] - \[Theta]s[t]] - 
+                        4\ M\ Cos[\[Theta]s[t]]\ Sin[
+                            2\ \[Theta]ns[t] - \[Theta]s[t]] + \((3\ M + 
+                              4\ Mp)\)\ Sin[
+                            2\ \[Theta]s[t]])\)\ \[Phi][t]\^2\), "+", 
+                  
+                  RowBox[{\(1\/2\), " ", \(l\^3\), 
+                    " ", \(\((6\ M + 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] - 
+                            8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[
+                                  t]] + \((5\ M + 4\ Mp)\)\ Cos[
+                                2\ \[Theta]s[t]])\)\^2\), " ", 
+                    RowBox[{"(", 
+                      
+                      RowBox[{\(8\ g\ \((M + Mp)\)\ Sin[
+                            Beta - \[Theta]s[t]]\), 
+                        "-", \(4\ g\ M\ Sin[
+                            Beta - 2\ \[Theta]ns[t] + \[Theta]s[t]]\), "+", 
+                        RowBox[{
+                        "4", " ", "l", " ", "M", 
+                          " ", \(Sin[\[Theta]ns[t] - \[Theta]s[t]]\), " ", 
+                          RowBox[{"(", 
+                            RowBox[{
+                              SuperscriptBox[
+                                RowBox[{
+                                  SuperscriptBox["\[Theta]ns", "\[Prime]",
+                                    MultilineFunction->None], "[", "t", "]"}],
+                                 "2"], "-", 
+                              RowBox[{
+                              "2", " ", \(Cos[\[Theta]ns[t] - \[Theta]s[t]]\),
+                                 " ", 
+                                SuperscriptBox[
+                                  RowBox[{
+                                    SuperscriptBox["\[Theta]s", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}], "2"]}]}], ")"}]}], "+", 
+                        RowBox[{
+                        "l", " ", \((M\ Cos[\[Theta]s[
+                                    t]]\ \((Sin[\[Theta]ns[t]] + 
+                                    Sin[3\ \[Theta]ns[t]] - 
+                                    4\ Sin[
+                                        2\ \[Theta]ns[t] - \[Theta]s[t]])\) - 
+                              4\ M\ Cos[\[Theta]ns[t]]\^3\ Sin[\[Theta]s[
+                                    t]] + \((3\ M + 4\ Mp)\)\ Sin[
+                                  2\ \[Theta]s[t]])\), " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["\[Phi]", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}]}], ")"}]}]}], ")"}], 
+              "/", \((l\^4\ \((\(-5\)\ M - 4\ Mp + 
+                      4\ M\ Cos[\[Theta]ns[t] - \[Theta]s[t]]\^2)\)\ \((6\ M \
++ 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] - 8\ M\ Cos[\[Theta]ns[t]]\ \
+Cos[\[Theta]s[t]] + \((5\ M + 4\ Mp)\)\ Cos[2\ \[Theta]s[t]])\)\^2)\)}]}], 
+          ",", 
+          RowBox[{"phidotdot", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{"4", " ", 
+                  RowBox[{"(", 
+                    RowBox[{\(16\ c\^2\ \[Phi][t]\), "+", 
+                      
+                      RowBox[{\(l\^4\), 
+                        " ", \((6\ M + 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] - 
+                            8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[
+                                  t]] + \((5\ M + 4\ Mp)\)\ Cos[
+                                2\ \[Theta]s[t]])\), " ", 
+                        RowBox[{"(", 
+                          RowBox[{
+                            RowBox[{
+                            "M", " ", \((Cos[\[Theta]ns[t]] - 
+                                  2\ Cos[\[Theta]s[t]])\), 
+                              " ", \(Sin[\[Theta]ns[t]]\), " ", 
+                              RowBox[{
+                                SuperscriptBox["\[Theta]ns", "\[Prime]",
+                                  MultilineFunction->None], "[", "t", "]"}]}],
+                             "+", 
+                            
+                            RowBox[{\((\(-2\)\ M\ Cos[\[Theta]ns[
+                                        t]] + \((5\ M + 
+                                        4\ Mp)\)\ Cos[\[Theta]s[t]])\), 
+                              " ", \(Sin[\[Theta]s[t]]\), " ", 
+                              RowBox[{
+                                SuperscriptBox["\[Theta]s", "\[Prime]",
+                                  MultilineFunction->None], "[", "t", 
+                                "]"}]}]}], ")"}], " ", 
+                        RowBox[{
+                          SuperscriptBox["\[Phi]", "\[Prime]",
+                            MultilineFunction->None], "[", "t", "]"}]}]}], 
+                    ")"}]}], ")"}], 
+              "/", \((l\^4\ \((6\ M + 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] - 8\ M\
+\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[t]] + \((5\ M + 4\ Mp)\)\ Cos[2\ \
+\[Theta]s[t]])\)\^2)\)}]}], ",", 
+          RowBox[{"phidotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\((\(-M\)\ Cos[2\ \[Theta]ns[t]] + 
+                      8\ \((M + Mp)\)\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[
+                            t]] - M\ \((2 + Cos[2\ \[Theta]s[t]])\))\), " ", 
+                  RowBox[{
+                    SuperscriptBox["\[Phi]", "\[Prime]",
+                      MultilineFunction->None], "[", "t", "]"}]}], ")"}], 
+              "/", \((6\ M + 
+                  4\ Mp + \((5\ M + 4\ Mp)\)\ Cos[2\ \[Theta]ns[t]] - 
+                  8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[t]] + 
+                  M\ Cos[2\ \[Theta]s[t]])\)}]}], ",", "\[IndentingNewLine]", 
+          
+          RowBox[{"thetaNSdotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  RowBox[{
+                  "2", " ", "M", " ", \(Cos[\[Theta]ns[t] - \[Theta]s[t]]\), 
+                    " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Theta]ns", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  
+                  RowBox[{\((M - 
+                        4\ \((M + Mp)\)\ Cos[
+                            2\ \((\[Theta]ns[t] - \[Theta]s[t])\)])\), " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Theta]s", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((\(-3\)\ M - 4\ Mp + 
+                  2\ M\ Cos[2\ \((\[Theta]ns[t] - \[Theta]s[t])\)])\)}]}], 
+          ",", 
+          RowBox[{"thetaSdotimpact", "=", 
+            FractionBox[
+              RowBox[{
+                RowBox[{"M", " ", 
+                  RowBox[{
+                    SuperscriptBox["\[Theta]ns", "\[Prime]",
+                      MultilineFunction->None], "[", "t", "]"}]}], "-", 
+                RowBox[{
+                "2", " ", \((M + 2\ Mp)\), 
+                  " ", \(Cos[\[Theta]ns[t] - \[Theta]s[t]]\), " ", 
+                  RowBox[{
+                    SuperscriptBox["\[Theta]s", "\[Prime]",
+                      MultilineFunction->None], "[", "t", 
+                    "]"}]}]}], \(\(-3\)\ M - 4\ Mp + 
+                2\ M\ Cos[2\ \((\[Theta]ns[t] - \[Theta]s[t])\)]\)]}], ",", 
+          " ", \(guard = 
+            l\ \((\(-Cos[\[Theta]ns[t]]\) + Cos[\[Theta]s[t]])\)\)}], "}"}], 
+      ";"}], "\[IndentingNewLine]", \(Splice["\<C:\\Documents and \
+Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\3D\\pointfoot-midlegmass\\controlled\\nohip\\eqns3.\
+mc\>", \ PageWidth \[Rule] 100000000, \ 
+      FormatType \[Rule] OutputForm\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \("C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\3D\\pointfoot-midlegmass\\controlled\\nohip\\eqns3.\
+mc"\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    StyleBox[\(Controlled, \ not\ \(\(hipped\)\(:\)\)\),
+      "Section"]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{\(\[Mu] := mu;\), "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"{", 
+        RowBox[{
+          RowBox[{"thetaNSdotdot", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\(8\ \((g\ l\^3\ \((\(-2\)\ \((M + 
+                                    Mp)\)\ Cos[\[Theta]ns[t]] + \((3\ M + 
+                                    2\ Mp)\)\ Cos[\[Theta]ns[t] - 
+                                    2\ \[Theta]s[
+                                        t]])\)\ \((6\ M + 4\ Mp + M\ Cos[2\ \
+\[Theta]ns[t]] - 8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[t]] + \((5\ M + 4\ \
+Mp)\)\ Cos[2\ \[Theta]s[t]])\)\^2\ Sin[Beta] + 
+                        g\ l\^3\ Cos[
+                            Beta]\ \((6\ M + 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] \
+- 8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[t]] + \((5\ M + 4\ Mp)\)\ Cos[2\ \
+\[Theta]s[t]])\)\^2\ \((2\ \((M + Mp)\)\ Sin[\[Theta]ns[t]] + \((3\ M + 
+                                    2\ Mp)\)\ Sin[\[Theta]ns[t] - 
+                                    2\ \[Theta]s[t]])\) - 
+                        16\ \[Mu]\^2\ \((\(-4\)\ \((5\ M + 
+                                    4\ Mp)\)\ Cos[\[Theta]s[t]]\^3\ Sin[\
+\[Theta]ns[t]] + 2\ Cos[\[Theta]ns[
+                                    t]]\ \((\((3\ M + 
+                                        4\ Mp)\)\ Sin[\[Theta]ns[t]] + 
+                                    2\ M\ Sin[\[Theta]ns[t] - 
+                                        2\ \[Theta]s[t]] + 
+                                    2\ \((5\ M + 
+                                        4\ Mp)\)\ Cos[\[Theta]s[t]]\^2\ Sin[\
+\[Theta]s[t]])\))\))\)\), "+", 
+                  RowBox[{
+                  "4", " ", \(l\^4\), 
+                    " ", \(\((6\ M + 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] - 
+                            8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[
+                                  t]] + \((5\ M + 4\ Mp)\)\ Cos[
+                                2\ \[Theta]s[t]])\)\^2\), " ", 
+                    RowBox[{"(", 
+                      RowBox[{
+                        RowBox[{
+                        "2", " ", "M", 
+                          " ", \(Sin[2\ \((\[Theta]ns[t] - \[Theta]s[t])\)]\),
+                           " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["\[Theta]ns", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}], "-", 
+                        RowBox[{
+                        "2", " ", \((5\ M + 4\ Mp)\), 
+                          " ", \(Sin[\[Theta]ns[t] - \[Theta]s[t]]\), " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["\[Theta]s", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}], "+", 
+                        
+                        RowBox[{\((\(-2\)\ \((5\ M + 
+                                    4\ Mp)\)\ Cos[\[Theta]s[t]]\^3\ Sin[\
+\[Theta]ns[t]] + 2\ Mp\ Sin[2\ \[Theta]ns[t]] + 
+                              Cos[\[Theta]ns[
+                                    t]]\ \((3\ M\ Sin[\[Theta]ns[t]] + 
+                                    2\ M\ Sin[\[Theta]ns[t] - 
+                                        2\ \[Theta]s[t]] + 
+                                    2\ \((5\ M + 
+                                        4\ Mp)\)\ Cos[\[Theta]s[t]]\^2\ Sin[\
+\[Theta]s[t]])\))\), " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["\[Phi]", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}]}], ")"}]}]}], ")"}], 
+              "/", \((4\ l\^4\ \((\(-5\)\ M - 4\ Mp + 
+                      4\ M\ Cos[\[Theta]ns[t] - \[Theta]s[t]]\^2)\)\ \((6\ M \
++ 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] - 8\ M\ Cos[\[Theta]ns[t]]\ \
+Cos[\[Theta]s[t]] + \((5\ M + 4\ Mp)\)\ Cos[2\ \[Theta]s[t]])\)\^2)\)}]}], 
+          ",", 
+          RowBox[{"thetaSdotdot", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\(\(-8\)\ g\ l\^3\ \((M\ Cos[
+                            2\ \[Theta]ns[t] - \[Theta]s[t]] - 
+                        2\ \((M + Mp)\)\ Cos[\[Theta]s[
+                              t]])\)\ \((6\ M + 4\ Mp + M\ Cos[2\ \
+\[Theta]ns[t]] - 8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[t]] + \((5\ M + 4\ \
+Mp)\)\ Cos[2\ \[Theta]s[t]])\)\^2\ Sin[Beta]\), 
+                  "+", \(8\ g\ l\^3\ Cos[
+                      Beta]\ \((6\ M + 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] - 8\ \
+M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[t]] + \((5\ M + 4\ Mp)\)\ Cos[2\ \
+\[Theta]s[t]])\)\^2\ \((M\ Sin[2\ \[Theta]ns[t] - \[Theta]s[t]] - 
+                        2\ \((M + Mp)\)\ Sin[\[Theta]s[t]])\)\), 
+                  "-", \(128\ \[Mu]\^2\ \((M\ Cos[\[Theta]s[
+                              t]]\ \((Sin[\[Theta]ns[t]] + 
+                              Sin[3\ \[Theta]ns[t]] - 
+                              4\ Sin[2\ \[Theta]ns[t] - \[Theta]s[t]])\) - 
+                        4\ M\ Cos[\[Theta]ns[t]]\^3\ Sin[\[Theta]s[
+                              t]] + \((3\ M + 4\ Mp)\)\ Sin[
+                            2\ \[Theta]s[t]])\)\), "+", 
+                  RowBox[{
+                  "2", " ", \(l\^4\), 
+                    " ", \(\((6\ M + 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] - 
+                            8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[
+                                  t]] + \((5\ M + 4\ Mp)\)\ Cos[
+                                2\ \[Theta]s[t]])\)\^2\), " ", 
+                    RowBox[{"(", 
+                      RowBox[{
+                        RowBox[{
+                        "4", " ", "M", 
+                          " ", \(Sin[\[Theta]ns[t] - \[Theta]s[t]]\), " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["\[Theta]ns", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}], "-", 
+                        RowBox[{
+                        "4", " ", "M", 
+                          " ", \(Sin[2\ \((\[Theta]ns[t] - \[Theta]s[t])\)]\),
+                           " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["\[Theta]s", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}], "+", 
+                        
+                        RowBox[{\((\(-4\)\ M\ Cos[\[Theta]s[t]]\^2\ Sin[
+                                  2\ \[Theta]ns[t]] + 
+                              4\ M\ Cos[\[Theta]ns[t]]\^2\ Sin[\[Theta]ns[
+                                      t] - \[Theta]s[t]] + \((3\ M + 4\ Mp + 
+                                    2\ M\ Cos[2\ \[Theta]ns[t]])\)\ Sin[
+                                  2\ \[Theta]s[t]])\), " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["\[Phi]", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}]}], ")"}]}]}], ")"}], 
+              "/", \((4\ l\^4\ \((\(-5\)\ M - 4\ Mp + 
+                      4\ M\ Cos[\[Theta]ns[t] - \[Theta]s[t]]\^2)\)\ \((6\ M \
++ 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] - 8\ M\ Cos[\[Theta]ns[t]]\ \
+Cos[\[Theta]s[t]] + \((5\ M + 4\ Mp)\)\ Cos[2\ \[Theta]s[t]])\)\^2)\)}]}], 
+          ",", 
+          RowBox[{"phidotdot", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{"4", " ", 
+                  RowBox[{"(", 
+                    RowBox[{
+                      RowBox[{
+                      "M", 
+                        " ", \((Cos[\[Theta]ns[t]] - 2\ Cos[\[Theta]s[t]])\), 
+                        " ", \(Sin[\[Theta]ns[t]]\), " ", 
+                        RowBox[{
+                          SuperscriptBox["\[Theta]ns", "\[Prime]",
+                            MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                      
+                      
+                      RowBox[{\((\(-2\)\ M\ Cos[\[Theta]ns[t]] + \((5\ M + 
+                                  4\ Mp)\)\ Cos[\[Theta]s[t]])\), 
+                        " ", \(Sin[\[Theta]s[t]]\), " ", 
+                        RowBox[{
+                          SuperscriptBox["\[Theta]s", "\[Prime]",
+                            MultilineFunction->None], "[", "t", "]"}]}]}], 
+                    ")"}], " ", 
+                  RowBox[{
+                    SuperscriptBox["\[Phi]", "\[Prime]",
+                      MultilineFunction->None], "[", "t", "]"}]}], ")"}], 
+              "/", \((6\ M + 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] - 
+                  8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[t]] + \((5\ M + 
+                        4\ Mp)\)\ Cos[2\ \[Theta]s[t]])\)}]}], ",", " ", 
+          RowBox[{"phidotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\((\(-M\)\ Cos[2\ \[Theta]ns[t]] + 
+                      8\ \((M + Mp)\)\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[
+                            t]] - M\ \((2 + Cos[2\ \[Theta]s[t]])\))\), " ", 
+                  RowBox[{
+                    SuperscriptBox["\[Phi]", "\[Prime]",
+                      MultilineFunction->None], "[", "t", "]"}]}], ")"}], 
+              "/", \((6\ M + 
+                  4\ Mp + \((5\ M + 4\ Mp)\)\ Cos[2\ \[Theta]ns[t]] - 
+                  8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[t]] + 
+                  M\ Cos[2\ \[Theta]s[t]])\)}]}], ",", 
+          RowBox[{"thetaNSdotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  RowBox[{
+                  "2", " ", "M", " ", \(Cos[\[Theta]ns[t] - \[Theta]s[t]]\), 
+                    " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Theta]ns", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  RowBox[{\((M - 
+                        4\ \((M + Mp)\)\ Cos[
+                            2\ \((\[Theta]ns[t] - \[Theta]s[t])\)])\), " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Theta]s", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((\(-3\)\ M - 4\ Mp + 
+                  2\ M\ Cos[2\ \((\[Theta]ns[t] - \[Theta]s[t])\)])\)}]}], 
+          ",", 
+          RowBox[{"thetaSdotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  RowBox[{"M", " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Theta]ns", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "-", 
+                  RowBox[{
+                  "2", " ", \((M + 2\ Mp)\), 
+                    " ", \(Cos[\[Theta]ns[t] - \[Theta]s[t]]\), " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Theta]s", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((\(-3\)\ M - 4\ Mp + 
+                  2\ M\ Cos[2\ \((\[Theta]ns[t] - \[Theta]s[t])\)])\)}]}], 
+          ",", \(guard = 
+            l\ \((\(-Cos[\[Theta]ns[t]]\) + Cos[\[Theta]s[t]])\)\ Cos[\[Phi][
+                    t]] + l\ \((\(-Sin[\[Theta]ns[t]]\) + 
+                    Sin[\[Theta]s[t]])\)\ Tan[gamma]\)}], "}"}], 
+      ";"}], "\[IndentingNewLine]", \(Splice["\<C:\\Documents and \
+Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\3D\\pointfoot-midlegmass\\controlled\\nohip\\eqns3.\
+mc\>", \ PageWidth \[Rule] 100000000, \ 
+      FormatType \[Rule] OutputForm\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \("C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\3D\\pointfoot-midlegmass\\controlled\\nohip\\eqns3.\
+mc"\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    StyleBox[\(Passive, \ not\ \(\(hipped\)\(:\)\)\),
+      "Section"]], "Input"],
+
+Cell[BoxData[{
+    RowBox[{
+      RowBox[{"{", 
+        RowBox[{
+          RowBox[{"phidotdot", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\(4\ g\ \((\(-M\)\ Cos[\[Theta]ns[t]] + \((3\ M + 
+                              2\ Mp)\)\ Cos[\[Theta]s[t]])\)\ Sin[\[Phi][
+                        t]]\), "+", 
+                  RowBox[{"4", " ", "l", " ", 
+                    RowBox[{"(", 
+                      RowBox[{
+                        RowBox[{
+                        "M", " ", \((Cos[\[Theta]ns[t]] - 
+                              2\ Cos[\[Theta]s[t]])\), 
+                          " ", \(Sin[\[Theta]ns[t]]\), " ", 
+                          RowBox[{
+                            SuperscriptBox["\[Theta]ns", "\[Prime]",
+                              MultilineFunction->None], "[", "t", "]"}]}], 
+                        "+", 
+                        
+                        RowBox[{\((\(-2\)\ M\ Cos[\[Theta]ns[t]] + \((5\ M + 
+                                    4\ Mp)\)\ Cos[\[Theta]s[t]])\), 
+                          " ", \(Sin[\[Theta]s[t]]\), " ", 
+                          RowBox[{
+                            SuperscriptBox["\[Theta]s", "\[Prime]",
+                              MultilineFunction->None], "[", "t", "]"}]}]}], 
+                      ")"}], " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Phi]", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((l\ \((6\ M + 4\ Mp + M\ Cos[2\ \[Theta]ns[t]] - 
+                      8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[t]] + \((5\ M + 
+                            4\ Mp)\)\ Cos[2\ \[Theta]s[t]])\))\)}]}], ",", 
+          RowBox[{"thetaNSdotdot", "=", 
+            
+            RowBox[{\(1/\((l\ \((\(-3\)\ M - 4\ Mp + 
+                        2\ M\ Cos[
+                            2\ \((\[Theta]ns[t] - \[Theta]s[t])\)])\))\)\), 
+              RowBox[{"(", 
+                
+                RowBox[{\(2\ g\ Cos[\[Phi][
+                        t]]\ \((2\ \((M + Mp)\)\ Sin[\[Theta]ns[
+                              t]] + \((3\ M + 2\ Mp)\)\ Sin[\[Theta]ns[t] - 
+                              2\ \[Theta]s[t]])\)\), "+", 
+                  RowBox[{
+                  "2", " ", "l", " ", "M", 
+                    " ", \(Sin[2\ \((\[Theta]ns[t] - \[Theta]s[t])\)]\), " ", 
+                    
+                    SuperscriptBox[
+                      RowBox[{
+                        SuperscriptBox["\[Theta]ns", "\[Prime]",
+                          MultilineFunction->None], "[", "t", "]"}], "2"]}], 
+                  "-", 
+                  RowBox[{
+                  "2", " ", "l", " ", \((5\ M + 4\ Mp)\), 
+                    " ", \(Sin[\[Theta]ns[t] - \[Theta]s[t]]\), " ", 
+                    SuperscriptBox[
+                      RowBox[{
+                        SuperscriptBox["\[Theta]s", "\[Prime]",
+                          MultilineFunction->None], "[", "t", "]"}], "2"]}], 
+                  "+", 
+                  RowBox[{
+                  "l", " ", \((\(-2\)\ \((5\ M + 
+                              4\ Mp)\)\ Cos[\[Theta]s[t]]\^3\ Sin[\[Theta]ns[
+                              t]] + 2\ Mp\ Sin[2\ \[Theta]ns[t]] + 
+                        Cos[\[Theta]ns[t]]\ \((3\ M\ Sin[\[Theta]ns[t]] + 
+                              2\ M\ Sin[\[Theta]ns[t] - 2\ \[Theta]s[t]] + 
+                              2\ \((5\ M + 
+                                    4\ Mp)\)\ Cos[\[Theta]s[t]]\^2\ Sin[\
+\[Theta]s[t]])\))\), " ", 
+                    SuperscriptBox[
+                      RowBox[{
+                        SuperscriptBox["\[Phi]", "\[Prime]",
+                          MultilineFunction->None], "[", "t", "]"}], "2"]}]}],
+                 ")"}]}]}], ",", 
+          RowBox[{"thetaSdotdot", "=", 
+            
+            RowBox[{\(1/\((l\ \((\(-3\)\ M - 4\ Mp + 
+                        2\ M\ Cos[
+                            2\ \((\[Theta]ns[t] - \[Theta]s[t])\)])\))\)\), 
+              RowBox[{"(", 
+                
+                RowBox[{\(2\ g\ Cos[\[Phi][
+                        t]]\ \((M\ Sin[2\ \[Theta]ns[t] - \[Theta]s[t]] - 
+                        2\ \((M + Mp)\)\ Sin[\[Theta]s[t]])\)\), "+", 
+                  RowBox[{
+                  "2", " ", "l", " ", "M", 
+                    " ", \(Sin[\[Theta]ns[t] - \[Theta]s[t]]\), " ", 
+                    RowBox[{"(", 
+                      RowBox[{
+                        SuperscriptBox[
+                          RowBox[{
+                            SuperscriptBox["\[Theta]ns", "\[Prime]",
+                              MultilineFunction->None], "[", "t", "]"}], "2"],
+                         "-", 
+                        RowBox[{
+                        "2", " ", \(Cos[\[Theta]ns[t] - \[Theta]s[t]]\), " ", 
+                          
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["\[Theta]s", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}]}], ")"}]}], "+", 
+                  RowBox[{
+                  "l", " ", \((2\ M\ Cos[\[Theta]ns[t]]\^2\ Sin[\[Theta]ns[
+                                t] - \[Theta]s[t]] + 
+                        Cos[\[Theta]s[
+                              t]]\ \((\(-2\)\ M\ Sin[
+                                  2\ \[Theta]ns[t] - \[Theta]s[
+                                      t]] + \((3\ M + 4\ Mp)\)\ Sin[\[Theta]s[
+                                    t]])\))\), " ", 
+                    SuperscriptBox[
+                      RowBox[{
+                        SuperscriptBox["\[Phi]", "\[Prime]",
+                          MultilineFunction->None], "[", "t", "]"}], "2"]}]}],
+                 ")"}]}]}], ",", 
+          RowBox[{"phidotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\((\(-M\)\ Cos[2\ \[Theta]ns[t]] + 
+                      8\ \((M + Mp)\)\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[
+                            t]] - M\ \((2 + Cos[2\ \[Theta]s[t]])\))\), " ", 
+                  RowBox[{
+                    SuperscriptBox["\[Phi]", "\[Prime]",
+                      MultilineFunction->None], "[", "t", "]"}]}], ")"}], 
+              "/", \((6\ M + 
+                  4\ Mp + \((5\ M + 4\ Mp)\)\ Cos[2\ \[Theta]ns[t]] - 
+                  8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[t]] + 
+                  M\ Cos[2\ \[Theta]s[t]])\)}]}], ",", 
+          RowBox[{"thetaNSdotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  RowBox[{
+                  "2", " ", "M", " ", \(Cos[\[Theta]ns[t] - \[Theta]s[t]]\), 
+                    " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Theta]ns", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  
+                  RowBox[{\((M - 
+                        4\ \((M + Mp)\)\ Cos[
+                            2\ \((\[Theta]ns[t] - \[Theta]s[t])\)])\), " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Theta]s", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((\(-3\)\ M - 4\ Mp + 
+                  2\ M\ Cos[2\ \((\[Theta]ns[t] - \[Theta]s[t])\)])\)}]}], 
+          ",", 
+          RowBox[{"thetaSdotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  RowBox[{"M", " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Theta]ns", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "-", 
+                  RowBox[{
+                  "2", " ", \((M + 2\ Mp)\), 
+                    " ", \(Cos[\[Theta]ns[t] - \[Theta]s[t]]\), " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Theta]s", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((\(-3\)\ M - 4\ Mp + 
+                  2\ M\ Cos[2\ \((\[Theta]ns[t] - \[Theta]s[t])\)])\)}]}], 
+          ",", \(guard = 
+            l\ \((\(-Cos[\[Theta]ns[t]]\) + Cos[\[Theta]s[t]])\)\ Cos[\[Phi][
+                    t]] + l\ \((\(-Sin[\[Theta]ns[t]]\) + 
+                    Sin[\[Theta]s[t]])\)\ Tan[gamma]\)}], "}"}], 
+      ";"}], "\[IndentingNewLine]", \(Splice["\<C:\\Documents and \
+Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\3D\\pointfoot-midlegmass\\passive\\nohip\\eqns3.mc\>\
+", \ PageWidth \[Rule] 100000000, \ 
+      FormatType \[Rule] OutputForm\ ]\)}], "Input"],
+
+Cell[BoxData[
+    StyleBox[\(Passive, \ \(\(hipped\)\(:\)\)\),
+      "Section"]], "Input"],
+
+Cell[BoxData[{
+    RowBox[{
+      RowBox[{"{", 
+        RowBox[{
+          RowBox[{"phidotdot", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{"4", " ", 
+                  RowBox[{"(", 
+                    
+                    RowBox[{\(\(-g\)\ w\ \((Mp\ \((3\ M + 2\ Mp)\) + 
+                            M\ Mp\ Cos[2\ \[Theta]ns[t]] + 
+                            M\ \((M + Mp)\)\ Cos[
+                                2\ \((\[Theta]ns[t] - \[Theta]s[
+                                        t])\)] + \((M\^2 + 4\ M\ Mp + 
+                                  2\ Mp\^2)\)\ Cos[
+                                2\ \[Theta]s[t]])\)\ Cos[\[Phi][t]]\), 
+                      "+", \(g\ l\ \((\(-3\)\ M - 4\ Mp + 
+                            2\ M\ Cos[
+                                2\ \((\[Theta]ns[t] - \[Theta]s[
+                                        t])\)])\)\ \((\(-M\)\ Cos[\[Theta]ns[
+                                  t]] + \((3\ M + 2\ Mp)\)\ Cos[\[Theta]s[
+                                  t]])\)\ Sin[\[Phi][t]]\), "+", 
+                      RowBox[{"l", " ", 
+                        RowBox[{"(", 
+                          RowBox[{
+                            
+                            RowBox[{\(-M\), " ", "w", 
+                              " ", \((\((M + 3\ Mp)\)\ Cos[\[Theta]ns[t]] + 
+                                  Mp\ Cos[\[Theta]ns[t] - 2\ \[Theta]s[t]])\),
+                               " ", 
+                              SuperscriptBox[
+                                RowBox[{
+                                  SuperscriptBox["\[Theta]ns", "\[Prime]",
+                                    MultilineFunction->None], "[", "t", "]"}],
+                                 "2"]}], "+", 
+                            RowBox[{
+                            "w", " ", \((M\ \((M + 2\ Mp)\)\ Cos[
+                                      2\ \[Theta]ns[t] - \[Theta]s[
+                                        t]] + \((M\^2 + 7\ M\ Mp + 
+                                        4\ Mp\^2)\)\ Cos[\[Theta]s[t]])\), 
+                              " ", 
+                              SuperscriptBox[
+                                RowBox[{
+                                  SuperscriptBox["\[Theta]s", "\[Prime]",
+                                    MultilineFunction->None], "[", "t", "]"}],
+                                 "2"]}], "+", 
+                            RowBox[{
+                            "l", " ", \((\(-3\)\ M - 4\ Mp + 
+                                  2\ M\ Cos[
+                                      2\ \((\[Theta]ns[t] - \[Theta]s[
+                                        t])\)])\), " ", 
+                              RowBox[{"(", 
+                                RowBox[{
+                                  RowBox[{
+                                  "M", " ", \((Cos[\[Theta]ns[t]] - 
+                                        2\ Cos[\[Theta]s[t]])\), 
+                                    " ", \(Sin[\[Theta]ns[t]]\), " ", 
+                                    RowBox[{
+                                      
+                                      SuperscriptBox["\[Theta]ns", "\[Prime]",
+                                        
+                                        MultilineFunction->None], "[", "t", 
+                                      "]"}]}], "+", 
+                                  
+                                  RowBox[{\((\(-2\)\ M\ Cos[\[Theta]ns[
+                                        t]] + \((5\ M + 
+                                        4\ Mp)\)\ Cos[\[Theta]s[t]])\), 
+                                    " ", \(Sin[\[Theta]s[t]]\), " ", 
+                                    RowBox[{
+                                      SuperscriptBox["\[Theta]s", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                      "]"}]}]}], ")"}], " ", 
+                              RowBox[{
+                                SuperscriptBox["\[Phi]", "\[Prime]",
+                                  MultilineFunction->None], "[", "t", "]"}]}],
+                             "+", 
+                            RowBox[{
+                            "w", " ", \((M\ \((5\ M + 
+                                        4\ Mp)\)\ \((Cos[\[Theta]ns[t]] - 
+                                        2\ Cos[\[Theta]s[
+                                        t]])\)\ Sin[\[Theta]ns[t]]\^2 - 
+                                  2\ M\ Cos[\[Theta]ns[t] - \[Theta]s[
+                                        t]]\ \((\((4\ M + 
+                                        Mp)\)\ Cos[\[Theta]ns[t]] - 
+                                        3\ \((3\ M + 2\ Mp)\)\ Cos[\[Theta]s[
+                                        t]])\)\ Sin[\[Theta]ns[
+                                        t]]\ Sin[\[Theta]s[t]] + \((2\ M + 
+                                        Mp)\)\ \((2\ M\ Cos[\[Theta]ns[
+                                        t]] - \((5\ M + 
+                                        4\ Mp)\)\ Cos[\[Theta]s[
+                                        t]])\)\ Sin[\[Theta]s[t]]\^2)\), " ", 
+                              
+                              SuperscriptBox[
+                                RowBox[{
+                                  SuperscriptBox["\[Phi]", "\[Prime]",
+                                    MultilineFunction->None], "[", "t", "]"}],
+                                 "2"]}]}], ")"}]}]}], ")"}]}], ")"}], 
+              "/", \((\(-2\)\ l\^2\ \((3\ M + 2\ Mp)\)\ \((3\ M + 4\ Mp)\) - 
+                  2\ \((2\ M\^2 + 7\ M\ Mp + 2\ Mp\^2)\)\ w\^2 - 
+                  2\ \((l\^2\ \((7\ M\^2 + 16\ M\ Mp + 8\ Mp\^2)\) + 
+                        2\ Mp\ \((2\ M + Mp)\)\ w\^2)\)\ Cos[
+                      2\ \[Theta]s[t]] + 
+                  l\^2\ M\^2\ Cos[4\ \[Theta]ns[t]]\ Cos[2\ \[Theta]s[t]] + 
+                  4\ l\^2\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[
+                        t]]\ \((7\ M + 8\ Mp - 
+                        2\ M\ Cos[2\ \[Theta]s[t]])\) - 
+                  4\ l\^2\ M\^2\ Cos[3\ \[Theta]ns[t]]\ Cos[
+                      3\ \[Theta]s[t]] - 
+                  64\ l\^2\ M\^2\ Cos[\[Theta]ns[t]]\^2\ Cos[\[Theta]s[t]]\^2\
+\ Sin[\[Theta]ns[t]]\ Sin[\[Theta]s[t]] + 
+                  2\ M\ \((l\^2\ \((6\ M + 4\ Mp)\) - 2\ Mp\ w\^2 + 
+                        l\^2\ \((5\ M + 4\ Mp)\)\ Cos[
+                            2\ \[Theta]s[t]])\)\ Sin[2\ \[Theta]ns[t]]\ Sin[
+                      2\ \[Theta]s[t]] + 
+                  M\ Cos[2\ \[Theta]ns[t]]\ \((2\ l\^2\ M - 
+                        4\ \((M + 2\ Mp)\)\ w\^2 - 
+                        8\ l\^2\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[t]] + 
+                        4\ \((l\^2\ \((3\ M + 2\ Mp)\) - Mp\ w\^2)\)\ Cos[
+                            2\ \[Theta]s[t]] + 
+                        l\^2\ \((\((5\ M + 4\ Mp)\)\ Cos[4\ \[Theta]s[t]] + 
+                              2\ M\ Sin[2\ \[Theta]ns[t]]\ Sin[
+                                  2\ \[Theta]s[t]])\))\))\)}]}], ",", 
+          RowBox[{"thetaNSdotdot", "=", 
+            
+            RowBox[{\(\(-1\)/\((l\ \((\(-M\)\ Sin[
+                            2\ \[Theta]ns[t] - \[Theta]s[t]] + \((M + 
+                              Mp)\)\ Sin[\[Theta]s[t]])\))\)\), 
+              RowBox[{"(", 
+                RowBox[{
+                  RowBox[{\((2\ M + Mp)\), " ", \(Sin[\[Theta]s[t]]\), " ", 
+                    RowBox[{"(", 
+                      RowBox[{
+                        
+                        RowBox[{\(-2\), " ", "l", 
+                          " ", \(Sin[\[Theta]ns[t] - \[Theta]s[t]]\), " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["\[Theta]s", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}], "+", 
+                        RowBox[{\(Sin[\[Theta]ns[t]]\), " ", 
+                          RowBox[{"(", 
+                            RowBox[{\(2\ g\ Cos[\[Phi][t]]\), "+", 
+                              RowBox[{
+                              "l", " ", \((Cos[\[Theta]ns[t]] - 
+                                    2\ Cos[\[Theta]s[t]])\), " ", 
+                                SuperscriptBox[
+                                  RowBox[{
+                                    SuperscriptBox["\[Phi]", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}], "2"]}]}], ")"}]}]}], ")"}]}], "+", 
+                  
+                  RowBox[{\(Sin[\[Theta]ns[t]]\), " ", 
+                    RowBox[{"(", 
+                      RowBox[{
+                        RowBox[{
+                        "2", " ", "l", " ", "M", 
+                          " ", \(Sin[\[Theta]ns[t] - \[Theta]s[t]]\), " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["\[Theta]ns", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}], "+", 
+                        RowBox[{\(Sin[\[Theta]s[t]]\), " ", 
+                          RowBox[{"(", 
+                            
+                            RowBox[{\(\(-2\)\ g\ \((3\ M + 
+                                    2\ Mp)\)\ Cos[\[Phi][t]]\), "+", 
+                              RowBox[{
+                              "l", " ", \((\(-2\)\ M\ Cos[\[Theta]ns[
+                                        t]] + \((5\ M + 
+                                        4\ Mp)\)\ Cos[\[Theta]s[t]])\), " ", 
+                                SuperscriptBox[
+                                  RowBox[{
+                                    SuperscriptBox["\[Phi]", "\[Prime]",
+                                      MultilineFunction->None], "[", "t", 
+                                    "]"}], "2"]}]}], ")"}]}]}], ")"}]}], "+", 
+                  
+                  RowBox[{
+                    RowBox[{"(", 
+                      
+                      RowBox[{\((3\ \((M + Mp)\)\ Sin[\[Theta]ns[
+                                  t]] + \((2\ M + Mp)\)\ Sin[\[Theta]ns[t] - 
+                                  2\ \[Theta]s[t]])\), " ", 
+                        RowBox[{"(", 
+                          RowBox[{
+                            
+                            RowBox[{\(-\((l\^2\ \((6\ M + 4\ Mp)\) + 
+                                    2\ \((2\ M + Mp)\)\ w\^2 + 
+                                    M\ \((l\^2 + 4\ w\^2)\)\ Cos[
+                                        2\ \[Theta]ns[t]] + 
+                                    l\^2\ \((\(-8\)\ M\ Cos[\[Theta]ns[
+                                        t]]\ Cos[\[Theta]s[t]] + \((5\ M + 
+                                        4\ Mp)\)\ Cos[
+                                        2\ \[Theta]s[t]])\))\)\), " ", 
+                              RowBox[{"(", 
+                                
+                                RowBox[{\(\(-2\)\ g\ \((M + Mp)\)\ Cos[\[Phi][
+                                        t]]\ Sin[\[Theta]ns[
+                                        t]]\ Sin[\[Theta]s[t]]\), "-", 
+                                  RowBox[{
+                                  "2", " ", "l", 
+                                    " ", \(Sin[\[Theta]ns[t] - \[Theta]s[
+                                        t]]\), " ", 
+                                    RowBox[{"(", 
+                                      RowBox[{
+                                        
+                                        RowBox[{\(-M\), 
+                                        " ", \(Sin[\[Theta]ns[t]]\), " ", 
+                                        SuperscriptBox[
+                                        RowBox[{
+                                        
+                                        SuperscriptBox["\[Theta]ns", 
+                                        "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], "2"]}], "+", 
+                                        
+                                        RowBox[{\((2\ M + Mp)\), 
+                                        " ", \(Sin[\[Theta]s[t]]\), " ", 
+                                        SuperscriptBox[
+                                        RowBox[{
+                                        
+                                        SuperscriptBox["\[Theta]s", 
+                                        "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], "2"]}]}], ")"}]}], "+", 
+                                  RowBox[{
+                                  "l", " ", \((Mp\ Cos[\[Theta]ns[
+                                        t]] + \((M + 2\ Mp)\)\ Cos[\[Theta]s[
+                                        t]])\), " ", \(Sin[\[Theta]ns[t]]\), 
+                                    " ", \(Sin[\[Theta]s[t]]\), " ", 
+                                    SuperscriptBox[
+                                      RowBox[{
+                                        SuperscriptBox["\[Phi]", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], "2"]}]}], ")"}]}], "-", 
+                            
+                            RowBox[{\((\(-M\)\ Sin[
+                                      2\ \[Theta]ns[t] - \[Theta]s[
+                                        t]] + \((M + Mp)\)\ Sin[\[Theta]s[
+                                        t]])\), " ", 
+                              RowBox[{"(", 
+                                RowBox[{
+                                  
+                                  RowBox[{\(-\((l\^2\ \((6\ M + 4\ Mp)\) + 
+                                        2\ \((4\ M + Mp)\)\ w\^2 + 
+                                        l\^2\ \((M\ Cos[2\ \[Theta]ns[t]] - 
+                                        8\ M\ Cos[\[Theta]ns[
+                                        t]]\ Cos[\[Theta]s[t]] + \((5\ M + 
+                                        4\ Mp)\)\ Cos[
+                                        2\ \[Theta]s[t]])\))\)\), " ", 
+                                    RowBox[{"(", 
+                                      RowBox[{
+                                        
+                                        RowBox[{\(-2\), " ", "l", 
+                                        " ", \(Sin[\[Theta]ns[t] - \[Theta]s[
+                                        t]]\), " ", 
+                                        SuperscriptBox[
+                                        RowBox[{
+                                        
+                                        SuperscriptBox["\[Theta]s", 
+                                        "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], "2"]}], "+", 
+                                        RowBox[{\(Sin[\[Theta]ns[t]]\), " ", 
+                                        RowBox[{"(", 
+                                        
+                                        RowBox[{\(2\ g\ Cos[\[Phi][t]]\), "+",
+                                         
+                                        RowBox[{
+                                        "l", " ", \((Cos[\[Theta]ns[t]] - 
+                                        2\ Cos[\[Theta]s[t]])\), " ", 
+                                        SuperscriptBox[
+                                        RowBox[{
+                                        SuperscriptBox["\[Phi]", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], "2"]}]}], ")"}]}]}], ")"}]}], 
+                                  "+", 
+                                  RowBox[{
+                                  "8", " ", "w", " ", \(Sin[\[Theta]ns[t]]\), 
+                                    " ", 
+                                    RowBox[{"(", 
+                                      
+                                      RowBox[{\(g\ \((2\ M + 
+                                        Mp)\)\ w\ Cos[\[Phi][t]]\), 
+                                        "+", \(g\ l\ \((\(-M\)\ \
+Cos[\[Theta]ns[t]] + \((3\ M + 2\ Mp)\)\ Cos[\[Theta]s[t]])\)\ Sin[\[Phi][
+                                        t]]\), "+", 
+                                        RowBox[{"l", " ", 
+                                        RowBox[{"(", 
+                                        RowBox[{
+                                        RowBox[{
+                                        "M", " ", "w", 
+                                        " ", \(Cos[\[Theta]ns[t]]\), " ", 
+                                        SuperscriptBox[
+                                        RowBox[{
+                                        SuperscriptBox["\[Theta]ns", 
+                                        "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], "2"]}], "+", 
+                                        RowBox[{
+                                        "l", " ", "M", 
+                                        " ", \((Cos[\[Theta]ns[t]] - 
+                                        2\ Cos[\[Theta]s[t]])\), 
+                                        " ", \(Sin[\[Theta]ns[t]]\), " ", 
+                                        RowBox[{
+                                        
+                                        SuperscriptBox["\[Theta]ns", 
+                                        "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], " ", 
+                                        RowBox[{
+                                        SuperscriptBox["\[Phi]", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}]}], "+", 
+                                        RowBox[{
+                                        RowBox[{
+                                        
+                                        SuperscriptBox["\[Theta]s", 
+                                        "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], " ", 
+                                        RowBox[{"(", 
+                                        RowBox[{
+                                        
+                                        RowBox[{\(-\((2\ M + Mp)\)\), " ", 
+                                        "w", " ", \(Cos[\[Theta]s[t]]\), " ", 
+                                        
+                                        RowBox[{
+                                        
+                                        SuperscriptBox["\[Theta]s", 
+                                        "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}]}], "+", 
+                                        RowBox[{
+                                        "l", 
+                                        " ", \((\(-2\)\ M\ Cos[\[Theta]ns[
+                                        t]] + \((5\ M + 
+                                        4\ Mp)\)\ Cos[\[Theta]s[t]])\), 
+                                        " ", \(Sin[\[Theta]s[t]]\), " ", 
+                                        RowBox[{
+                                        SuperscriptBox["\[Phi]", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}]}]}], ")"}]}]}], ")"}]}]}], 
+                                      ")"}]}]}], ")"}]}]}], ")"}]}], ")"}], 
+                    "/", \((\((l\^2\ \((6\ M + 4\ Mp)\) + 
+                              2\ \((2\ M + Mp)\)\ w\^2 + 
+                              M\ \((l\^2 + 4\ w\^2)\)\ Cos[
+                                  2\ \[Theta]ns[t]] + 
+                              l\^2\ \((\(-8\)\ M\ Cos[\[Theta]ns[
+                                        t]]\ Cos[\[Theta]s[t]] + \((5\ M + 
+                                        4\ Mp)\)\ Cos[
+                                        2\ \[Theta]s[t]])\))\)\ \((3\ \((M + 
+                                    Mp)\)\ Sin[\[Theta]ns[t]] + \((2\ M + 
+                                    Mp)\)\ Sin[\[Theta]ns[t] - 
+                                    2\ \[Theta]s[t]])\) + 
+                        2\ \((\(-M\)\ Sin[
+                                  2\ \[Theta]ns[t] - \[Theta]s[t]] + \((M + 
+                                    Mp)\)\ Sin[\[Theta]s[
+                                    t]])\)\ \((Cos[\[Theta]ns[t] - \[Theta]s[
+                                      t]]\ \((l\^2\ \((6\ M + 4\ Mp)\) + 
+                                    2\ \((4\ M + Mp)\)\ w\^2 + 
+                                    l\^2\ \((M\ Cos[2\ \[Theta]ns[t]] - 
+                                        8\ M\ Cos[\[Theta]ns[
+                                        t]]\ Cos[\[Theta]s[t]] + \((5\ M + 
+                                        4\ Mp)\)\ Cos[
+                                        2\ \[Theta]s[t]])\))\) - 
+                              4\ \((2\ M + Mp)\)\ w\^2\ Sin[\[Theta]ns[
+                                    t]]\ Sin[\[Theta]s[t]])\))\)}]}], 
+                ")"}]}]}], ",", 
+          RowBox[{"thetaSdotdot", "=", 
+            RowBox[{
+              RowBox[{"-", 
+                RowBox[{"(", 
+                  RowBox[{
+                    
+                    RowBox[{\((l\^2\ \((6\ M + 4\ Mp)\) + 
+                          2\ \((2\ M + Mp)\)\ w\^2 + 
+                          M\ \((l\^2 + 4\ w\^2)\)\ Cos[2\ \[Theta]ns[t]] + 
+                          l\^2\ \((\(-8\)\ M\ Cos[\[Theta]ns[
+                                      t]]\ Cos[\[Theta]s[t]] + \((5\ M + 
+                                      4\ Mp)\)\ Cos[2\ \[Theta]s[t]])\))\), 
+                      " ", 
+                      RowBox[{"(", 
+                        
+                        RowBox[{\(\(-2\)\ g\ \((M + Mp)\)\ Cos[\[Phi][
+                                t]]\ Sin[\[Theta]ns[t]]\ Sin[\[Theta]s[t]]\), 
+                          "-", 
+                          RowBox[{
+                          "2", " ", "l", 
+                            " ", \(Sin[\[Theta]ns[t] - \[Theta]s[t]]\), " ", 
+                            RowBox[{"(", 
+                              RowBox[{
+                                
+                                RowBox[{\(-M\), " ", \(Sin[\[Theta]ns[t]]\), 
+                                  " ", 
+                                  SuperscriptBox[
+                                    RowBox[{
+                                      
+                                      SuperscriptBox["\[Theta]ns", "\[Prime]",
+                                        
+                                        MultilineFunction->None], "[", "t", 
+                                      "]"}], "2"]}], "+", 
+                                RowBox[{\((2\ M + Mp)\), 
+                                  " ", \(Sin[\[Theta]s[t]]\), " ", 
+                                  SuperscriptBox[
+                                    RowBox[{
+                                      SuperscriptBox["\[Theta]s", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                      "]"}], "2"]}]}], ")"}]}], "+", 
+                          RowBox[{
+                          "l", " ", \((Mp\ Cos[\[Theta]ns[t]] + \((M + 
+                                      2\ Mp)\)\ Cos[\[Theta]s[t]])\), 
+                            " ", \(Sin[\[Theta]ns[t]]\), 
+                            " ", \(Sin[\[Theta]s[t]]\), " ", 
+                            SuperscriptBox[
+                              RowBox[{
+                                SuperscriptBox["\[Phi]", "\[Prime]",
+                                  MultilineFunction->None], "[", "t", "]"}], 
+                              "2"]}]}], ")"}]}], "+", 
+                    
+                    RowBox[{\((\(-M\)\ Sin[
+                              2\ \[Theta]ns[t] - \[Theta]s[t]] + \((M + 
+                                Mp)\)\ Sin[\[Theta]s[t]])\), " ", 
+                      RowBox[{"(", 
+                        RowBox[{
+                          
+                          RowBox[{\(-\((l\^2\ \((6\ M + 4\ Mp)\) + 
+                                  2\ \((4\ M + Mp)\)\ w\^2 + 
+                                  l\^2\ \((M\ Cos[2\ \[Theta]ns[t]] - 
+                                        8\ M\ Cos[\[Theta]ns[
+                                        t]]\ Cos[\[Theta]s[t]] + \((5\ M + 
+                                        4\ Mp)\)\ Cos[
+                                        2\ \[Theta]s[t]])\))\)\), " ", 
+                            RowBox[{"(", 
+                              RowBox[{
+                                
+                                RowBox[{\(-2\), " ", "l", 
+                                  " ", \(Sin[\[Theta]ns[t] - \[Theta]s[t]]\), 
+                                  " ", 
+                                  SuperscriptBox[
+                                    RowBox[{
+                                      SuperscriptBox["\[Theta]s", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                      "]"}], "2"]}], "+", 
+                                RowBox[{\(Sin[\[Theta]ns[t]]\), " ", 
+                                  RowBox[{"(", 
+                                    RowBox[{\(2\ g\ Cos[\[Phi][t]]\), "+", 
+                                      RowBox[{
+                                      "l", " ", \((Cos[\[Theta]ns[t]] - 
+                                        2\ Cos[\[Theta]s[t]])\), " ", 
+                                        SuperscriptBox[
+                                        RowBox[{
+                                        SuperscriptBox["\[Phi]", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], "2"]}]}], ")"}]}]}], ")"}]}], 
+                          "+", 
+                          RowBox[{
+                          "8", " ", "w", " ", \(Sin[\[Theta]ns[t]]\), " ", 
+                            RowBox[{"(", 
+                              
+                              RowBox[{\(g\ \((2\ M + Mp)\)\ w\ Cos[\[Phi][
+                                      t]]\), 
+                                "+", \(g\ l\ \((\(-M\)\ Cos[\[Theta]ns[
+                                        t]] + \((3\ M + 
+                                        2\ Mp)\)\ Cos[\[Theta]s[
+                                        t]])\)\ Sin[\[Phi][t]]\), "+", 
+                                RowBox[{"l", " ", 
+                                  RowBox[{"(", 
+                                    RowBox[{
+                                      RowBox[{
+                                      "M", " ", "w", 
+                                        " ", \(Cos[\[Theta]ns[t]]\), " ", 
+                                        SuperscriptBox[
+                                        RowBox[{
+                                        
+                                        SuperscriptBox["\[Theta]ns", 
+                                        "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], "2"]}], "+", 
+                                      RowBox[{
+                                      "l", " ", "M", 
+                                        " ", \((Cos[\[Theta]ns[t]] - 
+                                        2\ Cos[\[Theta]s[t]])\), 
+                                        " ", \(Sin[\[Theta]ns[t]]\), " ", 
+                                        RowBox[{
+                                        
+                                        SuperscriptBox["\[Theta]ns", 
+                                        "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], " ", 
+                                        RowBox[{
+                                        SuperscriptBox["\[Phi]", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}]}], "+", 
+                                      RowBox[{
+                                        RowBox[{
+                                        
+                                        SuperscriptBox["\[Theta]s", 
+                                        "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}], " ", 
+                                        RowBox[{"(", 
+                                        RowBox[{
+                                        
+                                        RowBox[{\(-\((2\ M + Mp)\)\), " ", 
+                                        "w", " ", \(Cos[\[Theta]s[t]]\), " ", 
+                                        
+                                        RowBox[{
+                                        
+                                        SuperscriptBox["\[Theta]s", 
+                                        "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}]}], "+", 
+                                        RowBox[{
+                                        "l", 
+                                        " ", \((\(-2\)\ M\ Cos[\[Theta]ns[
+                                        t]] + \((5\ M + 
+                                        4\ Mp)\)\ Cos[\[Theta]s[t]])\), 
+                                        " ", \(Sin[\[Theta]s[t]]\), " ", 
+                                        RowBox[{
+                                        SuperscriptBox["\[Phi]", "\[Prime]",
+                                        MultilineFunction->None], "[", "t", 
+                                        "]"}]}]}], ")"}]}]}], ")"}]}]}], 
+                              ")"}]}]}], ")"}]}]}], ")"}]}], 
+              "/", \((l\ \((\((l\^2\ \((6\ M + 4\ Mp)\) + 
+                            2\ \((2\ M + Mp)\)\ w\^2 + 
+                            M\ \((l\^2 + 4\ w\^2)\)\ Cos[2\ \[Theta]ns[t]] + 
+                            l\^2\ \((\(-8\)\ M\ Cos[\[Theta]ns[
+                                        t]]\ Cos[\[Theta]s[t]] + \((5\ M + 
+                                        4\ Mp)\)\ Cos[
+                                      2\ \[Theta]s[t]])\))\)\ \((3\ \((M + 
+                                  Mp)\)\ Sin[\[Theta]ns[t]] + \((2\ M + 
+                                  Mp)\)\ Sin[\[Theta]ns[t] - 
+                                  2\ \[Theta]s[t]])\) + 
+                      2\ \((\(-M\)\ Sin[
+                                2\ \[Theta]ns[t] - \[Theta]s[t]] + \((M + 
+                                  Mp)\)\ Sin[\[Theta]s[
+                                  t]])\)\ \((Cos[\[Theta]ns[t] - \[Theta]s[
+                                    t]]\ \((l\^2\ \((6\ M + 4\ Mp)\) + 
+                                  2\ \((4\ M + Mp)\)\ w\^2 + 
+                                  l\^2\ \((M\ Cos[2\ \[Theta]ns[t]] - 
+                                        8\ M\ Cos[\[Theta]ns[
+                                        t]]\ Cos[\[Theta]s[t]] + \((5\ M + 
+                                        4\ Mp)\)\ Cos[
+                                        2\ \[Theta]s[t]])\))\) - 
+                            4\ \((2\ M + Mp)\)\ w\^2\ Sin[\[Theta]ns[
+                                  t]]\ Sin[\[Theta]s[t]])\))\))\)}]}], ",", 
+          " ", 
+          RowBox[{"phidotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  RowBox[{"4", " ", "l", " ", "w", " ", 
+                    RowBox[{"(", 
+                      RowBox[{
+                        RowBox[{
+                        "M", " ", \((Mp\ Sin[\[Theta]ns[t]] + 
+                              2\ M\ Cos[\[Theta]s[
+                                    t]]\ Sin[\[Theta]ns[t] - \[Theta]s[t]])\),
+                           " ", 
+                          RowBox[{
+                            SuperscriptBox["\[Theta]ns", "\[Prime]",
+                              MultilineFunction->None], "[", "t", "]"}]}], 
+                        "-", 
+                        
+                        RowBox[{\((M\ \((M + Mp)\)\ Sin[
+                                  2\ \[Theta]ns[t] - 
+                                    3\ \[Theta]s[t]] + \((M\^2 + 4\ M\ Mp + 
+                                    2\ Mp\^2)\)\ Sin[
+                                  2\ \[Theta]ns[t] - \[Theta]s[t]] - 
+                              2\ Mp\ \((M + Mp)\)\ Sin[\[Theta]s[t]])\), " ", 
+                          
+                          RowBox[{
+                            SuperscriptBox["\[Theta]s", "\[Prime]",
+                              MultilineFunction->None], "[", "t", "]"}]}]}], 
+                      ")"}]}], "+", 
+                  
+                  RowBox[{\((2\ l\^2\ M\ \((3\ M + 4\ Mp)\) - 
+                        2\ \((2\ M\^2 + M\ Mp - 2\ Mp\^2)\)\ w\^2 - 
+                        8\ l\^2\ \((M + Mp)\)\ \((3\ M + 
+                              4\ Mp)\)\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[
+                              t]] + 4\ M\ Cos[
+                            2\ \((\[Theta]ns[t] - \[Theta]s[
+                                    t])\)]\ \((M\ \((\(-l\^2\) + w\^2)\) + 
+                              4\ l\^2\ \((M + Mp)\)\ Cos[\[Theta]ns[
+                                    t]]\ Cos[\[Theta]s[t]])\) - 
+                        M\ \((\(-2\)\ l\^2\ \((M + 2\ Mp)\) + 
+                              4\ \((M + Mp)\)\ w\^2 + 
+                              l\^2\ M\ Cos[4\ \[Theta]ns[t]])\)\ Cos[
+                            2\ \[Theta]s[t]] + 
+                        Cos[2\ \[Theta]ns[
+                                t]]\ \((2\ l\^2\ M\ \((M + 2\ Mp)\) + 
+                              4\ \((M + Mp)\)\^2\ w\^2 - 
+                              l\^2\ M\^2\ Cos[4\ \[Theta]s[t]])\) - 
+                        l\^2\ M\^2\ Sin[4\ \[Theta]ns[t]]\ Sin[
+                            2\ \[Theta]s[t]] - 
+                        l\^2\ M\^2\ Sin[2\ \[Theta]ns[t]]\ Sin[
+                            4\ \[Theta]s[t]])\), " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Phi]", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((\(-2\)\ l\^2\ \((3\ M + 2\ Mp)\)\ \((3\ M + 4\ Mp)\) - 
+                  2\ \((2\ M\^2 + 7\ M\ Mp + 2\ Mp\^2)\)\ w\^2 + 
+                  Cos[2\ \[Theta]ns[
+                          t]]\ \((\(-2\)\ l\^2\ \((7\ M\^2 + 16\ M\ Mp + 
+                              8\ Mp\^2)\) - 4\ Mp\ \((2\ M + Mp)\)\ w\^2 + 
+                        l\^2\ M\^2\ Cos[4\ \[Theta]s[t]])\) + 
+                  M\ \((8\ l\^2\ \((3\ M + 4\ Mp)\)\ Cos[\[Theta]ns[
+                              t]]\ Cos[\[Theta]s[t]] - 
+                        4\ Cos[
+                            2\ \((\[Theta]ns[t] - \[Theta]s[
+                                    t])\)]\ \((\(-l\^2\)\ \((3\ M + 
+                                    2\ Mp)\) + Mp\ w\^2 + 
+                              4\ l\^2\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[
+                                    t]])\) + \((2\ l\^2\ M - 
+                              4\ \((M + 2\ Mp)\)\ w\^2 + 
+                              l\^2\ \((5\ M + 4\ Mp)\)\ Cos[
+                                  4\ \[Theta]ns[t]])\)\ Cos[
+                            2\ \[Theta]s[t]] + 
+                        l\^2\ \((5\ M + 4\ Mp)\)\ Sin[4\ \[Theta]ns[t]]\ Sin[
+                            2\ \[Theta]s[t]] + 
+                        l\^2\ M\ Sin[2\ \[Theta]ns[t]]\ Sin[
+                            4\ \[Theta]s[t]])\))\)}]}], ",", 
+          RowBox[{"thetaNSdotimpact", " ", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  
+                  RowBox[{\(-l\), " ", "M", 
+                    " ", \((\(-4\)\ l\^2\ M + 
+                        l\^2\ M\ Cos[\[Theta]ns[t] - 3\ \[Theta]s[t]] + 
+                        2\ l\^2\ Cos[
+                            2\ \[Theta]ns[
+                                t]]\ \((\(-2\)\ M + \((5\ M + 
+                                    4\ Mp)\)\ Cos[\[Theta]ns[t] - \[Theta]s[
+                                      t]])\) + \((l\^2\ \((13\ M + 8\ Mp)\) + 
+                              4\ \((4\ M + Mp)\)\ w\^2)\)\ Cos[\[Theta]ns[
+                              t]]\ Cos[\[Theta]s[t]] - 
+                        8\ l\^2\ M\ Cos[\[Theta]ns[t]]\^2\ Cos[
+                            2\ \[Theta]s[t]] + \((l\^2\ \((11\ M + 8\ Mp)\) - 
+                              4\ Mp\ w\^2)\)\ Sin[\[Theta]ns[
+                              t]]\ Sin[\[Theta]s[t]] - 
+                        4\ l\^2\ M\ Sin[2\ \[Theta]ns[t]]\ Sin[
+                            2\ \[Theta]s[t]])\), " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Theta]ns", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  RowBox[{
+                  "l", " ", \((\(-2\)\ l\^2\ M\ \((3\ M + 2\ Mp)\) + 
+                        2\ \((2\ M\^2 + 7\ M\ Mp + 
+                              4\ Mp\^2)\)\ w\^2 + \((l\^2\ \((3\ M + 
+                                    2\ Mp)\)\ \((3\ M + 4\ Mp)\) + 
+                              4\ \((M - Mp)\)\ \((M + Mp)\)\ w\^2)\)\ Cos[
+                            2\ \[Theta]s[t]] + 
+                        2\ l\^2\ \((M + Mp)\)\ \((5\ M + 4\ Mp)\)\ Cos[
+                            4\ \[Theta]ns[t]]\ Cos[2\ \[Theta]s[t]] - 
+                        8\ l\^2\ M\ \((M + Mp)\)\ Cos[3\ \[Theta]ns[t]]\ Cos[
+                            3\ \[Theta]s[t]] + 
+                        8\ l\^2\ M\ Cos[\[Theta]ns[
+                              t]]\ \((\((M - 
+                                    2\ \((M + Mp)\)\ Cos[
+                                        2\ \[Theta]ns[t]])\)\ Cos[\[Theta]s[
+                                    t]] - \((M + Mp)\)\ Cos[
+                                  3\ \[Theta]s[t]])\) + 
+                        Cos[2\ \[Theta]ns[
+                                t]]\ \((\(-l\^2\)\ M\ \((3\ M + 2\ Mp)\) + 
+                              4\ \((2\ M + Mp)\)\ \((M + 2\ Mp)\)\ w\^2 + 
+                              2\ \((M + 
+                                    Mp)\)\ \((2\ \((l\^2\ \((6\ M + 
+                                        4\ Mp)\) + \((2\ M - 
+                                        Mp)\)\ w\^2)\)\ Cos[
+                                        2\ \[Theta]s[t]] + 
+                                    l\^2\ M\ Cos[4\ \[Theta]s[t]])\))\) - 
+                        128\ l\^2\ M\ \((M + 
+                              Mp)\)\ Cos[\[Theta]ns[t]]\^2\ Cos[\[Theta]s[t]]\
+\^2\ Sin[\[Theta]ns[t]]\ Sin[\[Theta]s[t]] + 
+                        4\ \((M + 
+                              Mp)\)\ \((l\^2\ \((6\ M + 4\ Mp)\) + \((2\ M - 
+                                    Mp)\)\ w\^2 + 
+                              l\^2\ M\ Cos[2\ \[Theta]s[t]])\)\ Sin[
+                            2\ \[Theta]ns[t]]\ Sin[2\ \[Theta]s[t]] + 
+                        2\ l\^2\ \((M + Mp)\)\ \((5\ M + 4\ Mp)\)\ Sin[
+                            4\ \[Theta]ns[t]]\ Sin[2\ \[Theta]s[t]])\), " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Theta]s", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  RowBox[{
+                  "w", " ", \((32\ l\^2\ \((M + Mp)\)\^2\ \
+Cos[\[Theta]ns[t]]\^2\ Cos[\[Theta]s[t]]\^2\ Sin[\[Theta]ns[
+                              t]] + \((l\^2\ \((3\ M\^2 + 16\ M\ Mp + 
+                                    8\ Mp\^2)\) + 
+                              4\ M\ \((4\ M + 3\ Mp)\)\ w\^2 + 
+                              2\ l\^2\ \((M + 2\ Mp)\)\ \((3\ M + 
+                                    2\ Mp)\)\ Cos[
+                                  2\ \[Theta]ns[t]])\)\ Cos[\[Theta]s[
+                              t]]\ Sin[2\ \[Theta]ns[t]] - 
+                        l\^2\ M\^2\ Cos[3\ \[Theta]s[t]]\ Sin[
+                            2\ \[Theta]ns[
+                                t]] + \((l\^2\ \((17\ M\^2 + 20\ M\ Mp + 
+                                    4\ Mp\^2)\) + 
+                              8\ Mp\ \((M + 
+                                    Mp)\)\ w\^2 + \((l\^2\ M\ \((11\ M + 
+                                        8\ Mp)\) + 
+                                    4\ Mp\ \((3\ M + 2\ Mp)\)\ w\^2)\)\ Cos[
+                                  2\ \[Theta]ns[t]] - 
+                              l\^2\ \((M + 2\ Mp)\)\ \((3\ M + 2\ Mp)\)\ Cos[
+                                  4\ \[Theta]ns[t]])\)\ Sin[\[Theta]s[t]] - 
+                        8\ l\^2\ \((M + Mp)\)\ Cos[\[Theta]ns[t]]\ \((4\ M + 
+                              3\ Mp + \((M + Mp)\)\ Cos[
+                                  2\ \[Theta]ns[t]])\)\ Sin[
+                            2\ \[Theta]s[t]] + 
+                        l\^2\ M\ \((4\ \((M + Mp)\) + 
+                              M\ Cos[2\ \[Theta]ns[t]])\)\ Sin[
+                            3\ \[Theta]s[t]])\), " ", 
+                    RowBox[{
+                      SuperscriptBox["\[Phi]", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((l\ \((2\ l\^2\ \((3\ M + 2\ Mp)\)\ \((3\ M + 4\ Mp)\) + 
+                      2\ \((2\ M\^2 + 7\ M\ Mp + 2\ Mp\^2)\)\ w\^2 + 
+                      2\ \((l\^2\ \((7\ M\^2 + 16\ M\ Mp + 8\ Mp\^2)\) + 
+                            2\ Mp\ \((2\ M + Mp)\)\ w\^2)\)\ Cos[
+                          2\ \[Theta]ns[t]] + 
+                      4\ l\^2\ M\^2\ Cos[\[Theta]ns[t] - 3\ \[Theta]s[t]] - 
+                      M\ \((l\^2\ M\ Cos[
+                                2\ \((\[Theta]ns[t] - 2\ \[Theta]s[t])\)] + 
+                            l\^2\ \((5\ M + 4\ Mp)\)\ Cos[
+                                4\ \[Theta]ns[t] - 2\ \[Theta]s[t]] - 
+                            4\ \((\(-2\)\ l\^2\ \((M + 
+                                        2\ Mp)\)\ Cos[\[Theta]ns[
+                                        t] - \[Theta]s[
+                                        t]] + \((\(-l\^2\)\ \((3\ M + 
+                                        2\ Mp)\) + Mp\ w\^2)\)\ Cos[
+                                      2\ \((\[Theta]ns[t] - \[Theta]s[
+                                        t])\)] + 
+                                  l\^2\ M\ \((Cos[
+                                        3\ \((\[Theta]ns[t] - \[Theta]s[
+                                        t])\)] + 
+                                        Cos[3\ \[Theta]ns[t] - \[Theta]s[
+                                        t]])\))\))\) + 
+                      2\ M\ \((\(-l\^2\)\ M + 
+                            2\ \((M + 2\ Mp)\)\ w\^2)\)\ Cos[
+                          2\ \[Theta]s[t]] - 
+                      4\ l\^2\ M\ \((3\ M + 
+                            4\ Mp)\)\ Cos[\[Theta]ns[t] + \[Theta]s[
+                              t]])\))\)}]}], ",", 
+          RowBox[{"thetaSdotimpact", " ", "=", " ", 
+            RowBox[{
+              RowBox[{"-", 
+                RowBox[{"(", 
+                  RowBox[{
+                    
+                    RowBox[{\(-l\), " ", "M", 
+                      " ", \((l\^2\ \((6\ M + 4\ Mp)\) + 
+                          2\ \((2\ M + Mp)\)\ w\^2 + 
+                          l\^2\ \((5\ M + 4\ Mp)\)\ Cos[2\ \[Theta]ns[t]] - 
+                          8\ l\^2\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[t]] + 
+                          M\ \((l\^2 + 4\ w\^2)\)\ Cos[2\ \[Theta]s[t]])\), 
+                      " ", 
+                      RowBox[{
+                        SuperscriptBox["\[Theta]ns", "\[Prime]",
+                          MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                    RowBox[{
+                    "l", " ", \((\(-16\)\ l\^2\ M\ \((M + 
+                                2\ Mp)\)\ Cos[\[Theta]ns[t]]\^2\ \
+Cos[\[Theta]s[t]]\^2 + Cos[\[Theta]ns[
+                                t]]\ \((\((l\^2\ \((M + 2\ Mp)\)\ \((13\ M + 
+                                        8\ Mp)\) + 
+                                      4\ \((3\ M\^2 + 8\ M\ Mp + 
+                                        2\ Mp\^2)\)\ w\^2 + 
+                                      2\ l\^2\ \((M + 2\ Mp)\)\ \((5\ M + 
+                                        4\ Mp)\)\ Cos[
+                                        2\ \[Theta]ns[t]])\)\ Cos[\[Theta]s[
+                                      t]] + 
+                                M\ \((l\^2\ \((M + 2\ Mp)\) + 
+                                      4\ \((M + Mp)\)\ w\^2)\)\ Cos[
+                                    3\ \[Theta]s[t]])\) + \((M + 
+                                2\ Mp)\)\ \((\((l\^2\ \((11\ M + 8\ Mp)\) + 
+                                      4\ M\ w\^2 + 
+                                      2\ l\^2\ \((5\ M + 4\ Mp)\)\ Cos[
+                                        2\ \[Theta]ns[t]])\)\ Sin[\[Theta]ns[
+                                      t]]\ Sin[\[Theta]s[t]] - 
+                                4\ l\^2\ M\ Sin[2\ \[Theta]ns[t]]\ Sin[
+                                    2\ \[Theta]s[t]])\) + 
+                          M\ \((l\^2\ \((M + 2\ Mp)\) + 
+                                4\ \((M + Mp)\)\ w\^2)\)\ Sin[\[Theta]ns[
+                                t]]\ Sin[3\ \[Theta]s[t]])\), " ", 
+                      RowBox[{
+                        SuperscriptBox["\[Theta]s", "\[Prime]",
+                          MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                    RowBox[{
+                    "w", " ", \((\((l\^2\ \((M + 2\ Mp)\)\ \((3\ M + 
+                                      2\ Mp)\) + 8\ M\ \((M + Mp)\)\ w\^2 - 
+                                2\ M\ \((2\ l\^2\ M - 
+                                      2\ \((2\ M + Mp)\)\ w\^2 + 
+                                      l\^2\ M\ Cos[2\ \[Theta]ns[t]])\)\ Cos[
+                                    2\ \[Theta]s[t]] - 
+                                l\^2\ M\^2\ Cos[
+                                    4\ \[Theta]s[t]])\)\ Sin[\[Theta]ns[t]] + 
+                          4\ l\^2\ \((M + 
+                                Mp)\)\ \((2\ Cos[\[Theta]s[t]]\ \((Mp + 
+                                      M\ Cos[2\ \[Theta]s[t]])\)\ Sin[
+                                    2\ \[Theta]ns[t]] + \((M + Mp)\)\ Sin[
+                                    3\ \[Theta]ns[t]] - 
+                                8\ M\ Cos[\[Theta]ns[t]]\^2\ \
+Cos[\[Theta]s[t]]\^2\ Sin[\[Theta]s[t]])\) + 
+                          2\ M\ Cos[\[Theta]ns[
+                                t]]\ \((2\ \((l\^2\ M + Mp\ w\^2)\) + 
+                                l\^2\ M\ \((Cos[2\ \[Theta]ns[t]] + 
+                                      Cos[2\ \[Theta]s[t]])\))\)\ Sin[
+                              2\ \[Theta]s[t]])\), " ", 
+                      RowBox[{
+                        SuperscriptBox["\[Phi]", "\[Prime]",
+                          MultilineFunction->None], "[", "t", "]"}]}]}], 
+                  ")"}]}], 
+              "/", \((l\ \((\(-2\)\ l\^2\ \((3\ M + 2\ Mp)\)\ \((3\ M + 
+                            4\ Mp)\) - 
+                      2\ \((2\ M\^2 + 7\ M\ Mp + 2\ Mp\^2)\)\ w\^2 + 
+                      Cos[2\ \[Theta]ns[
+                              t]]\ \((\(-2\)\ l\^2\ \((7\ M\^2 + 16\ M\ Mp + 
+                                  8\ Mp\^2)\) - 
+                            4\ Mp\ \((2\ M + Mp)\)\ w\^2 + 
+                            l\^2\ M\^2\ Cos[4\ \[Theta]s[t]])\) + 
+                      M\ \((8\ l\^2\ \((3\ M + 4\ Mp)\)\ Cos[\[Theta]ns[
+                                  t]]\ Cos[\[Theta]s[t]] - 
+                            4\ Cos[
+                                2\ \((\[Theta]ns[t] - \[Theta]s[
+                                        t])\)]\ \((\(-l\^2\)\ \((3\ M + 
+                                        2\ Mp)\) + Mp\ w\^2 + 
+                                  4\ l\^2\ M\ Cos[\[Theta]ns[
+                                        t]]\ Cos[\[Theta]s[
+                                        t]])\) + \((2\ l\^2\ M - 
+                                  4\ \((M + 2\ Mp)\)\ w\^2 + 
+                                  l\^2\ \((5\ M + 4\ Mp)\)\ Cos[
+                                      4\ \[Theta]ns[t]])\)\ Cos[
+                                2\ \[Theta]s[t]] + 
+                            l\^2\ \((5\ M + 4\ Mp)\)\ Sin[
+                                4\ \[Theta]ns[t]]\ Sin[2\ \[Theta]s[t]] + 
+                            l\^2\ M\ Sin[2\ \[Theta]ns[t]]\ Sin[
+                                4\ \[Theta]s[t]])\))\))\)}]}], 
+          ",", \(guard = 
+            l\ \((\(-Cos[\[Theta]ns[t]]\) + Cos[\[Theta]s[t]])\)\ Cos[\[Phi][
+                    t]] - w\ Sin[\[Phi][t]] + 
+              l\ \((\(-Sin[\[Theta]ns[t]]\) + Sin[\[Theta]s[t]])\)\ Tan[
+                  gamma]\)}], "}"}], 
+      ";"}], "\[IndentingNewLine]", \(Splice["\<C:\\Documents and \
+Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\3D\\pointfoot-midlegmass\\passive\\hip\\eqns3.mc\>",\
+ \ PageWidth \[Rule] 100000000, \ 
+      FormatType \[Rule] OutputForm\ ]\)}], "Input"]
+},
+FrontEndVersion->"5.0 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 699}},
+Evaluator->"Local",
+CellGrouping->Manual,
+WindowSize->{632, 670},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+StyleDefinitions -> "Default.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 42, 0, 95, "Title"],
+Cell[1799, 53, 195, 4, 71, "Text"],
+Cell[1997, 59, 920, 21, 90, "Input"],
+
+Cell[CellGroupData[{
+Cell[2942, 84, 867, 20, 70, "Input"],
+Cell[3812, 106, 209, 7, 114, "Output"]
+}, Open  ]],
+Cell[4036, 116, 140, 3, 64, "Input"],
+
+Cell[CellGroupData[{
+Cell[4201, 123, 11562, 223, 1140, "Input"],
+Cell[15766, 348, 163, 3, 48, "Output"]
+}, Open  ]],
+Cell[15944, 354, 98, 2, 38, "Input"],
+
+Cell[CellGroupData[{
+Cell[16067, 360, 11830, 226, 1290, "Input"],
+Cell[27900, 588, 163, 3, 48, "Output"]
+}, Open  ]],
+Cell[28078, 594, 95, 2, 38, "Input"],
+Cell[28176, 598, 8651, 177, 700, "Input"],
+Cell[36830, 777, 90, 2, 38, "Input"],
+Cell[36923, 781, 49211, 850, 3875, "Input"]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

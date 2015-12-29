@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>2D Bipedal Walker Modeling ReadMe</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="MSSmartTagsPreventParsing" content="TRUE">
+  
+  <style type="text/css">
+  @import url("style.css");
+  </style>
+</head>
+
+<body>
+
+<div id="content">
+  <h1>Bipedal Walker Simulation ReadMe</h1>
+  <h3>Introduction</h3>
+  <p>The bipedal walker simulation code began as a few scripts, pieced together by Eric D.B. Wendel, in an attempt to understand how Arthur Kuo at the University of Michigan modeled a hipped bipedal walker.
+  <p>A full-fledged simulation code developed over the course of the Fall 2005 semester in response to research goals. It must be emphasized that this code is the creation of the <a href="http://chess.eecs.berkeley.edu/bipeds">UC Berkeley CHESS Bipeds research group</a> and is primarily a research tool.
+  <p>The version of code provided on the CHESS Bipeds website, and referenced by this document, is deprecated as of February 17, 2006. Nevertheless, please contact us for any technical support issues that Google or Mathworks cannot resolve.
+  <h3>Functionality</h3>
+  <p>The 2D bipedal walker is simulated by generating equations of motion in Mathematica, exporting them as C code, and then compiling the code for Matlab as a MEX file.
+  <p>The equations are generated in Mathematica sometimes by hand, sometimes with the assistance of the <a href="http://www-personal.engin.umich.edu/~artkuo/DynamicsWorkbench/">Dynamics Workbench package</a> created by Arthur Kuo at UMich.
+  <p>Using Mathematica's built-in Splice command and the <a href="http://library.wolfram.com/infocenter/MathSource/60/">Format package</a> created by Mark Sofroniou at Wolfram Research, we are able to export the equations as C code through a template containing expressions native to the Format package and are left with a C file.
+  <p>Compiling the C file is straightforward using the Matlab MEX utilities, and we are left with a binary file which we can treat as a normal Matlab function. The extension of the binary file varies by platform, but the provided binaries were prepared on a PC platform so all of the MEX files are named "eqns2.dll" or "eqns3.dll".
+  <p>The rest of this document is a primer for using the Matlab functions in the 2D directory to model the 2D walker.</p>
+  <p>The code uses use Matlab 7 R14 and Mathematica 5; no information on compatibility with other versions is available at this time.
+    <ul><li>General use
+        <li>Available functions
+        <li>Editing the C files
+        <li>Additional notes</ul>
+  
+  <h4>General use</h4>
+  <p>First, change into the directory holding the 2D code. 
+<p id="code">>> cd SomeDirectory\<br>
+>> cd 2D</p>
+  <p>The 2D or 3D directory holds all of the functions to simulate the walker, so it will always be your working directory. Now type "pop" in the Matlab Command Window.
+  <p>This command creates several global variables necessary for the C Mex file to operate. If they are not defined then the simulation will error out. Type "opp" to conveniently clear out all Mex, global, local, and graphics objects so you can start afresh.
+  <p>But wait: after you typed "pop" Matlab confronted you with a decision:
+<p id="code">
+>> pop<br>
+Choose a model:<br><br>
+
+Point foot, midleg mass:<br>
+   [1] Passive<br>
+   [2] Controlled (PE shaping)<br><br>
+
+Roll foot, midleg mass, passive:<br>
+   [3] Ang cons impacts (most likely)<br><br></p>
+  <p>Choosing 1, 2, or 3 will set the value of the global variable "modeldir" to the directory holding the corresponding model. Each of the directories corresponding to options 1, 2 and 3 are inside the 2D directory with names like "C:\SomeDirectory\2D\pointfoot-midlegmass". Just keep in mind that pop, when run for the first time, will make you choose a model.
+  <p>Subsequent calls to "pop" will generate the global variables that constitute the walker parameters like slope, mass, leg length, etc, and a working point on the limit cycle as an initial condition.
+<p id="code">...<br>
+Make a choice: 2<br>
+modeldir =<br>
+C:\SomeDirectory\2D/pointfoot-midlegmass/controlled/<br>
+M =<br>
+     5<br>
+Mp =<br>
+    10<br>
+g =<br>
+   9.80000000000000<br>
+L =<br>
+     1<br>
+dim =<br>
+     5<br>
+slope =<br>
+     0<br>
+alpha =<br>
+   0.06283185307180<br>
+c =<br>
+     8<br>
+mu =<br>
+     0<br>
+xi =<br>
+  -0.28840000000000   0.28840000000000  -1.60090000000000  -1.97620000000000  -0.20000000000000<br>
+</p>
+  <p>And that's all you need to get started. Refer to the CHESS website for detailed <a href="http://chess.eecs.berkeley.edu/bipeds/simulation.html">instructions on using the simulation code</a>, and also read the following section.
+
+<h4>Available functions</h4>
+  <p>Relevant functions will have documentation inside them. Important functions are listed below. Type "help (name of function)" to easily access docs from the Command Window.
+  <p>In the "C:\SomeDirectory\2D" directory:
+  <ul><li>animate2.m
+<li>animate3r.m
+<li>animate3.m
+<li>reconstruct2.m
+<li>search2.m
+<li>step2.m
+<li>walk2.m</ul>
+  <p>In the "C:\SomeDirectory\3D" directory:
+  <ul><li>animate2.m
+<li>animate3.m
+<li>regions3.m
+<li>search3.m
+<li>showfp.m
+<li>step3.m
+<li>walk3.m</ul>
+  <p>The functions in the 3D directory are analogous to those in the 2D. Sometimes the documentation is more up-to-date in the 3D directory, so read those first.
+  <p>Just a note, step?, walk?, and animate3 are the functions in both the 2D and 3D directories that simulate the walker for 1 step, an arbitrary number of steps, and animate the walker using Matlab graphics.
+
+<h4>Editing the C files</h4>
+  <p>This is a complicated process; you must have knowledge of C Mex programming, C programming, and have a general understanding of how the Mathematica equations are exported into C. For the latter, read through any of the .nb files in the model directories ("C:\SomeDirectory\2D\pointfoot-midlegmass\pointfoot-midlegmass-2D.nb").
+  <p>In a nutshell, Mathematica reads the template named eqns?.mc in the model directory, parses the commands embedded inside the template, and generates a compilable file names eqns?.c. In the Matlab command window, type
+<p id="code">
+>> edit([modeldir 'eqns2.c'])
+</p>
+  <p>to edit the .c or .mc file, and then when you are ready to compile, type 
+<p id="code">
+>> mex([modeldir 'eqns2.c'])
+</p>
+  <p>Of course, in order to compile you must have defined a suitable compiler (the default Matlab lcc compiler should do) using the "mex -setup" utility. Any compiler will do, as long as it supports numerical exceptions according to the ANSI standard; do not use the free Borland C++ compiler since it does not.
+
+<h4>Additional notes</h4>
+  <p>Type "pop" to choose a model and define model parameters. Important variables are "eqnhandle", "modeldir" and "invalidResults".
+  <p>"eqnhandle" is a function handle to the eqns2.dll or eqns3.dll held inside "modeldir". The step? function references this function handle.
+  <p>The guard condition varies per model. It is exported from the Mathematica files into the dll along with the dynamics.
+  <p>The animation functions are a little out of date.
+</div>
+
+</body>
+</html>

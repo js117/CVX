@@ -1,0 +1,88 @@
+% function set2(option);
+
+global M Mp g L R K slope eqnhandle pophandle dim modeldir
+
+passive_options = [1 2 5 6 9 10];
+controlled_options = [3 4 7 8 11 12];
+plastic_options = [1 3 5 7 9 11];
+angcons_options = [2 4 5 8 10 12];
+model_options = [1 2  3  4    % point footed, midleg mass
+                 5 6  7  8    % roll footed, midleg mass
+                 9 10 10 10]; % point footed, foot mass
+             
+% if nargin == 0
+    option = [];
+% end
+
+% while length(option) == 0
+    fprintf('Choose a model:\n\n');
+
+    fprintf('Point foot, midleg mass, passive:\n');
+    fprintf('   [1] Plastic impacts\n');
+    fprintf('   [2] Ang mom conserved impacts\n');
+    fprintf('Point foot, midleg mass, controlled:\n');
+    fprintf('   [3] Plastic impacts\n');
+    fprintf('   [4] Ang mom conserved impacts\n');
+
+    fprintf('\n');
+
+    fprintf('Roll foot, midleg mass, passive:\n');
+    fprintf('   Passive\n');
+    fprintf('   [5] Plastic impacts\n');
+    fprintf('   [6] Ang mom conserved impacts\n');
+    fprintf('Roll foot, midleg mass, controlled:\n');
+    fprintf('   [7] Plastic impacts\n');
+    fprintf('   [8] Ang mom conserved impacts\n');
+
+    fprintf('\n');
+
+    fprintf('Point foot, foot mass, passive:\n')
+    fprintf('   [9] Plastic impacts\n');
+    fprintf('   [10] Ang mom conserved impacts\n');
+%     fprintf('Point foot, foot mass, controlled:\n')
+%     fprintf('   [11] Plastic impacts\n');
+%     fprintf('   [12] Ang mom conserved impacts\n');
+
+    fprintf('\n');
+    option = input('Make a choice: ');
+% end
+
+if length(find(option == model_options(1, :))) ~= 0
+    dir = 'pointfoot-midlegmass';
+elseif length(find(option == model_options(2, :))) ~= 0
+    dir = 'rollfoot-midlegmass';
+elseif length(find(option == model_options(3, :))) ~= 0
+    dir = 'pointfoot-footmass';
+else
+    fprintf('Choose one of the options above.\n');
+    return
+end    
+
+if length(find(option == passive_options)) ~= 0
+    type = 'passive';
+elseif length(find(option == controlled_options)) ~= 0
+    type = 'controlled';
+else
+    fprintf('Choose one of the options above.\n');
+    return
+end
+
+if length(find(option == plastic_options)) ~= 0
+    impact = 'plastic';
+elseif length(find(option == angcons_options)) ~= 0
+    impact = 'angcons';
+else
+    impact = '';
+end    
+
+modeldir = sprintf('\\%s\\%s\\%s', dir, type, impact);
+wd = feval('pwd');
+% modeldir = sprintf('\\%s', directory);
+modeldir = cat(2, wd, modeldir);
+
+cd(modeldir);
+eqnhandle = @eqns2;
+pophandle = @pop;
+pop
+cd(wd);
+clear dir type impact wd passive_options controlled_options plastic_options angcons_options model_options

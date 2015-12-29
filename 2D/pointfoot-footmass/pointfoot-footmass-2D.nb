@@ -1,0 +1,155 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      4292,        113]*)
+(*NotebookOutlinePosition[      4936,        135]*)
+(*  CellTagsIndexPosition[      4892,        131]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell["\<\
+A comparison of 2 different impact models, one used by Kuo/Goswami (angular \
+momentum conservation) and another used by Grizzle (plastic impact):
+
+2D\\pointfoot-footmass\\passive\\goswami\
+\>", "Text"],
+
+Cell[BoxData[
+    \(q2dotnew = \(Mp\ Cos[q1 - q2]\^2\ q1dot\)\/\(Mp + M\ Sin[q1 - q2]\^2\); 
+    q1dotnew = \(Mp\ Cos[q1 - q2]\ q1dot\)\/\(Mp + M\ Sin[q1 - q2]\^2\);\)], \
+"Input"],
+
+Cell["2D\\pointfoot-footmass\\passive\\grizzle", "Text"],
+
+Cell[BoxData[{
+    \(\(q2dotnew\  = \ 
+        2  Mp*q1dot*
+          Cos[q2\  - \ q1]/\((M + 2  Mp - 
+                M*Cos[2 \((q2\  - \ q1)\)])\);\)\), "\[IndentingNewLine]", 
+    \(\(q1dotnew\  = \ \(2\ *Mp\ q1dot\ *Cos[\(-q1\) + q2]\^2\)\/\(M + 2\ Mp \
+- M*Cos\ [2 \((\(-q1\) + q2)\)]\);\)\)}], "Input"],
+
+Cell["\<\
+Also, as far as I can tell, we've been using different models for the \
+dynamics! Here are the dynamics we used when testing grizzle's plastic \
+impact:\
+\>", "Text"],
+
+Cell[BoxData[{
+    \(\(q1ddGrizzle = \(-\((2\ \((2\ g\ \((M + Mp)\)\ Sin[q\_1] + 
+                    g\ M\ Sin[q\_1 - 2\ q\_2] - 
+                    L\ M\ Sin[2\ \((q\_1 - q\_2)\)]\ u\_1\%2 + 
+                    L\ M\ Sin[
+                        q\_1 - q\_2]\ u\_2\%2)\))\)\)/\((L\ \((\(-3\)\ M - 
+                  4\ Mp + 
+                  2\ M\ Cos[
+                      2\ \((q\_1 - 
+                            q\_2)\)])\))\);\)\), "\[IndentingNewLine]", 
+    \(\(q2dddGrizzle = \((\(-2\)\ g\ \((3\ M + 2\ Mp)\)\ Sin[
+                  2\ q\_1 - q\_2] + 4\ g\ \((M + Mp)\)\ Sin[q\_2] + 
+              2\ L\ \((5\ M + 4\ Mp)\)\ Sin[q\_1 - q\_2]\ u\_1\%2 - 
+              2\ L\ M\ Sin[
+                  2\ \((q\_1 - q\_2)\)]\ u\_2\%2)\)/\((L\ \((\(-3\)\ M - 
+                  4\ Mp + 
+                  2\ M\ Cos[2\ \((q\_1 - q\_2)\)])\))\);\)\)}], "Input"],
+
+Cell["And here are the equations used by Goswami, etc:", "Text"],
+
+Cell[BoxData[{
+    \(\(q1ddGoswami = \((\(-g\)\ \((\((M + 2\ Mp)\)\ Sin[q1] + 
+                    M\ Sin[q1 - 2\ q2])\) + 
+              L\ M\ Sin[2\ \((q1 - q2)\)]\ q1dot\^2 - 
+              2\ L\ M\ Sin[q1 - q2]\ q2dot\^2)\)/\((L\ \((\(-M\) - 2\ Mp + 
+                  M\ Cos[2\ \((q1 - 
+                            q2)\)])\))\);\)\), "\[IndentingNewLine]", 
+    \(\(q2ddGoswami = \((Sin[
+                q1 - q2]\ \((\((M + Mp)\)\ \((g\ Cos[q1] - L\ q1dot\^2)\) + 
+                  L\ M\ Cos[q1 - q2]\ q2dot\^2)\))\)/\((L\ \((M + Mp - 
+                  M\ Cos[q1 - q2]\^2)\))\);\)\)}], "Input"],
+
+Cell["They do not seem to match up.", "Text"]
+},
+FrontEndVersion->"5.0 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 705}},
+WindowSize->{499, 547},
+WindowMargins->{{Automatic, 7}, {Automatic, -3}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 212, 5, 90, "Text"],
+Cell[1969, 58, 180, 3, 84, "Input"],
+Cell[2152, 63, 56, 0, 33, "Text"],
+Cell[2211, 65, 308, 6, 108, "Input"],
+Cell[2522, 73, 176, 4, 52, "Text"],
+Cell[2701, 79, 868, 16, 174, "Input"],
+Cell[3572, 97, 64, 0, 33, "Text"],
+Cell[3639, 99, 601, 10, 196, "Input"],
+Cell[4243, 111, 45, 0, 33, "Text"]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

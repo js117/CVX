@@ -1,0 +1,644 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     27416,        583]*)
+(*NotebookOutlinePosition[     28059,        605]*)
+(*  CellTagsIndexPosition[     28015,        601]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[TextData[StyleBox["Pointfoot, midlegmass, 2D", "Title"]], "Text"],
+
+Cell[BoxData[{
+    \(\(Needs["\<Format`\>"];\)\), "\[IndentingNewLine]", 
+    \(\(Off[General::spell, General::spell1];\)\)}], "Input"],
+
+Cell[TextData[StyleBox["Passive Equations", "Section"]], "Text"],
+
+Cell["Angular conserved impact is the same as plastic impact. ", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    \(\({q1 := q[0], \ q2 := q[1], \ q1dot := q[2], \ 
+        q2dot := q[3]};\)\), "\[IndentingNewLine]", 
+    \(\({q1dotdot = \(-\(\((2\ \((2\ g\ \((M + Mp)\)\ Sin[q1] + 
+                      g\ M\ Sin[q1 - 2\ q2] + L\ M\ q2dot\^2\ Sin[q1 - q2] - 
+                      L\ M\ q1dot\^2\ Sin[
+                          2\ \((q1 - q2)\)])\))\)/\((L\ \((\(-3\)\ M - 
+                      4\ Mp + 2\ M\ Cos[2\ \((q1 - q2)\)])\))\)\)\), 
+        q2dotdot = \((2\ L\ \((5\ M + 4\ Mp)\)\ q1dot\^2\ Sin[q1 - q2] - 
+                2\ L\ M\ q2dot\^2\ Sin[2\ \((q1 - q2)\)] - 
+                2\ g\ \((3\ M + 2\ Mp)\)\ Sin[2\ q1 - q2] + 
+                4\ g\ \((M + Mp)\)\ Sin[q2])\)/\((L\ \((\(-3\)\ M - 4\ Mp + 
+                    2\ M\ Cos[2\ \((q1 - q2)\)])\))\), 
+        q2dotimpact = \((2\ M\ q2dot\ Cos[q1 - q2] + 
+                q1dot\ \((M - 
+                      4\ \((M + Mp)\)\ Cos[
+                          2\ \((q1 - q2)\)])\))\)/\((\(-3\)\ M - 4\ Mp + 
+                2\ M\ Cos[2\ \((q1 - q2)\)])\), 
+        q1dotimpact = \(M\ q2dot - 2\ \((M + 2\ Mp)\)\ q1dot\ Cos[q1 - \
+q2]\)\/\(\(-3\)\ M - 4\ Mp + 2\ M\ Cos[2\ \((q1 - q2)\)]\), \ 
+        guard = q1\  + \ q2\  + \ 2*slope};\)\), "\[IndentingNewLine]", 
+    \(Splice["\<C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\passive\\eqns2.mc\>", \ 
+      PageWidth \[Rule] 100000000, \ 
+      FormatType \[Rule] OutputForm\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \("C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\passive\\eqns2.mc"\)], \
+"Output"]
+}, Open  ]],
+
+Cell[TextData[StyleBox["Controlled", "Section"]], "Text"],
+
+Cell["\<\
+This is for walking on flat ground, zero slope. Guard condition \
+simplifies to q1 + q2 \[Equal] 0.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{
+      RowBox[{"{", 
+        RowBox[{\(q1 := q[0]\), ",", " ", \(q2 := q[1]\), ",", 
+          " ", \(q1[t] := q[0]\), ",", " ", \(q2[t] := q[1]\), ",", 
+          RowBox[{
+            RowBox[{
+              SuperscriptBox["q1", "\[Prime]",
+                MultilineFunction->None], "[", "t", "]"}], ":=", \(q[2]\)}], 
+          ",", 
+          RowBox[{
+            RowBox[{
+              SuperscriptBox["q2", "\[Prime]",
+                MultilineFunction->None], "[", "t", "]"}], ":=", \(q[3]\)}]}],
+         "}"}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"{", 
+        RowBox[{
+          RowBox[{"q1dotdot", " ", "=", " ", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{"2", " ", 
+                  RowBox[{"(", 
+                    
+                    RowBox[{\(\(-2\)\ g\ \((M + Mp)\)\ Sin[Beta + q1[t]]\), 
+                      "+", \(g\ M\ Sin[Beta - q1[t] + 2\ q2[t]]\), "+", 
+                      RowBox[{
+                      "L", " ", "M", " ", \(Sin[q1[t] - q2[t]]\), " ", 
+                        RowBox[{"(", 
+                          RowBox[{
+                            RowBox[{"2", " ", \(Cos[q1[t] - q2[t]]\), " ", 
+                              SuperscriptBox[
+                                RowBox[{
+                                  SuperscriptBox["q1", "\[Prime]",
+                                    MultilineFunction->None], "[", "t", "]"}],
+                                 "2"]}], "-", 
+                            SuperscriptBox[
+                              RowBox[{
+                                SuperscriptBox["q2", "\[Prime]",
+                                  MultilineFunction->None], "[", "t", "]"}], 
+                              "2"]}], ")"}]}]}], ")"}]}], ")"}], 
+              "/", \((L\ \((\(-3\)\ M - 4\ Mp + 
+                      2\ M\ Cos[2\ \((q1[t] - q2[t])\)])\))\)}]}], ",", " ", 
+          RowBox[{"q2dotdot", "=", " ", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\(\(-2\)\ g\ \((3\ M + 2\ Mp)\)\ Sin[
+                      Beta + 2\ q1[t] - q2[t]]\), 
+                  "+", \(4\ g\ \((M + Mp)\)\ Sin[Beta + q2[t]]\), "+", 
+                  RowBox[{
+                  "2", " ", "L", " ", \((5\ M + 4\ Mp)\), 
+                    " ", \(Sin[q1[t] - q2[t]]\), " ", 
+                    SuperscriptBox[
+                      RowBox[{
+                        SuperscriptBox["q1", "\[Prime]",
+                          MultilineFunction->None], "[", "t", "]"}], "2"]}], 
+                  "-", 
+                  RowBox[{
+                  "2", " ", "L", " ", "M", 
+                    " ", \(Sin[2\ \((q1[t] - q2[t])\)]\), " ", 
+                    SuperscriptBox[
+                      RowBox[{
+                        SuperscriptBox["q2", "\[Prime]",
+                          MultilineFunction->None], "[", "t", "]"}], "2"]}]}],
+                 ")"}], 
+              "/", \((L\ \((\(-3\)\ M - 4\ Mp + 
+                      2\ M\ Cos[2\ \((q1[t] - q2[t])\)])\))\)}]}], ",", " ", 
+          RowBox[{"q1dotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  
+                  RowBox[{\(-2\), " ", \((M + 2\ Mp)\), 
+                    " ", \(Cos[q1[t] - q2[t]]\), " ", 
+                    RowBox[{
+                      SuperscriptBox["q1", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  RowBox[{"M", " ", 
+                    RowBox[{
+                      SuperscriptBox["q2", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((\(-3\)\ M - 4\ Mp + 
+                  2\ M\ Cos[2\ \((q1[t] - q2[t])\)])\)}]}], " ", ",", " ", 
+          RowBox[{"q2dotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  
+                  RowBox[{\((M - 
+                        4\ \((M + Mp)\)\ Cos[2\ \((q1[t] - q2[t])\)])\), " ", 
+                    
+                    RowBox[{
+                      SuperscriptBox["q1", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  RowBox[{"2", " ", "M", " ", \(Cos[q1[t] - q2[t]]\), " ", 
+                    RowBox[{
+                      SuperscriptBox["q2", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((\(-3\)\ M - 4\ Mp + 
+                  2\ M\ Cos[2\ \((q1[t] - q2[t])\)])\)}]}], " ", ",", 
+          " ", \(guard\  = \ q1\  + \ q2 + 2*slope\)}], "}"}], 
+      ";"}], "\[IndentingNewLine]", \(Splice["\<C:\\Documents and \
+Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\controlled\\eqns2.mc\>", \
+\ PageWidth \[Rule] 100000000, \ FormatType \[Rule] OutputForm\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \("C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\controlled\\eqns2.mc"\)], \
+"Output"]
+}, Open  ]],
+
+Cell[TextData[StyleBox["Nonlinear Control (for reconstruction)", "Section"]], \
+"Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{
+      RowBox[{"{", 
+        RowBox[{\(l := L\), ",", \(\[Theta]s[t] := q[0]\), ",", 
+          " ", \(\[Theta]ns[t] := q[1]\), ",", \(\[Phi][t] := q[4]\), 
+          ",", \(q1 := q[0]\), ",", " ", \(q2 := q[1]\), ",", 
+          " ", \(q1[t] := q[0]\), ",", " ", \(q2[t] := q[1]\), ",", 
+          RowBox[{
+            RowBox[{
+              SuperscriptBox["q1", "\[Prime]",
+                MultilineFunction->None], "[", "t", "]"}], ":=", \(q[2]\)}], 
+          ",", 
+          RowBox[{
+            RowBox[{
+              SuperscriptBox["q2", "\[Prime]",
+                MultilineFunction->None], "[", "t", "]"}], ":=", \(q[3]\)}]}],
+         "}"}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"{", 
+        RowBox[{\(phidot\  = \ \((\(-c\)*\[Phi][
+                    t])\)/\((1\/8\ \((l\^2\ \((6\ M + 4\ Mp)\) + 
+                      l\^2\ \((M\ Cos[2\ \[Theta]ns[t]] - 
+                            8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[
+                                  t]] + \((5\ M + 4\ Mp)\)\ Cos[
+                                2\ \[Theta]s[t]])\))\))\)\), ",", 
+          RowBox[{"q1dotdot", " ", "=", " ", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{"2", " ", 
+                  RowBox[{"(", 
+                    
+                    RowBox[{\(\(-2\)\ g\ \((M + Mp)\)\ Sin[Beta + q1[t]]\), 
+                      "+", \(g\ M\ Sin[Beta - q1[t] + 2\ q2[t]]\), "+", 
+                      RowBox[{
+                      "L", " ", "M", " ", \(Sin[q1[t] - q2[t]]\), " ", 
+                        RowBox[{"(", 
+                          RowBox[{
+                            RowBox[{"2", " ", \(Cos[q1[t] - q2[t]]\), " ", 
+                              SuperscriptBox[
+                                RowBox[{
+                                  SuperscriptBox["q1", "\[Prime]",
+                                    MultilineFunction->None], "[", "t", "]"}],
+                                 "2"]}], "-", 
+                            SuperscriptBox[
+                              RowBox[{
+                                SuperscriptBox["q2", "\[Prime]",
+                                  MultilineFunction->None], "[", "t", "]"}], 
+                              "2"]}], ")"}]}]}], ")"}]}], ")"}], 
+              "/", \((L\ \((\(-3\)\ M - 4\ Mp + 
+                      2\ M\ Cos[2\ \((q1[t] - q2[t])\)])\))\)}]}], ",", " ", 
+          RowBox[{"q2dotdot", "=", " ", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\(\(-2\)\ g\ \((3\ M + 2\ Mp)\)\ Sin[
+                      Beta + 2\ q1[t] - q2[t]]\), 
+                  "+", \(4\ g\ \((M + Mp)\)\ Sin[Beta + q2[t]]\), "+", 
+                  RowBox[{
+                  "2", " ", "L", " ", \((5\ M + 4\ Mp)\), 
+                    " ", \(Sin[q1[t] - q2[t]]\), " ", 
+                    SuperscriptBox[
+                      RowBox[{
+                        SuperscriptBox["q1", "\[Prime]",
+                          MultilineFunction->None], "[", "t", "]"}], "2"]}], 
+                  "-", 
+                  RowBox[{
+                  "2", " ", "L", " ", "M", 
+                    " ", \(Sin[2\ \((q1[t] - q2[t])\)]\), " ", 
+                    SuperscriptBox[
+                      RowBox[{
+                        SuperscriptBox["q2", "\[Prime]",
+                          MultilineFunction->None], "[", "t", "]"}], "2"]}]}],
+                 ")"}], 
+              "/", \((L\ \((\(-3\)\ M - 4\ Mp + 
+                      2\ M\ Cos[2\ \((q1[t] - q2[t])\)])\))\)}]}], ",", " ", 
+          RowBox[{"q1dotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  
+                  RowBox[{\(-2\), " ", \((M + 2\ Mp)\), 
+                    " ", \(Cos[q1[t] - q2[t]]\), " ", 
+                    RowBox[{
+                      SuperscriptBox["q1", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  RowBox[{"M", " ", 
+                    RowBox[{
+                      SuperscriptBox["q2", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((\(-3\)\ M - 4\ Mp + 
+                  2\ M\ Cos[2\ \((q1[t] - q2[t])\)])\)}]}], " ", ",", " ", 
+          RowBox[{"q2dotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  RowBox[{\((M - 
+                        4\ \((M + Mp)\)\ Cos[2\ \((q1[t] - q2[t])\)])\), " ", 
+                    
+                    RowBox[{
+                      SuperscriptBox["q1", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  RowBox[{"2", " ", "M", " ", \(Cos[q1[t] - q2[t]]\), " ", 
+                    RowBox[{
+                      SuperscriptBox["q2", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((\(-3\)\ M - 4\ Mp + 
+                  2\ M\ Cos[2\ \((q1[t] - q2[t])\)])\)}]}], " ", ",", 
+          " ", \(guard = 
+            l\ \((\(-Cos[\[Theta]ns[t]]\) + Cos[\[Theta]s[t]])\)\)}], "}"}], 
+      ";"}], "\[IndentingNewLine]", \(Splice["\<C:\\Documents and \
+Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\controlled\\eqns2.mc\>", \
+\ PageWidth \[Rule] 100000000, \ FormatType \[Rule] OutputForm\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \("C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\controlled\\eqns2.mc"\)], \
+"Output"]
+}, Open  ]],
+
+Cell[TextData[StyleBox["Nonlinear Control (for reconstruction), Try 2", \
+"Section"]], "Text"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+    RowBox[{
+      RowBox[{"{", 
+        RowBox[{\(l := L\), ",", \(\[Theta]s[t] := q[0]\), ",", 
+          " ", \(\[Theta]ns[t] := q[1]\), ",", \(q1[t] := q[0]\), ",", 
+          " ", \(q2[t] := q[1]\), ",", 
+          RowBox[{
+            RowBox[{
+              SuperscriptBox["q1", "\[Prime]",
+                MultilineFunction->None], "[", "t", "]"}], ":=", \(q[2]\)}], 
+          ",", 
+          RowBox[{
+            RowBox[{
+              SuperscriptBox["q2", "\[Prime]",
+                MultilineFunction->None], "[", "t", "]"}], ":=", \(q[3]\)}], 
+          ",", " ", \(\[Mu] := mu\)}], "}"}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{
+      RowBox[{"{", 
+        RowBox[{\(phidot\  = \ \((\[Mu])\)/\((1\/8\ \((l\^2\ \((6\ M + 
+                            4\ Mp)\) + 
+                      l\^2\ \((M\ Cos[2\ \[Theta]ns[t]] - 
+                            8\ M\ Cos[\[Theta]ns[t]]\ Cos[\[Theta]s[
+                                  t]] + \((5\ M + 4\ Mp)\)\ Cos[
+                                2\ \[Theta]s[t]])\))\))\)\), ",", 
+          RowBox[{"q1dotdot", " ", "=", " ", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\(\(-\((256\ M\ \[Mu]\^2\ Cos[q2[t]]\^3 + 
+                          g\ L\^3\ \((246\ M\^3 + 416\ M\^2\ Mp + 
+                                256\ M\ Mp\^2 + 64\ Mp\^3 + 
+                                M\ \((229\ M\^2 + 248\ M\ Mp + 
+                                      64\ Mp\^2)\)\ Cos[2\ q2[t]] + 
+                                2\ M\^2\ \((17\ M + 6\ Mp)\)\ Cos[4\ q2[t]] + 
+                                M\^3\ Cos[6\ q2[t]])\))\)\)\ Sin[q1[t]]\), 
+                  "+", \(8\ M\ \((16\ \[Mu]\^2\ Cos[2\ q2[t]] + 
+                        g\ L\^3\ \((2\ \((3\ M + 2\ Mp)\)\ \((11\ M + 
+                                    8\ Mp)\)\ Cos[q2[t]] + 
+                              M\ \((17\ M + 12\ Mp)\)\ Cos[
+                                  3\ q2[t]])\))\)\ Sin[2\ q1[t]]\), 
+                  "+", \(8\ \((8\ \((3\ M + 4\ Mp)\)\ \[Mu]\^2 + 
+                        g\ L\^3\ M\^3\ Cos[5\ q2[t]])\)\ Sin[2\ q1[t]]\), 
+                  "-", \(g\ L\^3\ M\ \((\((7\ M + 4\ Mp)\)\ \((33\ M + 
+                              20\ Mp)\)\ Cos[2\ q2[t]] + 
+                        2\ M\ \((13\ M + 4\ Mp)\)\ Cos[4\ q2[t]])\)\ Sin[
+                      3\ q1[t]]\), 
+                  "+", \(16\ g\ L\^3\ M\ \((5\ M + 4\ Mp)\)\ Cos[
+                      q2[t]]\ \((2\ \((M + Mp)\) + M\ Cos[2\ q2[t]])\)\ Sin[
+                      4\ q1[t]]\), 
+                  "-", \(g\ L\^3\ M\ \((5\ M + 4\ Mp)\)\^2\ Cos[
+                      2\ q2[t]]\ Sin[5\ q1[t]]\), 
+                  "+", \(2\ g\ L\^3\ \((5\ M + 
+                        4\ Mp)\)\ \((\(-\((28\ M\^2 + 31\ M\ Mp + 
+                                12\ Mp\^2)\)\)\ Sin[
+                            3\ q1[t]] - \((M + Mp)\)\ \((5\ M + 4\ Mp)\)\ Sin[
+                            5\ q1[t]])\)\), 
+                  "-", \(16\ M\ Cos[
+                      q1[t]]\ \((\(-4\)\ \[Mu]\^2 + 
+                        2\ g\ L\^3\ M\ Cos[
+                            q1[t]]\ \((6\ M + 
+                              4\ Mp + \((5\ M + 4\ Mp)\)\ Cos[
+                                  2\ q1[t]])\))\)\ Sin[q2[t]]\), 
+                  "+", \(M\ Cos[
+                      q1[t]]\ \((\(-256\)\ \[Mu]\^2\ Cos[q1[t]] + 
+                        g\ L\^3\ \((259\ M\^2 + 272\ M\ Mp + 96\ Mp\^2 + 
+                              16\ \((19\ M\^2 + 22\ M\ Mp + 8\ Mp\^2)\)\ Cos[
+                                  2\ q1[t]] + 
+                              2\ \((5\ M + 4\ Mp)\)\^2\ Cos[
+                                  4\ q1[t]])\))\)\ Sin[2\ q2[t]]\), 
+                  "-", \(16\ M\ Cos[
+                      q1[t]]\ \((\(-4\)\ \[Mu]\^2 + 
+                        g\ L\^3\ M\ \((6\ \((3\ M + 2\ Mp)\)\ Cos[
+                                  q1[t]] + \((5\ M + 4\ Mp)\)\ Cos[
+                                  3\ q1[t]])\))\)\ Sin[3\ q2[t]]\), 
+                  "+", \(4\ g\ L\^3\ M\^2\ Cos[
+                      q1[t]]\ \((14\ M + 
+                        4\ Mp + \((13\ M + 4\ Mp)\)\ Cos[2\ q1[t]])\)\ Sin[
+                      4\ q2[t]]\), 
+                  "-", \(16\ g\ L\^3\ M\^3\ Cos[q1[t]]\^2\ Sin[5\ q2[t]]\), 
+                  "+", \(g\ L\^3\ M\^3\ Cos[q1[t]]\ Sin[6\ q2[t]]\), "+", 
+                  RowBox[{
+                  "4", " ", \(L\^4\), " ", "M", 
+                    " ", \(\((6\ M + 
+                            4\ Mp + \((5\ M + 4\ Mp)\)\ Cos[2\ q1[t]] - 
+                            8\ M\ Cos[q1[t]]\ Cos[q2[t]] + 
+                            M\ Cos[2\ q2[t]])\)\^2\), 
+                    " ", \(Sin[q1[t] - q2[t]]\), " ", 
+                    RowBox[{"(", 
+                      RowBox[{
+                        RowBox[{"2", " ", \(Cos[q1[t] - q2[t]]\), " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["q1", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}], "-", 
+                        SuperscriptBox[
+                          RowBox[{
+                            SuperscriptBox["q2", "\[Prime]",
+                              MultilineFunction->None], "[", "t", "]"}], 
+                          "2"]}], ")"}]}]}], ")"}], 
+              "/", \((2\ L\^4\ \((\(-5\)\ M - 4\ Mp + 
+                      4\ M\ Cos[q1[t] - q2[t]]\^2)\)\ \((6\ M + 4\ Mp + \((5\ \
+M + 4\ Mp)\)\ Cos[2\ q1[t]] - 8\ M\ Cos[q1[t]]\ Cos[q2[t]] + M\ Cos[2\ \
+q2[t]])\)\^2)\)}]}], ",", " ", 
+          RowBox[{"q2dotdot", "=", " ", 
+            RowBox[{
+              RowBox[{"(", 
+                
+                RowBox[{\(32\ g\ L\^3\ M\ \((3\ M + 
+                        2\ Mp)\)\ Cos[q1[t]]\^2\ \((13\ M + 8\ Mp + 
+                        2\ \((5\ M + 4\ Mp)\)\ Cos[2\ q1[t]] + 
+                        M\ Cos[4\ q2[t]])\)\ Sin[q1[t]]\), 
+                  "-", \(128\ M\ \[Mu]\^2\ Sin[2\ q1[t]]\), 
+                  "-", \(2\ g\ L\^3\ \((3\ M + 
+                        2\ Mp)\)\ \((2\ \((79\ M\^2 + 72\ M\ Mp + 
+                              24\ Mp\^2)\) + 
+                        2\ \((89\ M\^2 + 92\ M\ Mp + 32\ Mp\^2)\)\ Cos[
+                            2\ q1[t]] + \((5\ M + 4\ Mp)\)\^2\ Cos[
+                            4\ q1[t]])\)\ Cos[q2[t]]\ Sin[2\ q1[t]]\), 
+                  "-", \(128\ M\ \[Mu]\^2\ Cos[2\ q2[t]]\ Sin[2\ q1[t]]\), 
+                  "-", \(g\ L\^3\ M\ \((3\ M + 2\ Mp)\)\ \((57\ M + 16\ Mp + 
+                        4\ \((13\ M + 4\ Mp)\)\ Cos[2\ q1[t]])\)\ Cos[
+                      3\ q2[t]]\ Sin[2\ q1[t]]\), 
+                  "-", \(g\ L\^3\ M\^2\ \((3\ M + 2\ Mp)\)\ Cos[
+                      5\ q2[t]]\ Sin[2\ q1[t]]\), 
+                  "+", \(\((g\ L\^3\ \((1191\ M\^3 + 2522\ M\^2\ Mp + 
+                              1856\ M\ Mp\^2 + 480\ Mp\^3)\)\ Cos[2\ q1[t]] - 
+                        64\ \((5\ M + 4\ Mp)\)\ \[Mu]\^2\ Cos[3\ q1[t]] + 
+                        g\ L\^3\ \((2\ \((393\ M\^3 + 838\ M\^2\ Mp + 
+                                    616\ M\ Mp\^2 + 160\ Mp\^3)\) + 
+                              2\ \((239\ M\^3 + 508\ M\^2\ Mp + 
+                                    376\ M\ Mp\^2 + 96\ Mp\^3)\)\ Cos[
+                                  4\ q1[t]] + \((3\ M + 
+                                    2\ Mp)\)\ \((5\ M + 4\ Mp)\)\^2\ Cos[
+                                  6\ q1[t]])\))\)\ Sin[q2[t]]\), 
+                  "-", \(8\ \((\(-8\)\ \((3\ M + 4\ Mp)\)\ \[Mu]\^2 - 
+                        16\ M\ \[Mu]\^2\ Cos[2\ q1[t]] + 
+                        g\ L\^3\ M\ \((\((71\ M\^2 + 106\ M\ Mp + 
+                                    40\ Mp\^2)\)\ Cos[
+                                  3\ q1[t]] + \((3\ M + 2\ Mp)\)\ \((5\ M + 
+                                    4\ Mp)\)\ Cos[5\ q1[t]])\))\)\ Sin[
+                      2\ q2[t]]\), 
+                  "+", \(g\ L\^3\ M\ \((188\ M\^2 + 218\ M\ Mp + 
+                        48\ Mp\^2 + \((269\ M\^2 + 294\ M\ Mp + 
+                              64\ Mp\^2)\)\ Cos[2\ q1[t]] + 
+                        2\ \((3\ M + 2\ Mp)\)\ \((13\ M + 4\ Mp)\)\ Cos[
+                            4\ q1[t]])\)\ Sin[3\ q2[t]]\), 
+                  "+", \(16\ Cos[
+                      q1[t]]\ \((8\ \((5\ M + 4\ Mp)\)\ \[Mu]\^2\ Cos[
+                            q2[t]]\ Sin[2\ q1[t]] + 
+                        2\ g\ L\^3\ M\ \((3\ M + 2\ Mp)\)\ \((7\ M + 
+                              4\ Mp + \((5\ M + 4\ Mp)\)\ Cos[
+                                  2\ q1[t]])\)\ Cos[2\ q2[t]]\ Sin[
+                            2\ q1[t]] - 
+                        12\ \((5\ M + 4\ Mp)\)\ \[Mu]\^2\ Sin[q2[t]] - 
+                        g\ L\^3\ M\ \((67\ M\^2 + 104\ M\ Mp + 
+                              40\ Mp\^2)\)\ Sin[2\ q2[t]] - 
+                        g\ L\^3\ M\^2\ \((2\ \((M + Mp)\) + \((3\ M + 
+                                    2\ Mp)\)\ Cos[2\ q1[t]])\)\ Sin[
+                            4\ q2[t]])\)\), 
+                  "+", \(g\ L\^3\ M\^2\ \((2\ \((M + Mp)\) + \((3\ M + 
+                              2\ Mp)\)\ Cos[2\ q1[t]])\)\ Sin[5\ q2[t]]\), 
+                  "+", 
+                  RowBox[{
+                  "4", " ", \(L\^4\), 
+                    " ", \(\((6\ M + 
+                            4\ Mp + \((5\ M + 4\ Mp)\)\ Cos[2\ q1[t]] - 
+                            8\ M\ Cos[q1[t]]\ Cos[q2[t]] + 
+                            M\ Cos[2\ q2[t]])\)\^2\), " ", 
+                    RowBox[{"(", 
+                      RowBox[{
+                        
+                        RowBox[{\((5\ M + 4\ Mp)\), 
+                          " ", \(Sin[q1[t] - q2[t]]\), " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["q1", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}], "-", 
+                        RowBox[{
+                        "M", " ", \(Sin[2\ \((q1[t] - q2[t])\)]\), " ", 
+                          SuperscriptBox[
+                            RowBox[{
+                              SuperscriptBox["q2", "\[Prime]",
+                                MultilineFunction->None], "[", "t", "]"}], 
+                            "2"]}]}], ")"}]}]}], ")"}], 
+              "/", \((2\ L\^4\ \((\(-5\)\ M - 4\ Mp + 
+                      4\ M\ Cos[q1[t] - q2[t]]\^2)\)\ \((6\ M + 4\ Mp + \((5\ \
+M + 4\ Mp)\)\ Cos[2\ q1[t]] - 8\ M\ Cos[q1[t]]\ Cos[q2[t]] + M\ Cos[2\ \
+q2[t]])\)\^2)\)}]}], ",", " ", 
+          RowBox[{"q1dotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  
+                  RowBox[{\(-2\), " ", \((M + 2\ Mp)\), 
+                    " ", \(Cos[q1[t] - q2[t]]\), " ", 
+                    RowBox[{
+                      SuperscriptBox["q1", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  RowBox[{"M", " ", 
+                    RowBox[{
+                      SuperscriptBox["q2", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((\(-3\)\ M - 4\ Mp + 
+                  2\ M\ Cos[2\ \((q1[t] - q2[t])\)])\)}]}], " ", ",", " ", 
+          RowBox[{"q2dotimpact", "=", 
+            RowBox[{
+              RowBox[{"(", 
+                RowBox[{
+                  
+                  RowBox[{\((M - 
+                        4\ \((M + Mp)\)\ Cos[2\ \((q1[t] - q2[t])\)])\), " ", 
+                    
+                    RowBox[{
+                      SuperscriptBox["q1", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}], "+", 
+                  RowBox[{"2", " ", "M", " ", \(Cos[q1[t] - q2[t]]\), " ", 
+                    RowBox[{
+                      SuperscriptBox["q2", "\[Prime]",
+                        MultilineFunction->None], "[", "t", "]"}]}]}], ")"}], 
+              "/", \((\(-3\)\ M - 4\ Mp + 
+                  2\ M\ Cos[2\ \((q1[t] - q2[t])\)])\)}]}], " ", ",", 
+          " ", \(guard = 
+            l\ \((\(-Cos[\[Theta]ns[t]]\) + Cos[\[Theta]s[t]])\)\)}], "}"}], 
+      ";"}], "\[IndentingNewLine]", \(Splice["\<C:\\Documents and \
+Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\controlled2\\eqns2.mc\>", \
+\ PageWidth \[Rule] 100000000, \ FormatType \[Rule] OutputForm\ ]\)}], "Input"],
+
+Cell[BoxData[
+    \("C:\\Documents and Settings\\Eric Wendel\\My \
+Documents\\research\\dev\\2D\\pointfoot-midlegmass\\controlled2\\eqns2.mc"\)],\
+ "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 703}},
+WindowSize->{418, 674},
+WindowMargins->{{Automatic, 1}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 70, 0, 69, "Text"],
+Cell[1827, 53, 135, 2, 50, "Input"],
+Cell[1965, 57, 64, 0, 40, "Text"],
+Cell[2032, 59, 72, 0, 33, "Text"],
+
+Cell[CellGroupData[{
+Cell[2129, 63, 1469, 24, 552, "Input"],
+Cell[3601, 89, 153, 3, 67, "Output"]
+}, Open  ]],
+Cell[3769, 95, 57, 0, 40, "Text"],
+Cell[3829, 97, 123, 3, 52, "Text"],
+
+Cell[CellGroupData[{
+Cell[3977, 104, 4876, 105, 677, "Input"],
+Cell[8856, 211, 156, 3, 67, "Output"]
+}, Open  ]],
+Cell[9027, 217, 87, 1, 66, "Text"],
+
+Cell[CellGroupData[{
+Cell[9139, 222, 5390, 112, 909, "Input"],
+Cell[14532, 336, 156, 3, 67, "Output"]
+}, Open  ]],
+Cell[14703, 342, 94, 1, 66, "Text"],
+
+Cell[CellGroupData[{
+Cell[14822, 347, 12418, 228, 3050, "Input"],
+Cell[27243, 577, 157, 3, 67, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
